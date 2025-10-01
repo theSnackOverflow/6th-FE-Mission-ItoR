@@ -1,48 +1,62 @@
-import { useEffect } from 'react';
-import successIcon from '../assets/components/toast/success.png';
-import errorIcon from '../assets/components/toast/error.png';
+import { useEffect, useState, type JSX } from 'react';
+import DoneIcon from '@/assets/icons/components/toast/done.svg?react';
+import ErrorIcon from '@/assets/icons/components/toast/error.svg?react';
 
-type ToastProps = {
-  type?: 'success' | 'error';
-  message: string;
+type ToastVariant = 'success' | 'error';
+type ToastSize = 'md' | 'lg';
+
+interface ToastProps {
+  variant?: ToastVariant;
+  size?: ToastSize;
   duration?: number;
-  onClose: () => void;
+  message: string;
+  onClose?: () => void;
+}
+
+const icons: Record<ToastVariant, JSX.Element> = {
+  success: <DoneIcon className="w-5 h-5" />,
+  error: <ErrorIcon className="w-5 h-5" />,
+};
+
+const variantsStyles: Record<ToastVariant, string> = {
+  success: 'border-green-500 text-green-600 bg-green-50',
+  error: 'border-red-500 text-red-600 bg-red-50',
+};
+
+const sizeStyles: Record<ToastSize, string> = {
+  md: 'w-[147px] h-[40px]',
+  lg: 'w-[171px] h-[40px]',
 };
 
 export default function Toast({
-  type = 'success',
+  variant = 'success',
+  size = 'md',
   message,
   duration = 3000,
   onClose,
 }: ToastProps) {
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onClose();
+    setIsVisible(true);
+    if (!onClose) return;
+    const hideTimer = setTimeout(() => {
+      setIsVisible(false);
+      const closeTimer = setTimeout(() => {
+        onClose();
+      }, 500);
+      return () => clearTimeout(closeTimer);
     }, duration);
-
-    return () => clearTimeout(timer);
+    return () => clearTimeout(hideTimer);
   }, [duration, onClose]);
-
-  const styles = {
-    success: 'border-[#15DC5E] text-[#15DC5E]',
-    error: 'border-[#FF3F3F] text-[#FF3F3F]',
-  };
-
-  const icons = {
-    success: successIcon,
-    error: errorIcon,
-  };
-
-  const sizeMap = {
-    success: 'w-[147px] h-[40px]',
-    error: 'w-[171px] h-[40px]',
-  };
 
   return (
     <div
-      className={`flex justify-center items-center gap-2 rounded-full border ${styles[type]} ${sizeMap[type]}`}
+      className={`flex justify-center items-center gap-1 bg-white rounded-full border px-3 py-2 shadow-sm transition-opacity duration-500 ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      } ${variantsStyles[variant]} ${sizeStyles[size]}`}
     >
-      <img src={icons[type]} alt={type} className="w-6 h-6" />
+      {icons[variant]}
       <span className="text-sm font-normal">{message}</span>
     </div>
   );
