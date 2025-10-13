@@ -6,6 +6,7 @@ import TestForMenu from './pages/test/TestForMenu';
 import TestForDropdown from './pages/test/TestForDropdown';
 import TestForModal from './pages/test/TestForModal';
 import TestForText from './pages/test/TestForText';
+import TestForBlank from './pages/test/TestForBlank';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/dropdownmenu" element={<TestForDropdown />} />
         <Route path="/modal" element={<TestForModal />} />
         <Route path="/text" element={<TestForText />} />
+        <Route path="/blank" element={<TestForBlank />} />
       </Routes>
     </BrowserRouter>
   );
