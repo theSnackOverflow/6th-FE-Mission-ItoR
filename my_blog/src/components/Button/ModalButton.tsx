@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 type ModalButtonVariant = 'CANCLE' | 'DELETE';
 
 interface ModalButtonProps {
@@ -6,11 +8,16 @@ interface ModalButtonProps {
   variant?: ModalButtonVariant;
 }
 
-const ModalButton = ({ text, onClick }: ModalButtonProps) => {
+const ModalButton = ({ text, onClick, variant }: ModalButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className="w-[141px] h-[38px] px-3 py-2 rounded-xs "
+      className={clsx(
+        'w-[141px] h-[38px] px-3 py-2 text-sm font-normal rounded-xs cursor-pointer',
+        variant === 'CANCLE'
+          ? 'text-black border-[1px] border-[#F5F5F5]'
+          : 'text-white bg-[#FF3F3F]',
+      )}
     >
       {text}
     </button>

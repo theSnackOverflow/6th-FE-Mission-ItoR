@@ -1,13 +1,38 @@
-const Modal = () => {
+import ModalButton from './Button/ModalButton';
+
+interface ModalProps {
+  title: string;
+  des?: string;
+}
+
+const Modal = ({
+  title = `Title line\nTitle  Two`,
+  des = `line one\nlien two`,
+}: ModalProps) => {
   return (
-    <section className="w-[326px] h-48 pt-6 pb-4 px-4 bg-white rounded-sm">
-      <div className="w-full h-full flex felx-col justify-around items-center">
-        <div>
-          <div>Title line One</div>
-          <div>Title line One</div>
-          <div></div>
+    <section className="w-[326px] h-fit pt-6 pb-4 px-4 bg-white rounded-sm shadow-xl">
+      <div className="w-full h-full flex flex-col justify-between gap-6">
+        {/* text box */}
+        <div className="px-1 flex flex-col gap-2">
+          {/* title */}
+          <div className="text-sm font-normal leading-[160%] whitespace-pre-line">
+            <div>{title}</div>
+          </div>
+
+          {/* descriptions */}
+          {des && (
+            <div className="text-xs text-[#909090] font-normal leading-[160%] whitespace-pre-line">
+              {des}
+            </div>
+          )}
         </div>
-        <div></div>
+
+        {/* buttons */}
+        {/* 아직 onClick 정의 안 함 */}
+        <div className="flex justify-around">
+          <ModalButton text="취소" variant="CANCLE" />
+          <ModalButton text="삭제하기" variant="DELETE" />
+        </div>
       </div>
     </section>
   );
