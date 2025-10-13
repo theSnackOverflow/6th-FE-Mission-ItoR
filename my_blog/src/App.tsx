@@ -7,6 +7,7 @@ import TestForDropdown from './pages/test/TestForDropdown';
 import TestForModal from './pages/test/TestForModal';
 import TestForText from './pages/test/TestForText';
 import TestForBlank from './pages/test/TestForBlank';
+import TestForDevider from './pages/test/TestForDevider';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/modal" element={<TestForModal />} />
         <Route path="/text" element={<TestForText />} />
         <Route path="/blank" element={<TestForBlank />} />
+        <Route path="/devider" element={<TestForDevider />} />
       </Routes>
     </BrowserRouter>
   );
