@@ -1,9 +1,22 @@
+import { useState } from 'react';
 import Modal from '../../components/Modal';
 
 const TestForModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
+
   return (
     <main className="flex flex-col items-center justify-center h-screen gap-4 bg-[#E2DCFF]">
-      <Modal />
+      <button
+        onClick={handleOpen}
+        className="px-4 py-2 bg-white rounded-md shadow-md hover:bg-gray-100 transition"
+      >
+        테스트 버튼
+      </button>
+
+      {isOpen && <Modal title={`title1\ntitle2`} onClose={handleClose} />}
     </main>
   );
 };
