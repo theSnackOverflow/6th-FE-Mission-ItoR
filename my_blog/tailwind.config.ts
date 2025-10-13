@@ -7,6 +7,7 @@ const config: Config = {
       colors: {
         positive: `#15DC5E`,
         negative: `#FF3F3F`,
+        Gray90: '#E6E6E6',
       },
     },
   },
