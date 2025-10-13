@@ -3,14 +3,16 @@ import ModalButton from './Button/ModalButton';
 interface ModalProps {
   title: string;
   des?: string;
+  onClose: () => void;
 }
 
 const Modal = ({
   title = `Title line\nTitle  Two`,
   des = `line one\nlien two`,
+  onClose,
 }: ModalProps) => {
   return (
-    <section className="w-[326px] h-fit pt-6 pb-4 px-4 bg-white rounded-sm shadow-xl">
+    <section className="absolute z-50 w-[326px] h-fit pt-6 pb-4 px-4 bg-white rounded-sm shadow-xl">
       <div className="w-full h-full flex flex-col justify-between gap-6">
         {/* text box */}
         <div className="px-1 flex flex-col gap-2">
@@ -30,7 +32,7 @@ const Modal = ({
         {/* buttons */}
         {/* 아직 onClick 정의 안 함 */}
         <div className="flex justify-around">
-          <ModalButton text="취소" variant="CANCLE" />
+          <ModalButton text="취소" variant="CANCLE" onClick={onClose} />
           <ModalButton text="삭제하기" variant="DELETE" />
         </div>
       </div>
