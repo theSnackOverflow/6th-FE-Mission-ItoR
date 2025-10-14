@@ -1,38 +1,39 @@
 import clsx from 'clsx';
+import type { FontSize, FieldState, InputType } from './types/text-field';
 
-type fontSize = '16' | '32';
-type fieldState = 'default' | 'input' | 'click' | 'disabled';
-type inputType = 'input' | 'button';
-
-const fontMap: Record<fontSize, string> = {
-  '16': 'text-sm font-light leading-[%160%] ',
+const fontMap: Record<FontSize, string> = {
+  '16': 'text-sm font-light leading-[160%]',
   '32': 'text-2xl',
 };
 
-const stateMap: Record<fieldState, string> = {
+const stateMap: Record<FieldState, string> = {
   default: 'text-[#909090] border-[#E6E6E6]',
   input: 'text-black border-[#E6E6E6]',
   click: 'text-black border-[#555555] text-left cursor-pointer',
-  disabled: 'text-[#909090] border-[#E6E6E6] bg-[#E6E6E6] ',
+  disabled: 'text-[#909090] border-[#E6E6E6] bg-[#E6E6E6]',
 };
 
-interface textfieldProps {
-  type?: inputType;
-  text?: string;
-  font?: fontSize;
-  state?: fieldState;
+interface TextfieldProps {
+  type?: InputType;
+  value?: string;
+  font?: FontSize;
+  state?: FieldState;
   disabled?: boolean;
+  placeholder?: string;
+  onChange?: (value: string) => void;
   onClick?: () => void;
 }
 
 const TextField = ({
   type = 'input',
-  text = 'Text Field',
-  font = '32',
+  value,
+  font = '16',
   state = 'default',
   disabled = false,
+  placeholder = 'Text Field',
+  onChange,
   onClick,
-}: textfieldProps) => {
+}: TextfieldProps) => {
   return (
     <input
       type={type}
@@ -42,9 +43,10 @@ const TextField = ({
         fontMap[font],
         stateMap[state],
       )}
+      onChange={(e) => onChange?.(e.target.value)}
       onClick={onClick}
-      value={text}
-      placeholder=""
+      value={value}
+      placeholder={placeholder}
     />
   );
 };
