@@ -41,7 +41,7 @@ const TextField = ({
       type={type}
       disabled={disabled}
       className={clsx(
-        'w-[656px] h-fit px-4 py-3 rounded-sm border-[1px] ',
+        'w-[656px] h-fit px-4 py-3 rounded-sm border-[1px] font-sans',
         fontMap[font],
         stateMap[state],
       )}

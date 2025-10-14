@@ -1,0 +1,28 @@
+@import 'tailwindcss';
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/my_blog/public/fonts/NotoSansKR.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Smooch';
+  src: url('/my_blog/public/fonts/Smooch.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --color-positive: #15dc5e;
+  --color-negative: #ff3f3f;
+  --color-gray90: #e6e6e6;
+
+  --font-smooch: 'Smooch', cursive;
+  --font-sans: 'NotoSansKR', sans-serif;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+}
