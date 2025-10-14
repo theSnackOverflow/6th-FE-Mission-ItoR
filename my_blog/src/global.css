@@ -18,8 +18,8 @@
   --color-negative: #ff3f3f;
   --color-gray90: #e6e6e6;
 
-  --font-smooch: 'Smooch', cursive;
   --font-sans: 'NotoSansKR', sans-serif;
+  --font-smooch: 'Smooch', cursive;
 }
 
 html,
