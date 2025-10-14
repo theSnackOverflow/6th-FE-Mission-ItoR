@@ -9,6 +9,9 @@ const config: Config = {
         negative: `#FF3F3F`,
         Gray90: '#E6E6E6',
       },
+      fontFamily: {
+        NotoSansKR: ['NotoSansKR'],
+      },
     },
   },
   plugins: [],
