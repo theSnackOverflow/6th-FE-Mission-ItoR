@@ -2,28 +2,28 @@ import { useEffect, useState, type JSX } from 'react';
 import DoneIcon from '@/assets/icons/components/toast/done.svg?react';
 import ErrorIcon from '@/assets/icons/components/toast/error.svg?react';
 
-type ToastVariant = 'success' | 'error';
-type ToastSize = 'md' | 'lg';
+type toastVariant = 'success' | 'error';
+type toastSize = 'md' | 'lg';
 
 interface ToastProps {
-  variant?: ToastVariant;
-  size?: ToastSize;
+  variant?: toastVariant;
+  size?: toastSize;
   duration?: number;
   message: string;
   onClose?: () => void;
 }
 
-const icons: Record<ToastVariant, JSX.Element> = {
+const icons: Record<toastVariant, JSX.Element> = {
   success: <DoneIcon className="w-5 h-5" />,
   error: <ErrorIcon className="w-5 h-5" />,
 };
 
-const variantsStyles: Record<ToastVariant, string> = {
+const variantsStyles: Record<toastVariant, string> = {
   success: 'border-green-500 text-green-600 bg-green-50',
   error: 'border-red-500 text-red-600 bg-red-50',
 };
 
-const sizeStyles: Record<ToastSize, string> = {
+const sizeStyles: Record<toastSize, string> = {
   md: 'w-[147px] h-[40px]',
   lg: 'w-[171px] h-[40px]',
 };
