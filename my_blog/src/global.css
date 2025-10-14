@@ -1,28 +1,77 @@
 @import 'tailwindcss';
+
 @font-face {
   font-family: 'NotoSansKR';
-  src: url('/my_blog/public/fonts/NotoSansKR.ttf');
-  font-weight: normal;
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Black.ttf');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-ExtraBold.ttf');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Bold.ttf');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-SemiBold.ttf');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Medium.ttf');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Regular.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Light.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-ExtraLight.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Thin.ttf');
+  font-weight: 100;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Smooch';
-  src: url('/my_blog/public/fonts/Smooch.ttf');
+  src: url('/fonts/Smooch.ttf');
   font-weight: normal;
   font-style: normal;
 }
 
 @theme {
+  --font-notosans: 'NotoSansKR', sans-serif;
+  --font-smooch: 'Smooch', cursive;
+
   --color-positive: #15dc5e;
   --color-negative: #ff3f3f;
-  --color-gray90: #e6e6e6;
-
-  --font-sans: 'NotoSansKR', sans-serif;
-  --font-smooch: 'Smooch', cursive;
+  --color-gray-90: #e6e6e6;
 }
 
 html,
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-sans) !important;
 }

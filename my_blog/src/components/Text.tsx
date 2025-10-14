@@ -23,7 +23,7 @@ const Text = ({ title, titleVariant, mainText }: TextProps) => {
         </div>
 
         {/* Main Text */}
-        <div className="text-sm font-light text-[#333] whitespace-pre-line">
+        <div className="text-sm font-notosans font-light text-[#333] whitespace-pre-line">
           {mainText}
         </div>
       </div>
