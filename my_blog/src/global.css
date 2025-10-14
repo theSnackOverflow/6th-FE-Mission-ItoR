@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+/* NotoSansKR - Font Static 설정 */
+/* 이렇게 하는게 맞나요..? */
 @font-face {
   font-family: 'NotoSansKR';
   src: url('/fonts/noto-sans-kr/NotoSansKR-Black.ttf');
@@ -68,10 +70,16 @@
 
   --color-positive: #15dc5e;
   --color-negative: #ff3f3f;
+
+  --color-gray-20: #333333;
+  --color-gray-33: #555555;
+  --color-gray-56: #909090;
+  --color-gray-78: #c8c8c8;
   --color-gray-90: #e6e6e6;
+  --color-gray-96: #f5f5f5;
 }
 
 html,
 body {
-  font-family: var(--font-sans) !important;
+  font-family: var(--font-notosans) !important;
 }

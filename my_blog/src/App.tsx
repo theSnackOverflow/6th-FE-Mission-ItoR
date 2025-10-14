@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // ? test pages 라우팅
-import TestForToastPage from './pages/test/TestForToastPage';
+import TestForToast from './pages/test/TestForToast';
 import TestForMenu from './pages/test/TestForMenu';
 import TestForDropdown from './pages/test/TestForDropdown';
 import TestForModal from './pages/test/TestForModal';
@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<div>Home</div>} />
 
         {/* Test Pages */}
-        <Route path="/testForToast" element={<TestForToastPage />} />
+        <Route path="/toast" element={<TestForToast />} />
         <Route path="/menu" element={<TestForMenu />} />
         <Route path="/dropdownmenu" element={<TestForDropdown />} />
         <Route path="/modal" element={<TestForModal />} />

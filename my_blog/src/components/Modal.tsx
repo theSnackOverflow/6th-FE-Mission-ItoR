@@ -23,7 +23,7 @@ const Modal = ({
 
           {/* descriptions */}
           {des && (
-            <div className="text-xs text-[#909090] font-normal leading-[160%] whitespace-pre-line">
+            <div className="text-xs text-gray-56 font-normal leading-[160%] whitespace-pre-line">
               {des}
             </div>
           )}

@@ -7,10 +7,10 @@ const fontMap: Record<FontSize, string> = {
 };
 
 const stateMap: Record<FieldState, string> = {
-  default: 'text-[#909090] border-[#E6E6E6]',
-  input: 'text-black border-[#E6E6E6]',
-  click: 'text-black border-[#555555] text-left cursor-pointer',
-  disabled: 'text-[#909090] border-[#E6E6E6] bg-[#E6E6E6]',
+  default: 'text-gray-56 border-gray-90',
+  input: 'text-black border-gray-90',
+  click: 'text-black border-gray-33 text-left cursor-pointer',
+  disabled: 'text-gray-56 border-gray-90 bg-gray-90',
 };
 
 interface TextfieldProps {
@@ -31,7 +31,7 @@ const TextField = ({
   font = '16',
   state = 'default',
   disabled = false,
-  placeholder = 'Text Field',
+  placeholder = 'Text field',
   onChange,
   onClick,
   onSubmit,
@@ -41,7 +41,7 @@ const TextField = ({
       type={type}
       disabled={disabled}
       className={clsx(
-        'w-[656px] h-fit px-4 py-3 rounded-sm border-[1px] font-sans',
+        'w-[656px] h-fit px-4 py-3 rounded-sm border-[1px]',
         fontMap[font],
         stateMap[state],
       )}

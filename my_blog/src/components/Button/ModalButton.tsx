@@ -15,8 +15,8 @@ const ModalButton = ({ text, onClick, variant }: ModalButtonProps) => {
       className={clsx(
         'w-[141px] h-[38px] px-3 py-2 text-sm font-normal rounded-xs cursor-pointer',
         variant === 'CANCLE'
-          ? 'text-black border-[1px] border-[#F5F5F5]'
-          : 'text-white bg-[#FF3F3F]',
+          ? 'text-black border-[1px] border-gray-96'
+          : 'text-white bg-negative',
       )}
     >
       {text}

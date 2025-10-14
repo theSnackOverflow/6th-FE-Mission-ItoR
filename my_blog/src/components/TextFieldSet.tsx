@@ -35,7 +35,7 @@ const TextFieldSet = ({
   return (
     <section className="w-fit px-4 py-3 flex flex-col gap-3 bg-white">
       <div className="px-1.5">
-        <p className="text-sm font-light text-[#909090] leading-[160%]">
+        <p className="text-sm font-light text-gray-56 leading-[160%]">
           {title}
         </p>
       </div>
@@ -49,7 +49,7 @@ const TextFieldSet = ({
 
       {showWarning && (
         <div className="px-1.5">
-          <p className="text-xs font-light text-[#C8C8C8] leading-[160%]">
+          <p className="text-xs font-light text-gray-78 leading-[160%]">
             {warningText}
           </p>
         </div>

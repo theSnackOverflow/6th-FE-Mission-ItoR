@@ -14,6 +14,11 @@ const TestForText = () => {
         titleVariant="16"
         mainText="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores, id suscipit aspernatur esse neque voluptate ipsum quaerat maiores blanditiis, eius possimus repellendus? Distinctio itaque reprehenderit placeat, commodi laboriosam maiores magnam!"
       />
+      <br />
+      <Text
+        titleVariant="16"
+        mainText="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores, id suscipit aspernatur esse neque voluptate ipsum quaerat maiores blanditiis, eius possimus repellendus? Distinctio itaque reprehenderit placeat, commodi laboriosam maiores magnam!"
+      />
     </main>
   );
 };
