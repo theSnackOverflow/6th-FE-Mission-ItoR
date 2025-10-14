@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import type { fontSize, fieldState } from './types/text-field';
+import type { FontSize, FieldState } from './types/text-field';
 import TextField from './TextField';
 
-interface textFieldSetProps {
+interface TextFieldSetProps {
   title: string;
-  font?: fontSize;
-  state?: fieldState;
+  font?: FontSize;
+  state?: FieldState;
   warningText?: string;
 }
 
@@ -14,13 +14,22 @@ const TextFieldSet = ({
   font = '16',
   state = 'default',
   warningText = '* 주의 문구',
-}: textFieldSetProps) => {
+}: TextFieldSetProps) => {
   const [input, setInput] = useState<string>('');
-  const [showWarning, setShowWarning] = useState<boolean>(true);
+  const [showWarning, setShowWarning] = useState<boolean>(false);
 
-  const onChangeInput = (e) => {
-    console.log(e.target.value);
-    setInput(e.target.value);
+  const onChangeInput = (value: string) => {
+    setInput(value);
+  };
+
+  const onSubmitInput = () => {
+    if (input.trim() === '') {
+      setShowWarning(true);
+    } else {
+      setShowWarning(false);
+      alert(`입력값: ${input}`);
+      setInput('');
+    }
   };
 
   return (
@@ -34,7 +43,8 @@ const TextFieldSet = ({
         value={input}
         font={font}
         state={state}
-        onChange={() => onChangeInput}
+        onChange={onChangeInput}
+        onSubmit={onSubmitInput}
       />
 
       {showWarning && (

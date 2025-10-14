@@ -22,6 +22,7 @@ interface TextfieldProps {
   placeholder?: string;
   onChange?: (value: string) => void;
   onClick?: () => void;
+  onSubmit?: (value: string) => void;
 }
 
 const TextField = ({
@@ -33,6 +34,7 @@ const TextField = ({
   placeholder = 'Text Field',
   onChange,
   onClick,
+  onSubmit,
 }: TextfieldProps) => {
   return (
     <input
@@ -45,6 +47,14 @@ const TextField = ({
       )}
       onChange={(e) => onChange?.(e.target.value)}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          // ! useState 비동기로 인한 alert 두 번 호출되는 오류 해결
+          // ! -> 리팩토링 할 때 다시 공부
+          // ! -> e.currentTarget.value
+          onSubmit?.(e.currentTarget.value);
+        }
+      }}
       value={value}
       placeholder={placeholder}
     />
