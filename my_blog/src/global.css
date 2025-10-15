@@ -75,8 +75,11 @@
   --color-positive: #15dc5e;
   --color-negative: #ff3f3f;
 
+  /* Blue 계열 */
   --color-point: #00a1ff;
+  --color-primary-6: #1890ff;
 
+  /* Gray 계열 */
   --color-gray-20: #333333;
   --color-gray-33: #555555;
   --color-gray-56: #909090;

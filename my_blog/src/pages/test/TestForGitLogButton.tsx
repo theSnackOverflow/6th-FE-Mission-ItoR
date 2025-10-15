@@ -3,7 +3,7 @@ import GitLogButton from '../../components/Button/GItLogButton';
 const TestForGitLogButton = () => {
   return (
     <main className="flex flex-col items-center justify-center h-screen gap-4 bg-[#E2DCFF]">
-      <div className="grid grid-cols-2 gap-2 grid">
+      <div className="grid grid-cols-2 gap-2">
         <GitLogButton
           text="깃 로그 시작하기"
           size="lg"
