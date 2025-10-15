@@ -1,18 +1,36 @@
 import clsx from 'clsx';
 
+import VectorIcon from '@/assets/icons/navigate_before.svg?react';
+
+type stateVariant = 'normal' | 'disabled';
+
 interface PaginationItemProps {
   page: number;
-  isActive?: boolean;
+  state?: stateVariant;
+  isPressed?: boolean;
   onClick?: () => void;
 }
 
-const PaginationItem = ({ page, isActive, onClick }: PaginationItemProps) => {
+interface PaginationArrowProps extends PaginationItemProps {
+  direction?: 'prev' | 'next';
+}
+
+const PaginationItem = ({
+  page,
+  state = 'normal',
+  isPressed = false,
+  onClick,
+}: PaginationItemProps) => {
   return (
     <button
       onClick={onClick}
       className={clsx(
-        'w-8 h-8 flex justify-center items-center px-[7px] py-[1px] text-sm font-roboto font-500 border rounded-xs cursor-pointer',
-        isActive ? 'text-primary-6 bg-white border-primary-6 ' : '',
+        'w-8 h-8 flex justify-center items-center px-[7px] py-[1px] text-sm font-roboto font-normal border rounded-xs cursor-pointer',
+        state === 'disabled'
+          ? 'text-black opacity-25 bg-neutral-3 border-neutral-5'
+          : isPressed
+            ? 'text-primary-6 bg-white border-primary-6'
+            : 'text-black opacity-80 border-neutral-1 bg-neutral-1',
       )}
     >
       {page}
@@ -22,14 +40,29 @@ const PaginationItem = ({ page, isActive, onClick }: PaginationItemProps) => {
 
 export { PaginationItem };
 
-const PaginationPrev = () => {
-  return <div></div>;
+const PaginationArrow = ({
+  state,
+  isPressed = false,
+  direction,
+  onClick,
+}: PaginationArrowProps) => {
+  return (
+    <button
+      onClick={onClick}
+      className={clsx(
+        'w-8 h-8 flex justify-center items-center bg-neutral-1 border rounded-xs cursor-pointer',
+        state === 'disabled'
+          ? 'text-neutral-5 border-neutral-5'
+          : isPressed
+            ? 'text-primary-6 border-primary-6'
+            : 'text-black opacity-80 border-neutral-5',
+      )}
+    >
+      <VectorIcon
+        className={clsx('w-6 h-6 ', direction === 'prev' ? '' : 'rotate-180')}
+      />
+    </button>
+  );
 };
 
-export { PaginationPrev };
-
-const PaginationNext = () => {
-  return <div></div>;
-};
-
-export { PaginationNext };
+export { PaginationArrow };
