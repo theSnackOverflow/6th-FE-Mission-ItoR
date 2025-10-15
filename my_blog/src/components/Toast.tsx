@@ -1,6 +1,6 @@
 import { useEffect, useState, type JSX } from 'react';
 import clsx from 'clsx';
-import DoneIcon from '@/assets/icons/components/toast/done.svg?react';
+import DoneIcon from '@/assets/icons/done.svg?react';
 import ErrorIcon from '@/assets/icons/error_outline.svg?react';
 
 type toastVariant = 'success' | 'error';

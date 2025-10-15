@@ -10,6 +10,7 @@ import TestForBlank from './pages/test/TestForBlank';
 import TestForDevider from './pages/test/TestForDevider';
 import TestForTextField from './pages/test/TestForTextField';
 import TestForProfileImage from './pages/test/TestForProfileImage';
+import TestForGitLogButton from './pages/test/TestForGitLogButton';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/devider" element={<TestForDevider />} />
         <Route path="/textfield" element={<TestForTextField />} />
         <Route path="/profileimage" element={<TestForProfileImage />} />
+        <Route path="/gitlogbutton" element={<TestForGitLogButton />} />
       </Routes>
     </BrowserRouter>
   );

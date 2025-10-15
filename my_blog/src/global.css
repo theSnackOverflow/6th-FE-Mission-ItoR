@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+* {
+  box-sizing: border-box;
+}
+
 /* NotoSansKR - Font Static 설정 */
 /* 이렇게 하는게 맞나요..? */
 @font-face {
@@ -70,6 +74,8 @@
 
   --color-positive: #15dc5e;
   --color-negative: #ff3f3f;
+
+  --color-point: #00a1ff;
 
   --color-gray-20: #333333;
   --color-gray-33: #555555;
