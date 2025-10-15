@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { FontSize, FieldState } from './types/text-field';
+import type { FontSize, FieldState } from '../types/text-field';
 import TextField from './TextField';
 
 interface TextFieldSetProps {

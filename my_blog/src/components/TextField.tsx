@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import type { FontSize, FieldState, InputType } from './types/text-field';
+import type { FontSize, FieldState, InputType } from '../types/text-field';
 
 const fontMap: Record<FontSize, string> = {
   '16': 'text-sm font-light leading-[160%]',
