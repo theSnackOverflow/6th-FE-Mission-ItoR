@@ -34,3 +34,5 @@ const useFormatCreatedAt = (dateString: string) => {
 
   return formatted;
 };
+
+export default useFormatCreatedAt;
