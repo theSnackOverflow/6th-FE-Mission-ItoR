@@ -59,7 +59,7 @@ const GitLogButton = ({
     <button
       onClick={onClick}
       className={clsx(
-        'w-fit h-10 flex justify-center items-center px-1 pt-1.5 pb-1 rounded-3xl cursor-pointer',
+        'w-fit h-10 flex justify-center items-center px-1 pt-1.5 pb-1 rounded-3xl',
         bgColorMap[bgColor],
         borderColorMap[borderColor],
       )}

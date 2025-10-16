@@ -9,7 +9,7 @@ const fontMap: Record<FontSize, string> = {
 const stateMap: Record<FieldState, string> = {
   default: 'text-gray-56 border-gray-90',
   input: 'text-black border-gray-90',
-  click: 'text-black border-gray-33 text-left cursor-pointer',
+  click: 'text-black border-gray-33 text-left ',
   disabled: 'text-gray-56 border-gray-90 bg-gray-90',
 };
 

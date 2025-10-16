@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+button {
+  cursor: pointer;
+}
+
 /* NotoSansKR - Font Static 설정 */
 /* 이렇게 하는게 맞나요..? */
 @font-face {

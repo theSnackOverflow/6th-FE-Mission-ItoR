@@ -12,8 +12,8 @@ const sizeMap: Record<toastSize, string> = {
 };
 
 const icons: Record<toastVariant, JSX.Element> = {
-  success: <DoneIcon className="w-5 h-5 text-positive" />,
-  error: <ErrorIcon className="w-5 h-5 text-negative" />,
+  success: <DoneIcon className="w-5 h-5 text-positive cursor-pointer" />,
+  error: <ErrorIcon className="w-5 h-5 text-negative cursor-pointer" />,
 };
 
 const variantMap: Record<toastVariant, string> = {

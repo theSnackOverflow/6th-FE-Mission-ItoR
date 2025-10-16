@@ -9,7 +9,7 @@ const Menu = () => {
                   flex justify-center items-center 
                 bg-white rounded-sm shadow-lg"
       >
-        <DeleteSVG />
+        <DeleteSVG className="cursor-pointer" onClick={() => {}} />
       </div>
       <PolygonSVG className="text-white" />
     </section>

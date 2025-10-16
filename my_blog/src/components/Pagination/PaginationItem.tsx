@@ -25,7 +25,7 @@ const PaginationItem = ({
     <button
       onClick={onClick}
       className={clsx(
-        'w-8 h-8 flex justify-center items-center px-[7px] py-[1px] text-sm font-roboto font-normal border rounded-xs cursor-pointer',
+        'w-8 h-8 flex justify-center items-center px-[7px] py-[1px] text-sm font-roboto font-normal border rounded-xs ',
         state === 'disabled'
           ? 'text-black opacity-25 bg-neutral-3 border-neutral-5'
           : isPressed
@@ -50,7 +50,7 @@ const PaginationArrow = ({
     <button
       onClick={onClick}
       className={clsx(
-        'w-8 h-8 flex justify-center items-center bg-neutral-1 border rounded-xs cursor-pointer',
+        'w-8 h-8 flex justify-center items-center bg-neutral-1 border rounded-xs ',
         state === 'disabled'
           ? 'text-neutral-5 border-neutral-5'
           : isPressed
@@ -59,7 +59,10 @@ const PaginationArrow = ({
       )}
     >
       <VectorIcon
-        className={clsx('w-6 h-6 ', direction === 'prev' ? '' : 'rotate-180')}
+        className={clsx(
+          'w-6 h-6 cursor-pointer',
+          direction === 'prev' ? '' : 'rotate-180',
+        )}
       />
     </button>
   );
