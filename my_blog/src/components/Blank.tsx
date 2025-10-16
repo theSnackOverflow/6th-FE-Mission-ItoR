@@ -15,7 +15,7 @@ const heightMap: Record<blankVariant, string> = {
 const Blank = ({ variant = '20' }: blankProps) => {
   return (
     <section>
-      <div className={clsx('w-[688px] bg-white', heightMap[variant])}></div>
+      <div className={clsx('w-full bg-white', heightMap[variant])}></div>
     </section>
   );
 };
