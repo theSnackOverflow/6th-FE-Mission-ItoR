@@ -16,7 +16,7 @@ const Header = ({ type }: HeaderProps) => {
   const navigate = useNavigate();
 
   return type !== 'file' ? (
-    <header className="w-[1366px] h-fit px-3 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px]">
+    <nav className="w-[1366px] h-fit px-3 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px]">
       <div className="flex justify-between items-center">
         <div className="flex justify-center items-center ">
           <MenuIcon
@@ -67,7 +67,7 @@ const Header = ({ type }: HeaderProps) => {
           </button>
         )}
       </div>
-    </header>
+    </nav>
   ) : (
     <header className="w-[1366px] h-fit px-4 py-3 flex justify-center items-center bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px]">
       <div className="flex gap-8">
