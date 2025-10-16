@@ -36,32 +36,37 @@ const iconSizeMap: Record<sizeVariant, string> = {
   lg: 'w-6 h-6',
 };
 
-interface gitLogButtonProps {
+interface ButtonProps {
   text?: string;
   size?: sizeVariant;
   fontColor?: fontColorVariant;
   bgColor?: bgColorVariant;
   borderColor?: borderColorVariant;
+  showIcon?: boolean;
   isBoxed?: boolean;
   onClick?: () => void;
+  width?: string;
 }
 
-const GitLogButton = ({
+const Button = ({
   text = '버튼',
   size = 'lg',
   fontColor = 'gray',
   bgColor = 'none',
   borderColor = 'none',
+  showIcon = false,
   isBoxed = false,
   onClick,
-}: gitLogButtonProps) => {
+  width,
+}: ButtonProps) => {
   return (
     <button
       onClick={onClick}
       className={clsx(
-        'w-fit h-10 flex justify-center items-center px-1 pt-1.5 pb-1 rounded-3xl',
+        'h-10 flex justify-center items-center px-1 pt-1.5 pb-1 rounded-3xl',
         bgColorMap[bgColor],
         borderColorMap[borderColor],
+        width || 'w-fit',
       )}
     >
       <div
@@ -70,9 +75,11 @@ const GitLogButton = ({
           isBoxed && 'bg-gray-90',
         )}
       >
-        <PencilIcon
-          className={clsx('', iconSizeMap[size], fontColorMap[fontColor])}
-        />
+        {showIcon && (
+          <PencilIcon
+            className={clsx('', iconSizeMap[size], fontColorMap[fontColor])}
+          />
+        )}
         <p
           className={clsx('w-fit', fontSizeMap[size], fontColorMap[fontColor])}
         >
@@ -83,4 +90,4 @@ const GitLogButton = ({
   );
 };
 
-export default GitLogButton;
+export default Button;
