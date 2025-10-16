@@ -1,4 +1,4 @@
-export const formatCreate = (dateString: string) => {
+const formatCreatedAt = (dateString: string) => {
   const createdDate = new Date(dateString);
   const now = new Date();
   const diffMs = now.getTime() - createdDate.getTime();
@@ -21,3 +21,5 @@ export const formatCreate = (dateString: string) => {
       .replace(',', '.');
   }
 };
+
+export default formatCreatedAt;

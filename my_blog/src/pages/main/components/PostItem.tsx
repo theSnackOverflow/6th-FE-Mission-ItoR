@@ -1,6 +1,8 @@
 import ProfileImage from '../../../components/ProfileImage';
 import Text from '../../../components/Text';
 
+import formatCreatedAt from '../../../utils/formatCreatedAt';
+
 interface postItemProps {
   postId: string;
   title: string;
@@ -37,7 +39,7 @@ const PostItem = ({
           {/* 닉네임 */}
           <p className="text-gray-20 font-normal">{nickName}</p>
           <div className="flex gap-1.5 text-gray-56 font-light">
-            <p>{createdAt}</p>
+            <p>{formatCreatedAt(createdAt)}</p>
             <p>댓글</p>
             <p>{commentCount}</p>
           </div>
