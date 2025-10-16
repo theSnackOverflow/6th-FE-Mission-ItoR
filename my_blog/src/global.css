@@ -33,6 +33,7 @@ button {
 }
 
 @theme {
+  --breadkpoint-mobile: '390px';
   --font-notosans: 'NotoSansKR', sans-serif;
   --font-roboto: 'Roboto', cursive;
   --font-smooch: 'Smooch', cursive;
