@@ -24,7 +24,7 @@ function App() {
         {/* Test Pages */}
         <Route path="/test/toast" element={<TestForToast />} />
         <Route path="/test/menu" element={<TestForMenu />} />
-        <Route path="/test/dropdown-menu" element={<TestForDropdown />} />
+        <Route path="/test/dropdown" element={<TestForDropdown />} />
         <Route path="/test/modal" element={<TestForModal />} />
         <Route path="/test/text" element={<TestForText />} />
         <Route path="/test/blank" element={<TestForBlank />} />

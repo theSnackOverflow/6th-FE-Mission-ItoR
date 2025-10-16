@@ -3,13 +3,14 @@ import Button from '../../components/Button/Button';
 const TestForButton = () => {
   return (
     <main className="flex flex-col items-center justify-center h-screen gap-4 bg-[#E2DCFF]">
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-4">
         <Button
           text="깃 로그 시작하기"
           size="lg"
           fontColor="gray"
           bgColor="white"
           borderColor="gray"
+          showIcon={true}
         />
         <Button
           text="깃 로그 시작하기"
@@ -17,6 +18,7 @@ const TestForButton = () => {
           fontColor="gray"
           bgColor="white"
           borderColor="none"
+          showIcon={true}
         />
         <Button
           text="깃 로그 시작하기"
@@ -24,6 +26,7 @@ const TestForButton = () => {
           fontColor="gray"
           bgColor="gray"
           borderColor="gray"
+          showIcon={true}
         />
         <Button
           text="깃 로그 시작하기"
@@ -31,6 +34,7 @@ const TestForButton = () => {
           fontColor="gray"
           bgColor="gray"
           borderColor="none"
+          showIcon={true}
         />
         <Button
           text="깃 로그 시작하기"
@@ -38,6 +42,7 @@ const TestForButton = () => {
           fontColor="white"
           bgColor="black"
           borderColor="none"
+          showIcon={true}
         />
         <Button
           text="깃 로그 시작하기"
@@ -45,6 +50,7 @@ const TestForButton = () => {
           fontColor="gray"
           bgColor="black"
           borderColor="none"
+          showIcon={true}
         />
         <Button
           text="깃 로그 시작하기"
@@ -52,13 +58,28 @@ const TestForButton = () => {
           fontColor="blue"
           bgColor="white"
           borderColor="blue"
+          showIcon={true}
         />
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+        <br />
+        <br />
 
+        <Button
+          text="깃 로그 시작하기"
+          size="md"
+          fontColor="gray"
+          bgColor="none"
+          borderColor="none"
+          showIcon={true}
+        />
+        <Button
+          text="깃 로그 시작하기"
+          size="md"
+          fontColor="gray"
+          bgColor="none"
+          borderColor="none"
+          isBoxed={true}
+          showIcon={true}
+        />
         <Button
           text="깃 로그 시작하기"
           size="md"
