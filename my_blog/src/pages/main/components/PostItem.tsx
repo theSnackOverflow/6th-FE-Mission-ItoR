@@ -1,8 +1,6 @@
 import ProfileImage from '../../../components/ProfileImage';
 import Text from '../../../components/Text';
 
-import { mockData } from './mockData';
-
 interface postItemProps {
   postId: string;
   title: string;
@@ -10,6 +8,7 @@ interface postItemProps {
   profileUrl: string;
   createdAt: string;
   commentCount: number;
+  imgSrc?: string;
 }
 
 const PostItem = ({
@@ -19,9 +18,13 @@ const PostItem = ({
   profileUrl,
   createdAt,
   commentCount,
+  imgSrc,
 }: postItemProps) => {
   return (
-    <article className="w-full h-[150px] py-2 flex justify-between gap-4 border-b border-gray-96 bg-white">
+    <article
+      key={postId}
+      className="w-full h-[150px] py-2 flex justify-between gap-4 border-b border-gray-96 bg-white"
+    >
       {/* 제목, 내용, 닉네임, 작성일, 댓글 수 */}
       <div className="cursor-pointer">
         <Text
@@ -41,11 +44,13 @@ const PostItem = ({
         </div>
       </div>
       {/* image */}
-      <div className="h-full bg-white">
-        <div className="w-30 h-30 px-4 py-3 border">
-          <img src={'/public/2ssac.svg'} className="object-fill" />
+      {imgSrc && (
+        <div className="h-full bg-white">
+          <div className="w-30 h-30 px-4 py-3">
+            <img src={imgSrc || '/public/2ssac.svg'} className="object-fill" />
+          </div>
         </div>
-      </div>
+      )}
     </article>
   );
 };

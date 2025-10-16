@@ -27,7 +27,10 @@ const ProfileImage = ({ src, size = 'md', onClick }: ProfileImageProps) => {
   return (
     <div onClick={onClick}>
       {src ? (
-        <img src={src} className={clsx('object-cover', sizeMap[size])} />
+        <img
+          src={src}
+          className={clsx('object-cover rounded-full', sizeMap[size])}
+        />
       ) : (
         <p
           className={clsx(

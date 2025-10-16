@@ -5,7 +5,7 @@ const MainPage = () => {
   return (
     <>
       <Header type="main" />
-      <main className="w-full h-[calc(100dvh-72px)] flex flex-col justify-start items-center bg-gray-20">
+      <main className="w-full h-[calc(100dvh-72px)] flex flex-col justify-start items-center">
         <PostList />
       </main>
     </>
