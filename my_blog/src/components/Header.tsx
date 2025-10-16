@@ -16,7 +16,7 @@ const Header = ({ type }: HeaderProps) => {
   const navigate = useNavigate();
 
   return type !== 'file' ? (
-    <nav className="w-full h-[72px] px-3 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px]">
+    <nav className="max-w-full h-[72px] px-3 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px] min-w-mobile">
       <div className="flex justify-between items-center">
         <div className="flex justify-center items-center ">
           <MenuIcon
@@ -69,7 +69,7 @@ const Header = ({ type }: HeaderProps) => {
       </div>
     </nav>
   ) : (
-    <header className="w-[1366px] h-fit px-4 py-3 flex justify-center items-center bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px]">
+    <nav className="w-full min-w-mobile h-fit px-4 py-3 flex justify-center items-center bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px]">
       <div className="flex gap-8">
         <button
           className="px-2 pt-0.5 pb-1 flex items-center gap-1 text-gray-56"
@@ -86,7 +86,7 @@ const Header = ({ type }: HeaderProps) => {
           <p className="font-normal text-xs">파일 추가하기</p>
         </button>
       </div>
-    </header>
+    </nav>
   );
 };
 

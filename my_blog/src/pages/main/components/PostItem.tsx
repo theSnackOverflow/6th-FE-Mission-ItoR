@@ -25,16 +25,16 @@ const PostItem = ({
   return (
     <article
       key={postId}
-      className="w-full h-[150px] py-2 flex justify-between gap-4 border-b border-gray-96 bg-white"
+      className="w-full max-w-[688px] min-w-mobile min-h-[150px] py-2 flex justify-between gap-4 border-b border-gray-96 bg-white"
     >
       {/* 제목, 내용, 닉네임, 작성일, 댓글 수 */}
-      <div className="cursor-pointer">
+      <div className="cursor-pointer flex-1">
         <Text
           title={title}
           titleVariant="16"
           mainText="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt hic et, veniam reprehenderit magnam voluptatum omnis placeat. Praesentium, necessitatibus, voluptatum cupiditate nobis magnam iste, nihil tenetur quos reiciendis perferendis molestiae!"
         />
-        <div className="w-full px-4 py-3 flex items-center gap-1.5 text-xs leading-[160%]">
+        <div className="w-fit h-fit px-4 py-3 flex items-center gap-1.5 text-xs leading-[160%]">
           <ProfileImage src={profileUrl} size="xs" />
           {/* 닉네임 */}
           <p className="text-gray-20 font-normal">{nickName}</p>

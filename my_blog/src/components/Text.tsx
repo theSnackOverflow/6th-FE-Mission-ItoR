@@ -10,13 +10,13 @@ interface TextProps {
 
 const Text = ({ title, titleVariant = '16', mainText }: TextProps) => {
   return (
-    <section className="min-w-[550px] h-fit px-4 py-3 bg-white">
-      <div className="w-full h-full flex flex-col gap-3 line-clamp-1">
+    <section className="w-full min-w-[260px] h-fit px-4 py-3 bg-white flex-1">
+      <div className="w-full h-fit flex flex-col gap-3">
         {/* 32 - Title & 16 - Title */}
         {title && (
           <div
             className={clsx(
-              'font-medium whitespace-pre-line text-truncate',
+              'font-medium whitespace-pre-line line-clamp-1',
               titleVariant === '32' ? 'text-2xl' : 'text-[1rem]',
             )}
           >
