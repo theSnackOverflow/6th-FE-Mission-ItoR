@@ -17,55 +17,6 @@ button {
   font-style: normal;
 }
 
-/* @font-face {
-  font-family: 'NotoSansKR';
-  src: url('/fonts/noto-sans-kr/NotoSansKR-ExtraBold.ttf');
-  font-weight: 800;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'NotoSansKR';
-  src: url('/fonts/noto-sans-kr/NotoSansKR-Bold.ttf');
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'NotoSansKR';
-  src: url('/fonts/noto-sans-kr/NotoSansKR-SemiBold.ttf');
-  font-weight: 600;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'NotoSansKR';
-  src: url('/fonts/noto-sans-kr/NotoSansKR-Medium.ttf');
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'NotoSansKR';
-  src: url('/fonts/noto-sans-kr/NotoSansKR-Regular.ttf');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'NotoSansKR';
-  src: url('/fonts/noto-sans-kr/NotoSansKR-Light.ttf');
-  font-weight: 300;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'NotoSansKR';
-  src: url('/fonts/noto-sans-kr/NotoSansKR-ExtraLight.ttf');
-  font-weight: 200;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'NotoSansKR';
-  src: url('/fonts/noto-sans-kr/NotoSansKR-Thin.ttf');
-  font-weight: 100;
-  font-style: normal;
-} */
-
 @font-face {
   font-family: 'Roboto';
   src: url('/fonts/Roboto-VariableFont_wdth,wght.ttf') format('truetype');
