@@ -1,0 +1,42 @@
+export const mockData = [
+  {
+    postId: 'b6a7c1e2-45f3-4a89-b8c1-df0a9e4c5b32',
+    title: '오늘의 개발 일기: React 상태 관리 리팩토링',
+    nickName: 'codewanderer',
+    profileUrl: 'https://randomuser.me/api/portraits/men/32.jpg',
+    createdAt: '2025-10-16T09:30:00Z',
+    commentCount: 12,
+  },
+  {
+    postId: '9f4b2d6e-1a23-4e8c-93e7-f4d8a1b7c5f6',
+    title: 'Next.js 15 새 기능 정리',
+    nickName: 'techwhisper',
+    profileUrl: 'https://randomuser.me/api/portraits/women/25.jpg',
+    createdAt: '2025-10-15T14:20:00Z',
+    commentCount: 8,
+  },
+  {
+    postId: 'f1a2b3c4-d5e6-7f89-a0b1-c2d3e4f5a6b7',
+    title: 'Tailwind로 다크모드 토글 구현하기',
+    nickName: 'frontendowl',
+    profileUrl: 'https://randomuser.me/api/portraits/women/12.jpg',
+    createdAt: '2025-10-14T22:10:00Z',
+    commentCount: 5,
+  },
+  {
+    postId: '0c1a2b3c-4d5e-6f78-9012-a3b4c5d6e7f8',
+    title: 'TanStack Query로 무한 스크롤 구현 후기',
+    nickName: 'devstorm',
+    profileUrl: 'https://randomuser.me/api/portraits/men/45.jpg',
+    createdAt: '2025-10-13T08:50:00Z',
+    commentCount: 16,
+  },
+  {
+    postId: 'a9b8c7d6-e5f4-3210-b1a2-c3d4e5f6a7b8',
+    title: 'TypeScript 제네릭 쉽게 이해하기',
+    nickName: 'bytehunter',
+    profileUrl: 'https://randomuser.me/api/portraits/women/48.jpg',
+    createdAt: '2025-10-12T19:00:00Z',
+    commentCount: 3,
+  },
+];

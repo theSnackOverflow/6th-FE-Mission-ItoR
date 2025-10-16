@@ -16,7 +16,7 @@ const Header = ({ type }: HeaderProps) => {
   const navigate = useNavigate();
 
   return type !== 'file' ? (
-    <nav className="w-full h-fit px-3 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px]">
+    <nav className="w-full h-[72px] px-3 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px]">
       <div className="flex justify-between items-center">
         <div className="flex justify-center items-center ">
           <MenuIcon
