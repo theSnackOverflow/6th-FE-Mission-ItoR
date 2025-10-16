@@ -23,4 +23,4 @@ const TestForProfileImage = () => {
   );
 };
 
-export default TestForProfileImage;
+export { TestForProfileImage };

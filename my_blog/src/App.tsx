@@ -1,25 +1,41 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {
+  TestForBlank,
+  TestForButton,
+  TestForDevider,
+  TestForDropdown,
+  TestForHeader,
+  TestForMenu,
+  TestForModal,
+  TestForPagination,
+  TestForProfileImage,
+  TestForProfileSidebar,
+  TestForText,
+  TestForTextField,
+  TestForToast,
+} from './pages/test/index';
+import { MainPage } from './pages';
 
 // ? test pages 라우팅
-import TestForToast from './pages/test/TestForToast';
-import TestForMenu from './pages/test/TestForMenu';
-import TestForDropdown from './pages/test/TestForDropdown';
-import TestForModal from './pages/test/TestForModal';
-import TestForText from './pages/test/TestForText';
-import TestForBlank from './pages/test/TestForBlank';
-import TestForDevider from './pages/test/TestForDevider';
-import TestForTextField from './pages/test/TestForTextField';
-import TestForProfileImage from './pages/test/TestForProfileImage';
-import TestForButton from './pages/test/TestForButton';
-import TestForPagination from './pages/test/TestForPagination';
-import TestForHeader from './pages/test/TestForHeader';
-import TestForProfileSidebar from './pages/test/TestForProfileSidebar';
+// import TestForToast from './pages/test/TestForToast';
+// import TestForMenu from './pages/test/TestForMenu';
+// import TestForDropdown from './pages/test/TestForDropdown';
+// import TestForModal from './pages/test/TestForModal';
+// import TestForText from './pages/test/TestForText';
+// import TestForBlank from './pages/test/TestForBlank';
+// import TestForDevider from './pages/test/TestForDevider';
+// import TestForTextField from './pages/test/TestForTextField';
+// import TestForProfileImage from './pages/test/TestForProfileImage';
+// import TestForButton from './pages/test/TestForButton';
+// import TestForPagination from './pages/test/TestForPagination';
+// import TestForHeader from './pages/test/TestForHeader';
+// import TestForProfileSidebar from './pages/test/TestForProfileSidebar';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<div>Home</div>} />
+        <Route path="/" element={<MainPage />} />
 
         {/* Test Pages */}
         <Route path="/test/toast" element={<TestForToast />} />

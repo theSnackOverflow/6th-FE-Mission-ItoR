@@ -23,4 +23,4 @@ const TestForText = () => {
   );
 };
 
-export default TestForText;
+export { TestForText };

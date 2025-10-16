@@ -27,4 +27,4 @@ const TestForModal = () => {
   );
 };
 
-export default TestForModal;
+export { TestForModal };

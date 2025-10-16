@@ -10,4 +10,4 @@ const TestForBlank = () => {
   );
 };
 
-export default TestForBlank;
+export { TestForBlank };

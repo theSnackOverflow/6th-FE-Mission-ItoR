@@ -8,4 +8,4 @@ const TestForDevider = () => {
   );
 };
 
-export default TestForDevider;
+export { TestForDevider };

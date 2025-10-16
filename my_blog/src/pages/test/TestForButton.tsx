@@ -100,4 +100,4 @@ const TestForButton = () => {
   );
 };
 
-export default TestForButton;
+export { TestForButton };

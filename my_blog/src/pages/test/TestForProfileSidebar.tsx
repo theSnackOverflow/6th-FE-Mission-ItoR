@@ -11,4 +11,4 @@ const TestForProfileSidebar = () => {
   );
 };
 
-export default TestForProfileSidebar;
+export { TestForProfileSidebar };

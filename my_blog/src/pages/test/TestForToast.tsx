@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Toast from '../../components/Toast';
 
-export default function TestForToastPage() {
+const TestForToast = () => {
   const [show, setShow] = useState(false);
 
   return (
@@ -31,4 +31,6 @@ export default function TestForToastPage() {
       )}
     </main>
   );
-}
+};
+
+export { TestForToast };
