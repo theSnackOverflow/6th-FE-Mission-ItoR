@@ -44,9 +44,8 @@ const CommentSection = ({ commentCount }: commentSectionProps) => {
               placeholder="로그인을 하고 댓글을 달아보세요!"
             ></textarea>
           )}
-
-          <Blank variant="64" />
         </section>
+        <Blank variant="64" />
       </section>
     </section>
   );

@@ -35,6 +35,7 @@ button {
 @theme {
   --minWidth-mobile: '390px';
   --breakpoint-mobile: '390px';
+  --breakpoint-'500': '500px'; /* 500px 이하일 반응형 대응 */
 
   --font-notosans: 'NotoSansKR', sans-serif;
   --font-roboto: 'Roboto', cursive;

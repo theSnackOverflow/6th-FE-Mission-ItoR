@@ -2,13 +2,40 @@ export const mockData = [
   {
     postId: 'b6a7c1e2-45f3-4a89-b8c1-df0a9e4c5b32',
     title: '오늘의 개발 일기: React 상태 관리 리팩토링',
-    content:
-      'React 상태 관리 리팩토링 과정을 정리했습니다. useReducer와 Context API를 함께 사용하여 코드 구조를 개선하고 성능을 높이는 방법을 다뤘습니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content:
+          'React 상태 관리 리팩토링 과정을 정리했습니다. useReducer와 Context API를 함께 사용하여 코드 구조를 개선하고 성능을 높이는 방법을 다뤘습니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: '/images/react-refactor-example.png',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content:
+          '리팩토링 결과, 컴포넌트 재사용성과 상태 추적이 크게 개선되었습니다.',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: 'codewanderer',
     profileUrl: 'https://randomuser.me/api/portraits/men/32.jpg',
-    imgSrc: '/public/2ssac.svg',
+    isOwner: true,
     createdAt: '2025-10-16T09:30:00Z',
     commentCount: 12,
+    comments: [
+      {
+        commentId: 1,
+        content: 'useReducer랑 Context 같이 쓰면 진짜 깔끔하네요!',
+        nickName: 'reactfan',
+        profileUrl: 'https://randomuser.me/api/portraits/women/12.jpg',
+        createdAt: '2025-10-16T10:00:00Z',
+        isOwner: false,
+      },
+    ],
   },
   {
     postId: '9f4b2d6e-1a23-4e8c-93e7-f4d8a1b7c5f6',
