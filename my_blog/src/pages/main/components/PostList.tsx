@@ -21,7 +21,11 @@ const PostList = () => {
       <div>
         <Blank />
         {currentPosts.map((post) => (
-          <PostItem key={post.postId} {...post} />
+          <PostItem
+            key={post.postId}
+            {...post}
+            commentCount={post.comments?.length || 0}
+          />
         ))}
         <Blank variant="20" />
       </div>

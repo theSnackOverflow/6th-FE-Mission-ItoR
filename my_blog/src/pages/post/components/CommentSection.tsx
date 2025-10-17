@@ -2,6 +2,9 @@ import clsx from 'clsx';
 import Blank from '../../../components/Blank';
 import { PostWriter } from '../../main/components/PostWriter';
 import { useState } from 'react';
+import CommentItem from './CommentItem';
+
+import { mockData } from '../../main/components/mockData';
 
 interface commentSectionProps {
   commentCount: number | undefined;
@@ -16,8 +19,9 @@ const CommentSection = ({ commentCount }: commentSectionProps) => {
 
   const isEmpty = text.trim().length === 0;
 
-  commentCount = 0; // 테스트 용 재할당
-  const isLoggined: boolean = true; // 테스트용 선언
+  commentCount = 12; //! 테스트용 재할당
+
+  const isLoggedIn: boolean = true; //! 테스트용 선언
 
   return (
     <section className="w-full flex justify-center">
@@ -32,22 +36,30 @@ const CommentSection = ({ commentCount }: commentSectionProps) => {
 
         {/* 댓글 목록 */}
         {/* CommentList.tsx 분리 예정 */}
-        <section className="p-4">
+        <section>
           {commentCount === 0 ? (
             <div className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col justify-center items-center px-4 py-3 text-sm font-light text-gray-78 leading-[160%]">
               <p>작성된 댓글이 없습니다.</p>
               <p>응원의 첫 번째 댓글을 달아주세요.</p>
             </div>
           ) : (
-            // 임시
-            <>댓글목록</>
+            //! 임시
+            <div className="flex flex-col gap-2.5">
+              {mockData
+                .map((item) =>
+                  (item.comments ?? []).map((c) => (
+                    <CommentItem key={c.commentId} {...c} />
+                  )),
+                )
+                .flat()}
+            </div>
           )}
         </section>
         <Blank variant="20" />
 
         {/* 댓글 입력 창 */}
-        <section className="px-4 py-3 border border-gray-90 rounded-sm">
-          {isLoggined && (
+        <section className="mx-4 my-3 px-4 py-3 border border-gray-90 rounded-sm">
+          {isLoggedIn && (
             <PostWriter //! mockDate -> 추후 api 연결
               profileUrl="/public/2ssac.svg"
               nickName="고양이12"
@@ -60,19 +72,19 @@ const CommentSection = ({ commentCount }: commentSectionProps) => {
             value={text}
             onChange={handleInputChange}
             className="w-full min-h-28 px-4 py-3 text-gray-20 text-sm font-light leading-[160%] resize-none"
-            placeholder={clsx(
-              isLoggined
+            placeholder={
+              isLoggedIn
                 ? '댓글을 입력하세요.'
-                : '로그인을 하고 댓글을 달아보세요!',
-            )}
+                : '로그인을 하고 댓글을 달아보세요!'
+            }
           ></textarea>
-          {isLoggined && (
+          {isLoggedIn && (
             <div className="w-full py-2 flex justify-end">
               <button
                 className={clsx(
                   'w-16 h-[38px] rounded-3xl text-sm font-normal leading-[160%]',
                   isEmpty
-                    ? 'text-gray-56 bg-white border border-gray-56'
+                    ? 'text-gray-56 bg-white border border-gray-56  cursor-not-allowed'
                     : 'text-white bg-black',
                 )}
               >

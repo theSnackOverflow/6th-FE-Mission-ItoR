@@ -42,7 +42,7 @@ const PostDetail = () => {
                   nickName={post.nickName}
                   profileUrl={post.profileUrl}
                   createdAt={post.createdAt}
-                  commentCount={post.commentCount}
+                  commentCount={post.commentCount || 0}
                 />
               </header>
               {/* 내용 */}
@@ -81,7 +81,7 @@ const PostDetail = () => {
         <div className="w-full flex flex-col justify-center">
           <Devider />
           {/* 댓글 */}
-          {post && <CommentSection commentCount={post.commentCount} />}
+          {post && <CommentSection commentCount={post.commentCount || 0} />}
 
           <Footer />
         </div>

@@ -6,7 +6,7 @@ export const mockData = [
       {
         contentOrder: 1,
         content:
-          'React 상태 관리 리팩토링 과정을 정리했습니다. useReducer와 Context API를 함께 사용하여 코드 구조를 개선하고 성능을 높이는 방법을 다뤘습니다.',
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis a eum sit odio omnis voluptatibus possimus voluptas maxime laudantium enim aliquid cupiditate ratione, vitae incidunt placeat atque natus similique modi?',
         contentType: 'TEXT',
       },
       {
@@ -79,7 +79,8 @@ export const mockData = [
     comments: [
       {
         commentId: 1,
-        content: 'useReducer랑 Context 같이 쓰면 진짜 깔끔하네요!',
+        content:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis a eum sit odio omnis voluptatibus possimus voluptas maxime laudantium enim aliquid cupiditate ratione, vitae incidunt placeat atque natus similique modi?',
         nickName: 'reactfan',
         profileUrl: 'https://picsum.photos/seed/profile102/80/80',
         createdAt: '2025-10-16T10:00:00Z',
