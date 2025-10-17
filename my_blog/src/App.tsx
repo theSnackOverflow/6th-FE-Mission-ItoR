@@ -17,7 +17,7 @@ import {
 
 import { MainPage } from './pages';
 import PostDetail from './pages/post/PostDetail';
-import { Layout } from './components/Layout';
+// import { Layout } from './components/Layout';
 
 function App() {
   return (

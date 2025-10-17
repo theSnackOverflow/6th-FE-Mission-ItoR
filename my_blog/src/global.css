@@ -35,7 +35,7 @@ button {
 @theme {
   --minWidth-mobile: '390px';
   --breakpoint-mobile: '390px';
-  --breakpoint-'500': '500px'; /* 500px 이하일 반응형 대응 */
+  --breakpoint-500: '500px'; /* 500px 이하일 반응형 대응 */
 
   --font-notosans: 'NotoSansKR', sans-serif;
   --font-roboto: 'Roboto', cursive;
@@ -49,6 +49,7 @@ button {
   --color-primary-6: #1890ff;
 
   /* Gray 계열 */
+  --color-gray-7: #111112;
   --color-gray-20: #333333;
   --color-gray-33: #555555;
   --color-gray-56: #909090;
