@@ -3,7 +3,7 @@ import Blank from '../../../components/Blank';
 import Pagination from '../../../components/Pagination/Pagination';
 import { PostItem } from './PostItem';
 
-import { mockData } from './mockData';
+import { mockData } from '../../../const/mockData';
 
 const ITEMS_PER_PAGE = 10;
 

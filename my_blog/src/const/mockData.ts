@@ -74,6 +74,7 @@ export const mockData = [
     ],
     nickName: 'codewanderer',
     profileUrl: 'https://picsum.photos/seed/profile101/100/100',
+    imgSrc: '/public/2ssac.svg',
     isOwner: true,
     createdAt: '2025-10-16T09:30:00Z',
     comments: [
@@ -139,6 +140,7 @@ export const mockData = [
     ],
     nickName: 'frontendowl',
     profileUrl: 'https://picsum.photos/seed/profile105/100/100',
+    imgSrc: '/public/2ssac.svg',
     isOwner: false,
     createdAt: '2025-10-14T22:10:00Z',
     comments: [
@@ -171,6 +173,7 @@ export const mockData = [
     ],
     nickName: 'devstorm',
     profileUrl: 'https://picsum.photos/seed/profile107/100/100',
+    imgSrc: '/public/2ssac.svg',
     isOwner: false,
     createdAt: '2025-10-13T08:50:00Z',
     comments: [

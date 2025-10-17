@@ -17,6 +17,7 @@ import {
 
 import { MainPage } from './pages';
 import PostDetail from './pages/post/PostDetail';
+import PostNew from './pages/post/PostNew';
 // import { Layout } from './components/Layout';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         {/* <Route element={<Layout />}> */}
         <Route path="/" element={<MainPage />} />
         <Route path="/post/:postId" element={<PostDetail />} />
+        <Route path="/post/new" element={<PostNew />} />
         {/* </Route> */}
 
         {/* Test Pages */}

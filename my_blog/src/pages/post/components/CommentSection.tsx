@@ -4,7 +4,7 @@ import { PostWriter } from '../../main/components/PostWriter';
 import { useState } from 'react';
 import CommentItem from './CommentItem';
 
-import { mockData } from '../../main/components/mockData';
+import { mockData } from '../../../const/mockData';
 
 interface commentSectionProps {
   commentCount: number | undefined;

@@ -8,7 +8,7 @@ import Devider from '../../components/Devider';
 import CommentSection from './components/CommentSection';
 import Footer from '../../components/Footer';
 
-import { mockData } from '../main/components/mockData';
+import { mockData } from '../../const/mockData';
 
 const PostDetail = () => {
   const navigate = useNavigate();
