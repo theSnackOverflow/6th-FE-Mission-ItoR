@@ -5,7 +5,7 @@ type titleVariant = '32' | '16';
 interface TextProps {
   title?: string;
   titleVariant: titleVariant;
-  mainText: string;
+  mainText?: string;
 }
 
 const Text = ({ title, titleVariant = '16', mainText }: TextProps) => {

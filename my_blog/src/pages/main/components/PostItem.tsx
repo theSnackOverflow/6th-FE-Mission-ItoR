@@ -1,7 +1,7 @@
-import ProfileImage from '../../../components/ProfileImage';
-import Text from '../../../components/Text';
+import { useNavigate } from 'react-router-dom';
 
-import useFormatCreatedAt from '../../../hooks/useFormatCreatedAt';
+import { PostWriter } from './PostWriter';
+import Text from '../../../components/Text';
 
 interface postItemProps {
   postId: string;
@@ -22,8 +22,14 @@ const PostItem = ({
   commentCount,
   imgSrc,
 }: postItemProps) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/post/${postId}`);
+  };
   return (
     <article
+      onClick={handleClick}
       key={postId}
       className="w-full max-w-[688px] min-w-mobile min-h-[150px] py-2 flex justify-between gap-4 border-b border-gray-96 bg-white"
     >
@@ -34,16 +40,12 @@ const PostItem = ({
           titleVariant="16"
           mainText="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt hic et, veniam reprehenderit magnam voluptatum omnis placeat. Praesentium, necessitatibus, voluptatum cupiditate nobis magnam iste, nihil tenetur quos reiciendis perferendis molestiae!"
         />
-        <div className="w-fit h-fit px-4 py-3 flex items-center gap-1.5 text-xs leading-[160%]">
-          <ProfileImage src={profileUrl} size="xs" />
-          {/* 닉네임 */}
-          <p className="text-gray-20 font-normal">{nickName}</p>
-          <div className="flex gap-1.5 text-gray-56 font-light">
-            <p>{useFormatCreatedAt(createdAt)}</p>
-            <p>댓글</p>
-            <p>{commentCount}</p>
-          </div>
-        </div>
+        <PostWriter
+          nickName={nickName}
+          profileUrl={profileUrl}
+          createdAt={createdAt}
+          commentCount={commentCount}
+        />
       </div>
       {/* image */}
       {imgSrc && (

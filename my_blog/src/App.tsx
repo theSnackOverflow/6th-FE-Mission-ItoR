@@ -14,28 +14,19 @@ import {
   TestForTextField,
   TestForToast,
 } from './pages/test/index';
-import { MainPage } from './pages';
 
-// ? test pages 라우팅
-// import TestForToast from './pages/test/TestForToast';
-// import TestForMenu from './pages/test/TestForMenu';
-// import TestForDropdown from './pages/test/TestForDropdown';
-// import TestForModal from './pages/test/TestForModal';
-// import TestForText from './pages/test/TestForText';
-// import TestForBlank from './pages/test/TestForBlank';
-// import TestForDevider from './pages/test/TestForDevider';
-// import TestForTextField from './pages/test/TestForTextField';
-// import TestForProfileImage from './pages/test/TestForProfileImage';
-// import TestForButton from './pages/test/TestForButton';
-// import TestForPagination from './pages/test/TestForPagination';
-// import TestForHeader from './pages/test/TestForHeader';
-// import TestForProfileSidebar from './pages/test/TestForProfileSidebar';
+import { MainPage } from './pages';
+import PostDetail from './pages/post/PostDetail';
+import { Layout } from './components/Layout';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* <Route element={<Layout />}> */}
         <Route path="/" element={<MainPage />} />
+        <Route path="/post/:postId" element={<PostDetail />} />
+        {/* </Route> */}
 
         {/* Test Pages */}
         <Route path="/test/toast" element={<TestForToast />} />
