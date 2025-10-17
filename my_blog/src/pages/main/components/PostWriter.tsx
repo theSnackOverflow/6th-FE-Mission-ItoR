@@ -5,7 +5,7 @@ type postWriterProps = {
   profileUrl?: string;
   nickName: string;
   createdAt: string;
-  commentCount: number;
+  commentCount: number | undefined;
 };
 
 const PostWriter = ({

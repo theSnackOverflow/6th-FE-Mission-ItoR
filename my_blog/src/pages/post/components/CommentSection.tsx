@@ -1,7 +1,7 @@
 import Blank from '../../../components/Blank';
 
 interface commentSectionProps {
-  commentCount: number;
+  commentCount: number | undefined;
 }
 
 const CommentSection = ({ commentCount }: commentSectionProps) => {
@@ -45,7 +45,13 @@ const CommentSection = ({ commentCount }: commentSectionProps) => {
             ></textarea>
           )}
         </section>
-        <Blank variant="64" />
+
+        <div className="max-[500px]:hidden">
+          <Blank variant="64" />
+        </div>
+        <div className="hidden max-[500px]:block">
+          <Blank variant="32" />
+        </div>
       </section>
     </section>
   );

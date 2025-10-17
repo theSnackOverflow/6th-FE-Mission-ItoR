@@ -11,6 +11,223 @@ export const mockData = [
       },
       {
         contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=101',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content:
+          '리팩토링 결과, 컴포넌트 재사용성과 상태 추적이 크게 개선되었습니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 4,
+        content:
+          'React 상태 관리 리팩토링 과정을 정리했습니다. useReducer와 Context API를 함께 사용하여 코드 구조를 개선하고 성능을 높이는 방법을 다뤘습니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 5,
+        content: 'https://picsum.photos/800/400?random=101',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 6,
+        content:
+          '리팩토링 결과, 컴포넌트 재사용성과 상태 추적이 크게 개선되었습니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 7,
+        content:
+          'React 상태 관리 리팩토링 과정을 정리했습니다. useReducer와 Context API를 함께 사용하여 코드 구조를 개선하고 성능을 높이는 방법을 다뤘습니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 8,
+        content: 'https://picsum.photos/800/400?random=101',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 9,
+        content:
+          '리팩토링 결과, 컴포넌트 재사용성과 상태 추적이 크게 개선되었습니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 10,
+        content:
+          'React 상태 관리 리팩토링 과정을 정리했습니다. useReducer와 Context API를 함께 사용하여 코드 구조를 개선하고 성능을 높이는 방법을 다뤘습니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 11,
+        content: 'https://picsum.photos/800/400?random=101',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 12,
+        content:
+          '리팩토링 결과, 컴포넌트 재사용성과 상태 추적이 크게 개선되었습니다.',
+        contentType: 'TEXT',
+      },
+    ],
+    nickName: 'codewanderer',
+    profileUrl: 'https://picsum.photos/seed/profile101/100/100',
+    isOwner: true,
+    createdAt: '2025-10-16T09:30:00Z',
+    comments: [
+      {
+        commentId: 1,
+        content: 'useReducer랑 Context 같이 쓰면 진짜 깔끔하네요!',
+        nickName: 'reactfan',
+        profileUrl: 'https://picsum.photos/seed/profile102/80/80',
+        createdAt: '2025-10-16T10:00:00Z',
+        isOwner: false,
+      },
+    ],
+    introduction: '안녕하세요. 리액트 상태 관리를 공부하는 개발자입니다.',
+  },
+  {
+    postId: '9f4b2d6e-1a23-4e8c-93e7-f4d8a1b7c5f6',
+    title: 'Next.js 15 새 기능 정리',
+    contents: [
+      {
+        contentOrder: 1,
+        content:
+          'Next.js 15 버전에서 추가된 주요 기능들을 소개합니다. 서버 컴포넌트와 향상된 라우팅 시스템 등 개발 생산성을 높이는 업데이트를 다뤘습니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=102',
+        contentType: 'IMAGE',
+      },
+    ],
+    nickName: 'techwhisper',
+    profileUrl: 'https://picsum.photos/seed/profile103/100/100',
+    isOwner: false,
+    createdAt: '2025-10-15T14:20:00Z',
+    comments: [
+      {
+        commentId: 2,
+        content: '흥미로운 업데이트네요!',
+        nickName: 'nextlover',
+        profileUrl: 'https://picsum.photos/seed/profile104/80/80',
+        createdAt: '2025-10-15T15:10:00Z',
+        isOwner: false,
+      },
+    ],
+    introduction: 'Next.js와 풀스택 개발을 좋아합니다.',
+  },
+  {
+    postId: 'f1a2b3c4-d5e6-7f89-a0b1-c2d3e4f5a6b7',
+    title: 'Tailwind로 다크모드 토글 구현하기',
+    contents: [
+      {
+        contentOrder: 1,
+        content:
+          'Tailwind CSS를 활용하여 다크모드 토글 기능을 구현하는 방법을 설명합니다. 간단한 클래스 토글로 사용자 경험을 향상시키는 팁을 공유합니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=103',
+        contentType: 'IMAGE',
+      },
+    ],
+    nickName: 'frontendowl',
+    profileUrl: 'https://picsum.photos/seed/profile105/100/100',
+    isOwner: false,
+    createdAt: '2025-10-14T22:10:00Z',
+    comments: [
+      {
+        commentId: 3,
+        content: '이 기능 덕분에 UI가 훨씬 부드러워졌어요!',
+        nickName: 'darkmodefan',
+        profileUrl: 'https://picsum.photos/seed/profile106/80/80',
+        createdAt: '2025-10-14T23:00:00Z',
+        isOwner: false,
+      },
+    ],
+    introduction: 'Tailwind CSS와 UI 테마 전환을 좋아합니다.',
+  },
+  {
+    postId: '0c1a2b3c-4d5e-6f78-9012-a3b4c5d6e7f8',
+    title: 'TanStack Query로 무한 스크롤 구현 후기',
+    contents: [
+      {
+        contentOrder: 1,
+        content:
+          'TanStack Query를 사용해 무한 스크롤을 구현한 경험을 공유합니다. 데이터 페칭 최적화와 사용자 인터랙션 개선 방법을 중심으로 설명했습니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=104',
+        contentType: 'IMAGE',
+      },
+    ],
+    nickName: 'devstorm',
+    profileUrl: 'https://picsum.photos/seed/profile107/100/100',
+    isOwner: false,
+    createdAt: '2025-10-13T08:50:00Z',
+    comments: [
+      {
+        commentId: 4,
+        content: '실제로 구현해보니 반응 속도가 놀랄 정도로 좋아졌어요!',
+        nickName: 'querylover',
+        profileUrl: 'https://picsum.photos/seed/profile108/80/80',
+        createdAt: '2025-10-13T09:30:00Z',
+        isOwner: false,
+      },
+    ],
+    introduction: '데이터 페칭과 상태 관리를 중시합니다.',
+  },
+  {
+    postId: 'a9b8c7d6-e5f4-3210-b1a2-c3d4e5f6a7b8',
+    title: 'TypeScript 제네릭 쉽게 이해하기',
+    contents: [
+      {
+        contentOrder: 1,
+        content:
+          'TypeScript 제네릭 개념을 쉽게 풀어 설명했습니다. 재사용 가능한 타입 작성법과 실무 예제를 통해 이해를 도왔습니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=105',
+        contentType: 'IMAGE',
+      },
+    ],
+    nickName: 'bytehunter',
+    profileUrl: 'https://picsum.photos/seed/profile109/100/100',
+    isOwner: false,
+    createdAt: '2025-10-12T19:00:00Z',
+    comments: [
+      {
+        commentId: 5,
+        content: '제네릭 개념이 훨씬 명확해졌어요!',
+        nickName: 'genericfan',
+        profileUrl: 'https://picsum.photos/seed/profile110/80/80',
+        createdAt: '2025-10-12T20:10:00Z',
+        isOwner: false,
+      },
+    ],
+    introduction: '타입스크립트를 사랑하는 개발자.',
+  },
+  {
+    postId: 'b6a7c1e2-45f3-4a89-b8c1-df0a9e4c5b32',
+    title: '오늘의 개발 일기: React 상태 관리 리팩토링',
+    contents: [
+      {
+        contentOrder: 1,
+        content:
+          'React 상태 관리 리팩토링 과정을 정리했습니다. useReducer와 Context API를 함께 사용하여 코드 구조를 개선하고 성능을 높이는 방법을 다뤘습니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
         content: '/images/react-refactor-example.png',
         contentType: 'IMAGE',
       },

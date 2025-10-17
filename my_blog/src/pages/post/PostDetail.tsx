@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { mockData } from '../main/components/mockData';
 
 import Blank from '../../components/Blank';
 import Text from '../../components/Text';
@@ -9,6 +8,8 @@ import Devider from '../../components/Devider';
 import CommentSection from './components/CommentSection';
 import Footer from '../../components/Footer';
 
+import { mockData } from '../main/components/mockData';
+
 const PostDetail = () => {
   const navigate = useNavigate();
   const { postId } = useParams();
@@ -16,7 +17,7 @@ const PostDetail = () => {
   return (
     <>
       <Header type="detail" />
-      <div className="h-screen flex flex-col justify-center">
+      <div className="h-fit flex flex-col justify-center">
         <main className="w-full h-full flex justify-center">
           {!post ? (
             <article className="w-full h-fit flex justify-center py-10">
@@ -45,7 +46,34 @@ const PostDetail = () => {
                 />
               </header>
               {/* 내용 */}
-              <article>{post.contents?.map(item)}</article>
+              <article className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col">
+                <Blank variant="20" />
+
+                {post.contents?.map((item) => {
+                  if (item.contentType === 'TEXT') {
+                    return (
+                      <p
+                        key={item.contentOrder}
+                        className="min-w-mobile px-4 py-3 text-sm font-light text-gray-20 leading-[160%] whitespace-pre-line"
+                      >
+                        {item.content}
+                      </p>
+                    );
+                  }
+                  if (item.contentType === 'IMAGE') {
+                    return (
+                      <img
+                        key={item.contentOrder}
+                        src={item.content}
+                        alt={`post-image-${item.contentOrder}`}
+                        className="min-w-mobile px-4 py-3 w-full h-full"
+                      />
+                    );
+                  }
+                })}
+
+                <Blank variant="20" />
+              </article>
             </article>
           )}
         </main>
