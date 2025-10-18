@@ -20,7 +20,7 @@ interface HeaderProps {
   offsetTop?: number; //? 헤더 순서 지정
   onPost?: () => void;
   onAddImage?: () => void;
-  onDeleteClick: () => void;
+  onDeleteClick?: () => void;
 }
 
 const Header = ({

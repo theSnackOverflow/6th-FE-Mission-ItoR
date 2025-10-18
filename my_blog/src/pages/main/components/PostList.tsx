@@ -1,4 +1,6 @@
+import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
+
 import Blank from '../../../components/Blank';
 import Pagination from '../../../components/Pagination/Pagination';
 import { PostItem } from './PostItem';
@@ -22,7 +24,7 @@ const PostList = () => {
         <Blank />
         {currentPosts.map((post) => (
           <PostItem
-            key={post.postId}
+            key={`${post.postId} - ${uuidv4()}`}
             {...post}
             commentCount={post.comments?.length || 0}
           />

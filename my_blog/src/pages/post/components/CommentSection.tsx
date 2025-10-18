@@ -1,7 +1,9 @@
 import clsx from 'clsx';
+import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
+
 import Blank from '../../../components/Blank';
 import { PostWriter } from '../../main/components/PostWriter';
-import { useState } from 'react';
 import CommentItem from './CommentItem';
 
 import { mockData } from '../../../const/mockData';
@@ -48,7 +50,7 @@ const CommentSection = ({ commentCount }: commentSectionProps) => {
               {mockData
                 .map((item) =>
                   (item.comments ?? []).map((c) => (
-                    <CommentItem key={c.commentId} {...c} />
+                    <CommentItem key={`${c.commentId} - ${uuidv4()}`} {...c} />
                   )),
                 )
                 .flat()}
