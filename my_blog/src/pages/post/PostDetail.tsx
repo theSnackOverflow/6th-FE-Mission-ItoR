@@ -17,7 +17,7 @@ const PostDetail = () => {
   return (
     <>
       <Header type="detail" />
-      <div className="h-fit flex flex-col justify-center">
+      <div className="mt-16  h-fit flex flex-col justify-center">
         <main className="w-full h-full flex justify-center">
           {!post ? (
             <article className="w-full h-fit flex justify-center py-10">

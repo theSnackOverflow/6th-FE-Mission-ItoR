@@ -160,8 +160,13 @@ const PostNew = () => {
 
   return (
     <>
-      <Header type="write" onPost={handlePostClick} />
-      <Header type="file" addImg={true} onAddImage={handleAddImageClick}>
+      <Header type="write" onPost={handlePostClick} offsetTop={0} />
+      <Header
+        type="file"
+        addImg={true}
+        onAddImage={handleAddImageClick}
+        offsetTop={73}
+      >
         <input
           type="file"
           accept="image/*"
@@ -172,7 +177,7 @@ const PostNew = () => {
         />
       </Header>
 
-      <main className="w-full flex flex-col items-center relative">
+      <main className="mt-32  w-full flex flex-col items-center relative">
         {/* 제목 */}
         <header className="w-full max-w-[688px] min-w-mobile h-fit py-2">
           <Blank variant="32" />

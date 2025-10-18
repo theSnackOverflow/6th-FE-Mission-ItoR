@@ -15,6 +15,7 @@ interface HeaderProps {
   children?: React.ReactNode;
   onPost?: () => void;
   onAddImage?: () => void;
+  offsetTop?: number; //? 헤더 순서 지정
 }
 
 const Header = ({
@@ -24,11 +25,15 @@ const Header = ({
   onAddImage,
   children,
   onPost,
+  offsetTop = 0,
 }: HeaderProps) => {
   const navigate = useNavigate();
 
   return type !== 'file' ? (
-    <nav className=" max-w-full h-[72px] px-3 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px] min-w-mobile">
+    <nav
+      className="fixed top-0 left-0 right-0 px-3 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px] min-w-mobile"
+      style={{ zIndex: 50, top: offsetTop }}
+    >
       <div className="flex justify-between items-center">
         <div className="flex justify-center items-center ">
           <MenuIcon
@@ -84,7 +89,10 @@ const Header = ({
       {children}
     </nav>
   ) : (
-    <nav className="w-full min-w-mobile h-fit px-4 py-3 flex justify-center items-center bg-white opacity-90 backdrop-blur-[2px]">
+    <nav
+      className="fixed top-0 left-0 right-0 w-full h-fit px-4 py-3 flex justify-center items-center bg-white opacity-90 backdrop-blur-[2px]"
+      style={{ zIndex: 50, top: offsetTop }}
+    >
       <div className="flex gap-8">
         {addImg && (
           <button
