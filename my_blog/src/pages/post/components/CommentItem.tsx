@@ -22,7 +22,7 @@ const CommentItem = ({
   return (
     <article
       key={commentId}
-      className="w-full max-w-[688px] min-w-mobile flex flex-col justify-center border"
+      className="w-full max-w-[688px] min-w-mobile flex flex-col justify-center"
     >
       <section className="pl-4 py-3 flex items-center">
         <div className="flex gap-2.5 flex-1">

@@ -110,16 +110,7 @@ export const mockData = [
     profileUrl: 'https://picsum.photos/seed/profile103/100/100',
     isOwner: false,
     createdAt: '2025-10-15T14:20:00Z',
-    comments: [
-      {
-        commentId: 2,
-        content: '흥미로운 업데이트네요!',
-        nickName: 'nextlover',
-        profileUrl: 'https://picsum.photos/seed/profile104/80/80',
-        createdAt: '2025-10-15T15:10:00Z',
-        isOwner: false,
-      },
-    ],
+    comments: [],
     introduction: 'Next.js와 풀스택 개발을 좋아합니다.',
   },
   {

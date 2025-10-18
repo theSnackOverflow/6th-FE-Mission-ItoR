@@ -102,6 +102,8 @@ const PostNew = () => {
         ...after,
       ];
     });
+
+    e.target.value = '';
   };
 
   const handleTextChange = (id: string, value: string) => {
