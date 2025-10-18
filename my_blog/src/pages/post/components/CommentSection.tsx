@@ -1,18 +1,31 @@
+import { useState } from 'react';
 import clsx from 'clsx';
 import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
 
 import Blank from '../../../components/Blank';
 import { PostWriter } from '../../main/components/PostWriter';
 import CommentItem from './CommentItem';
 
-import { mockData } from '../../../const/mockData';
-
-interface commentSectionProps {
-  commentCount: number | undefined;
+interface CommentType {
+  commentId: number;
+  content: string;
+  nickName: string;
+  profileUrl: string;
+  createdAt: string;
+  isOwner?: boolean;
 }
 
-const CommentSection = ({ commentCount }: commentSectionProps) => {
+interface commentSectionProps {
+  comments: CommentType[];
+  commentCount?: number;
+  onDeleteComment: (commentId: number) => void;
+}
+
+const CommentSection = ({
+  comments,
+  commentCount = comments.length,
+  onDeleteComment,
+}: commentSectionProps) => {
   const [text, setText] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -20,8 +33,6 @@ const CommentSection = ({ commentCount }: commentSectionProps) => {
   };
 
   const isEmpty = text.trim().length === 0;
-
-  commentCount = 12; //! 테스트용 재할당
 
   const isLoggedIn: boolean = true; //! 테스트용 선언
 
@@ -39,7 +50,7 @@ const CommentSection = ({ commentCount }: commentSectionProps) => {
         {/* 댓글 목록 */}
         {/* CommentList.tsx 분리 예정 */}
         <section>
-          {commentCount === 0 ? (
+          {comments.length === 0 ? (
             <div className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col justify-center items-center px-4 py-3 text-sm font-light text-gray-78 leading-[160%]">
               <p>작성된 댓글이 없습니다.</p>
               <p>응원의 첫 번째 댓글을 달아주세요.</p>
@@ -47,13 +58,13 @@ const CommentSection = ({ commentCount }: commentSectionProps) => {
           ) : (
             //! 임시
             <div className="flex flex-col gap-2.5">
-              {mockData
-                .map((item) =>
-                  (item.comments ?? []).map((c) => (
-                    <CommentItem key={`${c.commentId} - ${uuidv4()}`} {...c} />
-                  )),
-                )
-                .flat()}
+              {comments.map((c) => (
+                <CommentItem
+                  key={`${c.commentId} - ${uuidv4()}`}
+                  onDelete={() => onDeleteComment(c.commentId)}
+                  {...c}
+                />
+              ))}
             </div>
           )}
         </section>

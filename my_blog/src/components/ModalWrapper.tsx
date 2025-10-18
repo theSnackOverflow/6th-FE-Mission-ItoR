@@ -33,7 +33,12 @@ export default function ModalWrapper({
         if (closeOnOutsideClick) onClose();
       }}
     >
-      {children}
+      <div
+        className="max-w-[90%] max-h-[90%] overflow-auto flex justify-center items-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {children}
+      </div>
     </div>
   );
 }

@@ -17,24 +17,40 @@ const PostDetail = () => {
   const navigate = useNavigate();
   const { postId } = useParams();
 
-  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [showDeletePostModal, setShowDeletePostModal] =
+    useState<boolean>(false);
+  const [showDeleteCommentModal, setShowDeleteCommentModal] =
+    useState<boolean>(false);
+  const [targetCommentId, setTargetCommentId] = useState<number | null>(null);
+
   const [posts, setPosts] = useState(mockData);
+
+  const post = posts.find((item) => item.postId === postId);
+
+  const [comments, setComments] = useState(post?.comments || []);
 
   // todo 현재 로컬 상태(useState) 관리 -> 새로고침하면 파일 변화 X
   // todo 추후 api 연동할 때, zustand로 전역 상태 관리 예정
 
-  const post = posts.find((item) => item.postId === postId);
-
   const handleDeletePost = () => {
     const updatedPosts = posts.filter((item) => item.postId !== postId);
     setPosts(updatedPosts);
-    setShowDeleteModal(false);
+    setShowDeletePostModal(false);
     navigate('/', { state: { showSuccess: true } });
+  };
+
+  const handleDeleteComment = (commentId: number) => {
+    setComments((prev) => prev.filter((c) => c.commentId !== commentId));
+    setShowDeleteCommentModal(false);
+    setTargetCommentId(null);
   };
 
   return (
     <>
-      <Header type="detail" onDeleteClick={() => setShowDeleteModal(true)} />
+      <Header
+        type="detail"
+        onDeleteClick={() => setShowDeletePostModal(true)}
+      />
       <div className="mt-16  h-fit flex flex-col justify-center">
         <main className="w-full h-full flex justify-center">
           {!post ? (
@@ -99,21 +115,45 @@ const PostDetail = () => {
         <div className="w-full flex flex-col justify-center">
           <Devider />
           {/* 댓글 */}
-          {post && <CommentSection commentCount={post.commentCount || 0} />}
+          {post && (
+            <CommentSection
+              comments={comments}
+              commentCount={post?.commentCount}
+              onDeleteComment={(commentId) => {
+                setTargetCommentId(commentId);
+                setShowDeleteCommentModal(true);
+              }}
+            />
+          )}
 
           <Footer />
         </div>
       </div>
-      {showDeleteModal && (
+      {showDeletePostModal && (
         <ModalWrapper
-          isOpen={showDeleteModal}
-          onClose={() => setShowDeleteModal(false)}
+          isOpen={showDeletePostModal}
+          onClose={() => setShowDeletePostModal(false)}
         >
           <Modal
             title={'해당 블로그를 삭제하시겠어요?'}
             des={'삭제된 블로그는 다시 확인할 수 없어요.'}
             onDelete={handleDeletePost}
-            onClose={() => setShowDeleteModal(false)}
+            onClose={() => setShowDeletePostModal(false)}
+          />
+        </ModalWrapper>
+      )}
+      {showDeleteCommentModal && (
+        <ModalWrapper
+          isOpen={showDeleteCommentModal}
+          onClose={() => setShowDeleteCommentModal(false)}
+        >
+          <Modal
+            title={'댓글을 삭제하시겠어요?'}
+            onDelete={() => {
+              if (targetCommentId !== null)
+                handleDeleteComment(targetCommentId);
+            }}
+            onClose={() => setShowDeleteCommentModal(false)}
           />
         </ModalWrapper>
       )}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import Blank from '../../../components/Blank';
 import ProfileImage from '../../../components/ProfileImage';
@@ -6,15 +6,14 @@ import useFormatCreatedAt from '../../../hooks/useFormatCreatedAt';
 import MenuIcon from '../../../assets/icons/more_vert.svg?react';
 import DropdownMenu from '../../../components/DropdownMenu';
 
-import { mockData } from '../../../const/mockData';
-
-interface commentItemProps {
-  commentId: number;
-  content: string;
-  nickName: string;
-  profileUrl: string;
+export interface CommentItemProps {
+  commentId?: number;
+  content?: string;
+  nickName?: string;
+  profileUrl?: string;
   createdAt: string;
   isOwner?: boolean;
+  onDelete: (commentId?: number) => void;
 }
 
 const CommentItem = ({
@@ -23,15 +22,14 @@ const CommentItem = ({
   nickName,
   profileUrl,
   createdAt,
-}: commentItemProps) => {
+  onDelete,
+}: CommentItemProps) => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const handleDeleteComment = () => {
-    mockData.forEach((post) => {
-      post.comments = post.comments?.filter(
-        (comment) => comment.commentId !== commentId,
-      );
-    });
+    onDelete(commentId);
     setShowDropdown(false);
   };
 
@@ -42,6 +40,22 @@ const CommentItem = ({
       onClick: handleDeleteComment,
     },
   ];
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        triggerRef.current &&
+        !dropdownRef.current.contains(e.target as Node) &&
+        !triggerRef.current.contains(e.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    window.addEventListener('mousedown', handleClickOutside);
+    return () => window.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <article
@@ -62,12 +76,14 @@ const CommentItem = ({
           </div>
         </div>
         <button
-          onClick={() => {
+          ref={triggerRef}
+          onClick={(e) => {
+            e.stopPropagation();
             setShowDropdown((prev) => !prev);
           }}
           className="w-10 h-10 p-2"
         >
-          <MenuIcon className="text-gray-20" />
+          <MenuIcon className="others-icon text-gray-20" />
         </button>
       </section>
       <div className="ml-[26px] px-4 py-3 text-sm font-light text-gray-20 whitespace-pre-line leading-[160%]">
@@ -77,10 +93,9 @@ const CommentItem = ({
       <Blank variant="20" />
       {/* 드롭다운 */}
       {showDropdown && (
-        <DropdownMenu
-          className={'dropdown-menu top-13 right-1.5'}
-          menuItems={menuItems}
-        />
+        <div ref={dropdownRef} className="dropdown-menu">
+          <DropdownMenu className={'top-13 right-1.5'} menuItems={menuItems} />
+        </div>
       )}
     </article>
   );
