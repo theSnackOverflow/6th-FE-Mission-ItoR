@@ -1,8 +1,10 @@
+import { useState, useRef, useEffect, useCallback } from 'react';
+
 import Blank from '../../components/Blank';
 import Devider from '../../components/Devider';
 import Header from '../../components/Header';
 import Menu from '../../components/Menu';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import Toast from '../../components/Toast';
 
 type ContentBlock = {
   id: string;
@@ -22,12 +24,32 @@ const PostNew = () => {
     left: number;
   } | null>(null);
 
+  const [toast, setToast] = useState<{
+    show: boolean;
+    message: string;
+    variant: 'success' | 'error';
+  }>({
+    show: false,
+    message: '',
+    variant: 'success',
+  });
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const setImageRef = useCallback((id: string, el: HTMLDivElement | null) => {
     imageRefs.current[id] = el;
   }, []);
+
+  const handlePostClick = () => {
+    if (contents.length === 0 || contents.every((c) => !c.value.trim())) {
+      setToast({
+        show: true,
+        message: '내용을 입력해주세요',
+        variant: 'error',
+      });
+    }
+  };
 
   const handleAutoHeight = (e: React.FormEvent<HTMLTextAreaElement>) => {
     const target = e.currentTarget;
@@ -121,7 +143,7 @@ const PostNew = () => {
 
   return (
     <>
-      <Header type="write" />
+      <Header type="write" onPost={handlePostClick} />
       <Header type="file" addImg={true} onAddImage={handleAddImageClick}>
         <input
           type="file"
@@ -162,7 +184,7 @@ const PostNew = () => {
                   onFocus={() => setFocusedIndex(index)}
                   onInput={handleAutoHeight}
                   placeholder="어떤 것을 깨달았나요?"
-                  className="w-full text-sm font-light text-gray-20 border-none resize-none overflow-hidden placeholder:text-gray-56"
+                  className="w-full px-4 py-3 text-sm font-light text-gray-20 border-none resize-none overflow-hidden placeholder:text-gray-56"
                 />
               ) : (
                 <div
@@ -177,7 +199,7 @@ const PostNew = () => {
                   <img
                     src={block.value}
                     alt={`uploaded-${index}`}
-                    className="w-full h-auto rounded-md cursor-pointer"
+                    className="w-full h-auto px-4 py-3 rounded-md border border-point cursor-pointer"
                   />
                 </div>
               ),
@@ -193,6 +215,16 @@ const PostNew = () => {
           onDelete={handleDeleteImage}
           onClose={() => setIsMenuOpen(false)}
         />
+      )}
+      {toast.show && (
+        <div className="fixed top-1/12 left-1/2 -translate-x-1/2 z-50">
+          <Toast
+            size="lg"
+            variant={toast.variant}
+            message={toast.message}
+            onClose={() => setToast((prev) => ({ ...prev, show: false }))}
+          />
+        </div>
       )}
     </>
   );

@@ -12,8 +12,9 @@ interface HeaderProps {
   type?: headerType;
   addImg?: boolean;
   addFile?: boolean;
-  onAddImage?: () => void;
   children?: React.ReactNode;
+  onPost?: () => void;
+  onAddImage?: () => void;
 }
 
 const Header = ({
@@ -22,6 +23,7 @@ const Header = ({
   addFile,
   onAddImage,
   children,
+  onPost,
 }: HeaderProps) => {
   const navigate = useNavigate();
 
@@ -63,7 +65,7 @@ const Header = ({
           </button>
         )}
         {type === 'write' && (
-          <button className="w-fit h-fit flex items-center" onClick={() => {}}>
+          <div className="w-fit h-fit flex items-center">
             <button
               className="w-[76px] h-fit px-3 py-2 text-sm font-normal text-negative "
               onClick={() => {}}
@@ -72,11 +74,11 @@ const Header = ({
             </button>
             <button
               className="w-[76px] h-fit px-3 py-2 text-sm font-normal text-black"
-              onClick={() => {}}
+              onClick={onPost}
             >
               게시하기
             </button>
-          </button>
+          </div>
         )}
       </div>
       {children}

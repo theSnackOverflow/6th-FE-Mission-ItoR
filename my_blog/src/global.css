@@ -33,9 +33,9 @@ button {
 }
 
 @theme {
-  --minWidth-mobile: '390px';
-  --breakpoint-mobile: '390px';
-  --breakpoint-500: '500px'; /* 500px 이하일 반응형 대응 */
+  --minWidth-mobile: 390px;
+  --breakpoint-mobile: 390px;
+  --breakpoint-500: 500px; /* 500px 이하일 반응형 대응 */
 
   --font-notosans: 'NotoSansKR', sans-serif;
   --font-roboto: 'Roboto', cursive;
@@ -61,6 +61,28 @@ button {
   --color-neutral-1: #ffffff;
   --color-neutral-3: #f5f5f5;
   --color-neutral-5: #d9d9d9;
+}
+
+@layer utilities {
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-4px);
+    }
+    50% {
+      transform: translateX(4px);
+    }
+    75% {
+      transform: translateX(-2px);
+    }
+  }
+
+  .animate-shake {
+    animation: shake 0.4s ease-in-out;
+  }
 }
 
 html,
