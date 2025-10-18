@@ -10,8 +10,10 @@ import CommentSection from './components/CommentSection';
 import Footer from '../../components/Footer';
 import ModalWrapper from '../../components/ModalWrapper';
 
-import { mockData } from '../../const/mockData';
+import Toast from '../../components/Toast';
 import Modal from '../../components/Modal';
+
+import { mockData } from '../../const/mockData';
 
 const PostDetail = () => {
   const navigate = useNavigate();
@@ -29,6 +31,8 @@ const PostDetail = () => {
 
   const [comments, setComments] = useState(post?.comments || []);
 
+  const [showToast, setShowToast] = useState(false);
+
   // todo 현재 로컬 상태(useState) 관리 -> 새로고침하면 파일 변화 X
   // todo 추후 api 연동할 때, zustand로 전역 상태 관리 예정
 
@@ -43,10 +47,21 @@ const PostDetail = () => {
     setComments((prev) => prev.filter((c) => c.commentId !== commentId));
     setShowDeleteCommentModal(false);
     setTargetCommentId(null);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 2500);
   };
 
   return (
     <>
+      {showToast && (
+        <div className="fixed top-20 left-1/2 w-full flex justify-center -translate-x-1/2 z-[9999]">
+          <Toast
+            variant="success"
+            message="삭제가 완료되었습니다!"
+            onClose={() => setShowToast(false)}
+          />
+        </div>
+      )}
       <Header
         type="detail"
         onDeleteClick={() => setShowDeletePostModal(true)}
@@ -118,7 +133,7 @@ const PostDetail = () => {
           {post && (
             <CommentSection
               comments={comments}
-              commentCount={post?.commentCount}
+              commentCount={post.commentCount}
               onDeleteComment={(commentId) => {
                 setTargetCommentId(commentId);
                 setShowDeleteCommentModal(true);
