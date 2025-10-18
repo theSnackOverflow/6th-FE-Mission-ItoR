@@ -12,9 +12,17 @@ interface HeaderProps {
   type?: headerType;
   addImg?: boolean;
   addFile?: boolean;
+  onAddImage?: () => void;
+  children?: React.ReactNode;
 }
 
-const Header = ({ type, addImg, addFile }: HeaderProps) => {
+const Header = ({
+  type,
+  addImg,
+  addFile,
+  onAddImage,
+  children,
+}: HeaderProps) => {
   const navigate = useNavigate();
 
   return type !== 'file' ? (
@@ -71,6 +79,7 @@ const Header = ({ type, addImg, addFile }: HeaderProps) => {
           </button>
         )}
       </div>
+      {children}
     </nav>
   ) : (
     <nav className="w-full min-w-mobile h-fit px-4 py-3 flex justify-center items-center bg-white opacity-90 backdrop-blur-[2px]">
@@ -78,7 +87,7 @@ const Header = ({ type, addImg, addFile }: HeaderProps) => {
         {addImg && (
           <button
             className="px-2 pt-0.5 pb-1 flex items-center gap-1 text-gray-56"
-            onClick={() => {}}
+            onClick={onAddImage}
           >
             <AddPhotoIcon className="w-3.5 h-3.5" />
             <p className="font-normal text-xs">사진 추가하기</p>
@@ -94,6 +103,7 @@ const Header = ({ type, addImg, addFile }: HeaderProps) => {
           </button>
         )}
       </div>
+      {children}
     </nav>
   );
 };
