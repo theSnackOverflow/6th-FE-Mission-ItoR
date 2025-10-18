@@ -40,8 +40,8 @@ export default function Toast({
     setIsVisible(true);
     if (!onClose) return;
 
-    const hideTimer = setTimeout(() => setIsVisible(false), 1000);
-    const closeTimer = setTimeout(onClose, 1500);
+    const hideTimer = setTimeout(() => setIsVisible(false), 2000);
+    const closeTimer = setTimeout(onClose, 2500);
 
     return () => {
       clearTimeout(hideTimer);

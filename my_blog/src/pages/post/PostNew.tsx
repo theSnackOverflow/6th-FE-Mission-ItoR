@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+// import { useNavigate } from 'react-router-dom'; // ! UI 우선 구현 -> API 연동 시 추후 수정
 
 import Blank from '../../components/Blank';
 import Devider from '../../components/Devider';
@@ -13,6 +14,9 @@ type ContentBlock = {
 };
 
 const PostNew = () => {
+  // const navigate = useNavigate(); // ! UI 우선 구현 -> API 연동 시 추후 수정
+
+  const [title, setTitle] = useState('');
   const [contents, setContents] = useState<ContentBlock[]>([
     { id: crypto.randomUUID(), type: 'TEXT', value: '' },
   ]);
@@ -42,13 +46,24 @@ const PostNew = () => {
   }, []);
 
   const handlePostClick = () => {
-    if (contents.length === 0 || contents.every((c) => !c.value.trim())) {
+    const hasContent = contents.some((c) => c.value.trim());
+    const hasTitle = title.trim().length > 0;
+
+    if (!hasTitle || !hasContent) {
       setToast({
         show: true,
         message: '내용을 입력해주세요',
         variant: 'error',
       });
+      return;
     }
+
+    setToast({
+      show: true,
+      message: '저장되었습니다!',
+      variant: 'success',
+    });
+    // navigate('/'); // ! UI 우선 구현 -> API 연동 시 추후 수정
   };
 
   const handleAutoHeight = (e: React.FormEvent<HTMLTextAreaElement>) => {
@@ -162,8 +177,10 @@ const PostNew = () => {
           <div className="w-full px-3 py-3">
             <textarea
               rows={1}
-              className="w-full text-2xl font-medium text-black leading-[160%] border-none resize-none placeholder:text-base placeholder:font-medium placeholder:text-gray-56"
+              value={title}
               onInput={handleAutoHeight}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full text-2xl font-medium text-black leading-[160%] border-none resize-none placeholder:text-base placeholder:font-medium placeholder:text-gray-56"
               placeholder="제목"
             />
           </div>
