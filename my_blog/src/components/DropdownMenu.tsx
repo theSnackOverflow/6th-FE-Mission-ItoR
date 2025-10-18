@@ -4,13 +4,14 @@ import clsx from 'clsx';
 
 interface dropdownMenuProps {
   className?: string;
+  menuItems: { text: string; className?: string; onClick?: () => void }[];
 }
 
-const DropdownMenu = ({ className }: dropdownMenuProps) => {
+const DropdownMenu = ({ className, menuItems }: dropdownMenuProps) => {
   return (
     <section
       className={clsx(
-        'absolute shadow-[0_2px_8px_0_rgba(0,0,0,0.10)] ',
+        'absolute shadow-[0_2px_8px_0_rgba(0,0,0,0.10)]',
         className,
       )}
     >
@@ -18,9 +19,9 @@ const DropdownMenu = ({ className }: dropdownMenuProps) => {
         <PolygonSVG className="text-white rotate-180" />
       </div>
       <div className="w-40 h-fit py-1 bg-white rounded-sm">
-        <DropdownMenuMaterial text={'menu 1'} />
-        <DropdownMenuMaterial text={'menu 1'} />
-        <DropdownMenuMaterial text={'menu 1'} />
+        {menuItems.map((item, idx) => (
+          <DropdownMenuMaterial key={idx} {...item} />
+        ))}
       </div>
     </section>
   );

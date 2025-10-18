@@ -11,3 +11,4 @@ export * from '../test/TestForProfileSidebar';
 export * from '../test/TestForText';
 export * from '../test/TestForTextField';
 export * from '../test/TestForToast';
+export * from '../test/TestForModalWrapper';

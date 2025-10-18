@@ -32,7 +32,17 @@ const Header = ({
 }: HeaderProps) => {
   const navigate = useNavigate();
 
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  // const [deletePage, setDeletePage] = useState<boolean>(false);
+
+  // const handleDeletePage = () => {
+
+  // }
+
+  const menuItems = [
+    { text: '수정하기', className: 'text-black', onClick: () => {} },
+    { text: '삭제하기', className: 'text-negative', onClick: () => {} },
+  ];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -99,7 +109,10 @@ const Header = ({
         )}
         {/* 드롭다운 */}
         {showDropdown && (
-          <DropdownMenu className={'dropdown-menu top-10 right-1.5'} />
+          <DropdownMenu
+            className={'dropdown-menu top-10 right-1.5'}
+            menuItems={menuItems}
+          />
         )}
         {type === 'write' && (
           <div className="w-fit h-fit flex items-center">
