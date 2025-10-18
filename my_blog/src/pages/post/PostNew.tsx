@@ -1,7 +1,8 @@
 import Blank from '../../components/Blank';
 import Devider from '../../components/Devider';
 import Header from '../../components/Header';
-import { useState, useRef } from 'react';
+import Menu from '../../components/Menu';
+import { useState, useRef, useEffect } from 'react';
 
 type ContentBlock = {
   id: string;
@@ -14,8 +15,15 @@ const PostNew = () => {
     { id: crypto.randomUUID(), type: 'TEXT', value: '' },
   ]);
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedImageId, setSelectedImageId] = useState<string | null>(null);
+  const [menuPosition, setMenuPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const handleAutoHeight = (e: React.FormEvent<HTMLTextAreaElement>) => {
     const target = e.currentTarget;
@@ -61,6 +69,52 @@ const PostNew = () => {
     );
   };
 
+  const handleImageClick = (id: string) => {
+    if (isMenuOpen && selectedImageId === id) {
+      setIsMenuOpen(false);
+      setSelectedImageId(null);
+      return;
+    }
+
+    setSelectedImageId(id);
+    const element = imageRefs.current[id];
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      setMenuPosition({
+        top: rect.top + window.scrollY - 50,
+        left: rect.left + rect.width / 2 - 36,
+      });
+    }
+    setIsMenuOpen(true);
+  };
+
+  const handleDeleteImage = () => {
+    if (!selectedImageId) return;
+    const target = contents.find((block) => block.id === selectedImageId);
+    if (target?.type === 'IMAGE') URL.revokeObjectURL(target.value);
+    setContents((prev) => prev.filter((block) => block.id !== selectedImageId));
+    setIsMenuOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const menuEl = document.querySelector('.menu-popup');
+      if (menuEl && !(menuEl as HTMLElement).contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      contents.forEach((block) => {
+        if (block.type === 'IMAGE') URL.revokeObjectURL(block.value);
+      });
+    };
+  }, [contents]);
+
   return (
     <>
       <Header type="write" />
@@ -75,7 +129,7 @@ const PostNew = () => {
         />
       </Header>
 
-      <main className="w-full flex flex-col items-center">
+      <main className="w-full flex flex-col items-center relative">
         {/* 제목 */}
         <header className="w-full max-w-[688px] min-w-mobile h-fit py-2">
           <Blank variant="32" />
@@ -92,7 +146,7 @@ const PostNew = () => {
         <Devider />
 
         {/* 본문 */}
-        <section className="w-full max-w-[688px] min-w-mobile h-fit">
+        <section className="w-full max-w-[688px] min-w-mobile h-fit relative">
           <Blank variant="20" />
           <div className="w-full h-fit px-4 py-3 flex flex-col gap-4">
             {contents.map((block, index) =>
@@ -107,18 +161,37 @@ const PostNew = () => {
                   className="w-full text-sm font-light text-gray-20 border-none resize-none overflow-hidden placeholder:text-gray-56"
                 />
               ) : (
-                <img
+                <div
                   key={block.id}
-                  src={block.value}
-                  alt={`uploaded-${index}`}
-                  className="w-full h-auto rounded-md"
-                />
+                  ref={(el: HTMLDivElement | null) => {
+                    imageRefs.current[block.id] = el;
+                  }}
+                  className="relative w-full"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleImageClick(block.id);
+                  }}
+                >
+                  <img
+                    src={block.value}
+                    alt={`uploaded-${index}`}
+                    className="w-full h-auto rounded-md cursor-pointer"
+                  />
+                </div>
               ),
             )}
           </div>
           <Blank variant="20" />
         </section>
       </main>
+      {isMenuOpen && menuPosition && (
+        <Menu
+          top={menuPosition.top}
+          left={menuPosition.left}
+          onDelete={handleDeleteImage}
+          onClose={() => setIsMenuOpen(false)}
+        />
+      )}
     </>
   );
 };
