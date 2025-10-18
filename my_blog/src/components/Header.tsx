@@ -6,6 +6,7 @@ import PencleIcon from '../assets/icons/create.svg?react';
 import CommentIcon from '../assets/icons/chat.svg?react';
 import OthersIcon from '../assets/icons/more_vert.svg?react';
 import AddPhotoIcon from '../assets/icons/add_photo_alternate.svg?react';
+
 import AddFileIcon from '../assets/icons/folder_open.svg?react';
 import DropdownMenu from './DropdownMenu';
 
@@ -16,32 +17,33 @@ interface HeaderProps {
   addImg?: boolean;
   addFile?: boolean;
   children?: React.ReactNode;
+  offsetTop?: number; //? 헤더 순서 지정
   onPost?: () => void;
   onAddImage?: () => void;
-  offsetTop?: number; //? 헤더 순서 지정
+  onDeleteClick: () => void;
 }
 
 const Header = ({
   type,
   addImg,
   addFile,
-  onAddImage,
   children,
-  onPost,
   offsetTop = 0,
+  onAddImage,
+  onPost,
+  onDeleteClick,
 }: HeaderProps) => {
   const navigate = useNavigate();
 
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  // const [deletePage, setDeletePage] = useState<boolean>(false);
-
-  // const handleDeletePage = () => {
-
-  // }
 
   const menuItems = [
     { text: '수정하기', className: 'text-black', onClick: () => {} },
-    { text: '삭제하기', className: 'text-negative', onClick: () => {} },
+    {
+      text: '삭제하기',
+      className: 'text-negative',
+      onClick: onDeleteClick,
+    },
   ];
 
   useEffect(() => {

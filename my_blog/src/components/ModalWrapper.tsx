@@ -5,7 +5,6 @@ interface ModalWrapperProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  className?: string;
   closeOnOutsideClick?: boolean;
 }
 
@@ -13,7 +12,6 @@ export default function ModalWrapper({
   isOpen,
   onClose,
   children,
-  className,
   closeOnOutsideClick = true,
 }: ModalWrapperProps) {
   useEffect(() => {
@@ -35,15 +33,7 @@ export default function ModalWrapper({
         if (closeOnOutsideClick) onClose();
       }}
     >
-      <div
-        className={clsx(
-          'bg-white rounded-md shadow-[0_2px_8px_0_rgba(0,0,0,0.10)] p-5 min-w-[320px] relative',
-          className,
-        )}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {children}
-      </div>
+      {children}
     </div>
   );
 }

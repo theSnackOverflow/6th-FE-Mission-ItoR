@@ -4,12 +4,14 @@ interface ModalProps {
   title: string;
   des?: string;
   onClose: () => void;
+  // onDelete: () => void; //! api 연결 시 추후 구현
 }
 
 const Modal = ({
   title = `Title line\nTitle  Two`,
   des = `line one\nlien two`,
   onClose,
+  // onDelete, //! api 연결 시 추후 구현
 }: ModalProps) => {
   return (
     <section className="absolute z-50 w-[326px] h-fit pt-6 pb-4 px-4 bg-white rounded-sm shadow-xl">

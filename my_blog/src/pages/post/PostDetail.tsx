@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Blank from '../../components/Blank';
@@ -7,16 +8,22 @@ import Header from '../../components/Header';
 import Devider from '../../components/Devider';
 import CommentSection from './components/CommentSection';
 import Footer from '../../components/Footer';
+import ModalWrapper from '../../components/ModalWrapper';
 
 import { mockData } from '../../const/mockData';
+import Modal from '../../components/Modal';
 
 const PostDetail = () => {
   const navigate = useNavigate();
   const { postId } = useParams();
+
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+
   const post = mockData.find((item) => item.postId === postId);
+
   return (
     <>
-      <Header type="detail" />
+      <Header type="detail" onDeleteClick={() => setShowDeleteModal(true)} />
       <div className="mt-16  h-fit flex flex-col justify-center">
         <main className="w-full h-full flex justify-center">
           {!post ? (
@@ -86,6 +93,18 @@ const PostDetail = () => {
           <Footer />
         </div>
       </div>
+      {showDeleteModal && (
+        <ModalWrapper
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+        >
+          <Modal
+            title={'해당 블로그를 삭제하시겠어요?'}
+            des={'삭제된 블로그는 다시 확인할 수 없어요.'}
+            onClose={() => setShowDeleteModal(false)}
+          />
+        </ModalWrapper>
+      )}
     </>
   );
 };
