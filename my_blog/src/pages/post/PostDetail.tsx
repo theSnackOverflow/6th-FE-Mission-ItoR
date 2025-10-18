@@ -9,7 +9,6 @@ import Devider from '../../components/Devider';
 import CommentSection from './components/CommentSection';
 import Footer from '../../components/Footer';
 import ModalWrapper from '../../components/ModalWrapper';
-import Toast from '../../components/Toast';
 
 import { mockData } from '../../const/mockData';
 import Modal from '../../components/Modal';
@@ -20,7 +19,6 @@ const PostDetail = () => {
 
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [posts, setPosts] = useState(mockData);
-  const [showToast, setShowToast] = useState<boolean>(false);
 
   // todo 현재 로컬 상태(useState) 관리 -> 새로고침하면 파일 변화 X
   // todo 추후 api 연동할 때, zustand로 전역 상태 관리 예정
@@ -31,9 +29,7 @@ const PostDetail = () => {
     const updatedPosts = posts.filter((item) => item.postId !== postId);
     setPosts(updatedPosts);
     setShowDeleteModal(false);
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), 2500);
-    navigate('/');
+    navigate('/', { state: { showSuccess: true } });
   };
 
   return (
@@ -120,13 +116,6 @@ const PostDetail = () => {
             onClose={() => setShowDeleteModal(false)}
           />
         </ModalWrapper>
-      )}
-      {showToast && (
-        <Toast
-          variant="success"
-          message="게시물이 삭제되었습니다!"
-          onClose={() => setShowToast(false)}
-        />
       )}
     </>
   );

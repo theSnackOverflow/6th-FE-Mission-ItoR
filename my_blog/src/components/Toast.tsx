@@ -30,7 +30,7 @@ export interface ToastProps {
 
 export default function Toast({
   variant = 'success',
-  size = 'md',
+  size = 'lg',
   message,
   onClose,
 }: ToastProps) {
@@ -53,7 +53,7 @@ export default function Toast({
     <>
       <div
         className={clsx(
-          'flex justify-center items-center gap-1 bg-white rounded-full border px-3 py-2 shadow-sm transition-opacity duration-500',
+          'w-fit flex justify-center items-center gap-1 bg-white rounded-full border px-3 py-2 shadow-sm transition-opacity duration-500',
           variantMap[variant],
           sizeMap[size],
           isVisible ? 'opacity-100 animate-shake' : 'opacity-0',

@@ -19,7 +19,7 @@ const PostList = () => {
   const currentPosts = mockData.slice(startIndex, endIndex);
 
   return (
-    <section className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col justify-between">
+    <section className="mt-16 w-full max-w-[688px] min-w-mobile h-fit flex flex-col justify-between">
       <div>
         <Blank />
         {currentPosts.map((post) => (
