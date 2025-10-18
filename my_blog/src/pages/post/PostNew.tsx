@@ -2,7 +2,7 @@ import Blank from '../../components/Blank';
 import Devider from '../../components/Devider';
 import Header from '../../components/Header';
 import Menu from '../../components/Menu';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 type ContentBlock = {
   id: string;
@@ -24,6 +24,10 @@ const PostNew = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  const setImageRef = useCallback((id: string, el: HTMLDivElement | null) => {
+    imageRefs.current[id] = el;
+  }, []);
 
   const handleAutoHeight = (e: React.FormEvent<HTMLTextAreaElement>) => {
     const target = e.currentTarget;
@@ -163,9 +167,7 @@ const PostNew = () => {
               ) : (
                 <div
                   key={block.id}
-                  ref={(el: HTMLDivElement | null) => {
-                    imageRefs.current[block.id] = el;
-                  }}
+                  ref={(el) => setImageRef(block.id, el)}
                   className="relative w-full"
                   onClick={(e) => {
                     e.stopPropagation();
