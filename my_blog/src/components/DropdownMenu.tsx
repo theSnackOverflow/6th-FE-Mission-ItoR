@@ -11,7 +11,7 @@ const DropdownMenu = ({ className, menuItems }: dropdownMenuProps) => {
   return (
     <section
       className={clsx(
-        'absolute shadow-[0_2px_8px_0_rgba(0,0,0,0.10)]',
+        'absolute shadow-[0_2px_16px_0_rgba(0,0,0,0.10)]',
         className,
       )}
     >
