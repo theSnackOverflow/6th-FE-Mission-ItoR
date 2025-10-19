@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import MenuIcon from '../assets/icons/reorder.svg?react';
@@ -39,6 +39,8 @@ const Header = ({
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+
   const menuItems = [
     { text: '수정하기', className: 'text-black', onClick: () => {} },
     {
@@ -66,6 +68,23 @@ const Header = ({
     return () => window.removeEventListener('click', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(e.target as Node)
+      ) {
+        setShowSidebar(false);
+      }
+    };
+    if (showSidebar) {
+      window.addEventListener('click', handleClickOutside);
+    }
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, [showSidebar]);
+
   return type !== 'file' ? (
     <div className="relative">
       <nav
@@ -76,7 +95,8 @@ const Header = ({
           <div className="flex justify-center items-center ">
             <MenuIcon
               className="w-10 h-10 p-2 cursor-pointer"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 setShowSidebar(true);
               }}
             />
@@ -141,7 +161,7 @@ const Header = ({
         {children}
       </nav>
       {showSidebar && (
-        <aside className="fixed top-0 left-0 z-50">
+        <aside ref={sidebarRef} className="fixed top-0 left-0 z-50">
           <ProfileSidebar isLoggedIn={true} />
         </aside>
       )}
