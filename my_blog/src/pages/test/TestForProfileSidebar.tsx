@@ -5,7 +5,7 @@ const TestForProfileSidebar = () => {
     <main className="flex flex-col items-center justify-center h-screen gap-4 bg-[#E2DCFF]">
       <div className="flex gap-10">
         <ProfileSidebar />
-        <ProfileSidebar isLoggined={true} />
+        <ProfileSidebar isLoggedIn={true} />
       </div>
     </main>
   );
