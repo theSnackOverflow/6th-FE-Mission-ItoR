@@ -50,6 +50,7 @@ const ProfileSidebar = ({
                 bgColor="white"
                 fontColor="blue"
                 borderColor="blue"
+                onClick={() => navigate('/mypage')}
               />
               <Button
                 text="깃로그 쓰기"

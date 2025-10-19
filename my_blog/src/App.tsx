@@ -21,6 +21,8 @@ import PostDetail from './pages/post/PostDetail';
 import PostNew from './pages/post/PostNew';
 // import { Layout } from './components/Layout';
 
+import Mypage from './pages/mypage/Mypage';
+
 function App() {
   return (
     <BrowserRouter>
@@ -29,7 +31,8 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/post/:postId" element={<PostDetail />} />
         <Route path="/post/new" element={<PostNew />} />
-        {/* </Route> */}
+
+        <Route path="/mypage" element={<Mypage />} />
 
         {/* Test Pages */}
         <Route path="/test/toast" element={<TestForToast />} />

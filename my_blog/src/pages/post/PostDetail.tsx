@@ -7,7 +7,7 @@ import { PostWriter } from '../main/components/PostWriter';
 import Header from '../../components/Header';
 import Devider from '../../components/Devider';
 import CommentSection from './components/CommentSection';
-import Footer from '../../components/Footer';
+import ProfileSection from '../../components/ProfileSection';
 import ModalWrapper from '../../components/ModalWrapper';
 
 import Toast from '../../components/Toast';
@@ -141,7 +141,7 @@ const PostDetail = () => {
             />
           )}
 
-          <Footer />
+          <ProfileSection />
         </div>
       </div>
       {showDeletePostModal && (
