@@ -9,6 +9,7 @@ import AddPhotoIcon from '../assets/icons/add_photo_alternate.svg?react';
 
 import AddFileIcon from '../assets/icons/folder_open.svg?react';
 import DropdownMenu from './DropdownMenu';
+import ProfileSidebar from './ProfileSidebar';
 
 type headerType = 'main' | 'detail' | 'write' | 'file';
 
@@ -35,6 +36,7 @@ const Header = ({
 }: HeaderProps) => {
   const navigate = useNavigate();
 
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const menuItems = [
@@ -65,80 +67,89 @@ const Header = ({
   }, []);
 
   return type !== 'file' ? (
-    <nav
-      className="fixed top-0 left-0 right-0 px-3 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px] min-w-mobile"
-      style={{ zIndex: 50, top: offsetTop }}
-    >
-      <div className="relative flex justify-between items-center">
-        <div className="flex justify-center items-center ">
-          <MenuIcon
-            className="w-10 h-10 p-2 cursor-pointer"
-            onClick={() => {}}
-          />
-          <button
-            className="text-xl font-smooch font-normal "
-            onClick={() => {
-              navigate('/');
-            }}
-          >
-            GITLOG
-          </button>
-        </div>
-        {type === 'main' && (
-          <button
-            className="w-fit h-fit px-3 py-2 flex items-center gap-1  text-gray-56 "
-            onClick={() => {
-              navigate('/post/new');
-            }}
-          >
-            <PencleIcon className="w-6 h-6" />
-            <p className="text-sm font-normal">깃 로그 쓰기</p>
-          </button>
-        )}
-        {type === 'detail' && (
-          <button
-            className="w-fit h-fit flex items-center gap-2 text-gray-20"
-            onClick={() => {}}
-          >
-            <CommentIcon className="w-10 h-10 p-2" onClick={() => {}} />
-            <OthersIcon
-              className="others-icon w-10 h-10 p-2"
+    <div className="relative">
+      <nav
+        className="fixed top-0 left-0 right-0 px-3 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px] min-w-mobile"
+        style={{ zIndex: 40, top: offsetTop }}
+      >
+        <div className="relative flex justify-between items-center">
+          <div className="flex justify-center items-center ">
+            <MenuIcon
+              className="w-10 h-10 p-2 cursor-pointer"
               onClick={() => {
-                setShowDropdown((prev) => !prev);
+                setShowSidebar(true);
               }}
             />
-          </button>
-        )}
-        {/* 드롭다운 */}
-        {showDropdown && (
-          <DropdownMenu
-            className={'dropdown-menu top-10 right-1.5'}
-            menuItems={menuItems}
-          />
-        )}
-        {type === 'write' && (
-          <div className="w-fit h-fit flex items-center">
             <button
-              className="w-[76px] h-fit px-3 py-2 text-sm font-normal text-negative "
-              onClick={() => {}}
+              className="text-xl font-smooch font-normal "
+              onClick={() => {
+                navigate('/');
+              }}
             >
-              삭제하기
-            </button>
-            <button
-              className="w-[76px] h-fit px-3 py-2 text-sm font-normal text-black"
-              onClick={onPost}
-            >
-              게시하기
+              GITLOG
             </button>
           </div>
-        )}
-      </div>
-      {children}
-    </nav>
+          {type === 'main' && (
+            <button
+              className="w-fit h-fit px-3 py-2 flex items-center gap-1  text-gray-56 "
+              onClick={() => {
+                navigate('/post/new');
+              }}
+            >
+              <PencleIcon className="w-6 h-6" />
+              <p className="text-sm font-normal">깃 로그 쓰기</p>
+            </button>
+          )}
+          {type === 'detail' && (
+            <button
+              className="w-fit h-fit flex items-center gap-2 text-gray-20"
+              onClick={() => {}}
+            >
+              <CommentIcon className="w-10 h-10 p-2" onClick={() => {}} />
+              <OthersIcon
+                className="others-icon w-10 h-10 p-2"
+                onClick={() => {
+                  setShowDropdown((prev) => !prev);
+                }}
+              />
+            </button>
+          )}
+          {/* 드롭다운 */}
+          {showDropdown && (
+            <DropdownMenu
+              className={'dropdown-menu top-10 right-1.5'}
+              menuItems={menuItems}
+            />
+          )}
+          {type === 'write' && (
+            <div className="w-fit h-fit flex items-center">
+              <button
+                className="w-[76px] h-fit px-3 py-2 text-sm font-normal text-negative "
+                onClick={() => {}}
+              >
+                삭제하기
+              </button>
+              <button
+                className="w-[76px] h-fit px-3 py-2 text-sm font-normal text-black"
+                onClick={onPost}
+              >
+                게시하기
+              </button>
+            </div>
+          )}
+        </div>
+        {children}
+      </nav>
+      {showSidebar && (
+        <aside className="fixed top-0 left-0 z-50">
+          <ProfileSidebar isLoggedIn={true} />
+        </aside>
+      )}
+    </div>
   ) : (
     <nav
-      className="fixed top-0 left-0 right-0 w-full h-fit px-4 py-3 flex justify-center items-center bg-white opacity-90 backdrop-blur-[2px]"
-      style={{ zIndex: 50, top: offsetTop }}
+      className="fixed top-0 left-0 right-0 w-full h-fit px-4 py-3 flex justify-center items-center bg-white opacity-90 backdrop-blur-[2px] z-40"
+      style={{ top: offsetTop }}
     >
       <div className="flex gap-8">
         {addImg && (
