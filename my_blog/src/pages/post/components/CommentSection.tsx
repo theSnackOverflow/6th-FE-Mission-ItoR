@@ -23,7 +23,7 @@ interface commentSectionProps {
 
 const CommentSection = ({
   comments,
-  commentCount = comments.length,
+  commentCount,
   onDeleteComment,
 }: commentSectionProps) => {
   const [text, setText] = useState('');
@@ -31,6 +31,8 @@ const CommentSection = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
+
+  commentCount = comments.length;
 
   const isEmpty = text.trim().length === 0;
 

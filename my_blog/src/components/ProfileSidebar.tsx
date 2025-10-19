@@ -31,7 +31,7 @@ const ProfileSidebar = ({
             {/* 소개글 */}
             <p className="text-sm text-gray-20 font-light leading-[160%] whitespace-pre-line">
               {isLoggedIn ? (
-                <p>{intro || '%{한 줄 소개}'}</p>
+                <span>{intro || '%{한 줄 소개}'}</span>
               ) : (
                 'You can make anything by writing'
               )}

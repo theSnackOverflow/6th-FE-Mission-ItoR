@@ -714,6 +714,23 @@ export const mockData = [
     postId: '2ssac-post-01',
     title: '2ssac의 개발 일지 1',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     imgSrc: '/public/2ssac.svg',
@@ -750,6 +767,23 @@ export const mockData = [
     postId: '2ssac-post-02',
     title: '2ssac의 개발 일지 2',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     imgSrc: '/public/2ssac.svg',
@@ -786,6 +820,23 @@ export const mockData = [
     postId: '2ssac-post-03',
     title: '2ssac의 개발 일지 3',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     imgSrc: '/public/2ssac.svg',
@@ -822,6 +873,23 @@ export const mockData = [
     postId: '2ssac-post-04',
     title: '2ssac의 개발 일지 4',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     createdAt: '2025-10-04T10:00:00Z',
@@ -857,6 +925,23 @@ export const mockData = [
     postId: '2ssac-post-05',
     title: '2ssac의 개발 일지 5',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     imgSrc: '/public/2ssac.svg',
@@ -893,6 +978,23 @@ export const mockData = [
     postId: '2ssac-post-06',
     title: '2ssac의 개발 일지 6',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     createdAt: '2025-10-06T10:00:00Z',
@@ -928,6 +1030,23 @@ export const mockData = [
     postId: '2ssac-post-07',
     title: '2ssac의 개발 일지 7',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     imgSrc: '/public/2ssac.svg',
@@ -964,6 +1083,23 @@ export const mockData = [
     postId: '2ssac-post-08',
     title: '2ssac의 개발 일지 8',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     createdAt: '2025-10-08T10:00:00Z',
@@ -999,6 +1135,23 @@ export const mockData = [
     postId: '2ssac-post-09',
     title: '2ssac의 개발 일지 9',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     imgSrc: '/public/2ssac.svg',
@@ -1035,6 +1188,23 @@ export const mockData = [
     postId: '2ssac-post-10',
     title: '2ssac의 개발 일지 10',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     createdAt: '2025-10-10T10:00:00Z',
@@ -1070,6 +1240,23 @@ export const mockData = [
     postId: '2ssac-post-11',
     title: '2ssac의 개발 일지 11',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     imgSrc: '/public/2ssac.svg',
@@ -1106,6 +1293,23 @@ export const mockData = [
     postId: '2ssac-post-12',
     title: '2ssac의 개발 일지 12',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     createdAt: '2025-10-12T10:00:00Z',
@@ -1141,6 +1345,23 @@ export const mockData = [
     postId: '2ssac-post-13',
     title: '2ssac의 개발 일지 13',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     createdAt: '2025-10-13T10:00:00Z',
@@ -1176,6 +1397,23 @@ export const mockData = [
     postId: '2ssac-post-14',
     title: '2ssac의 개발 일지 14',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     imgSrc: '/public/2ssac.svg',
@@ -1212,6 +1450,23 @@ export const mockData = [
     postId: '2ssac-post-15',
     title: '2ssac의 개발 일지 15',
     content: '2ssac이 작성한 더미 데이터입니다.',
+    contents: [
+      {
+        contentOrder: 1,
+        content: '2ssac 개발 일지 상세 내용입니다.',
+        contentType: 'TEXT',
+      },
+      {
+        contentOrder: 2,
+        content: 'https://picsum.photos/800/400?random=201',
+        contentType: 'IMAGE',
+      },
+      {
+        contentOrder: 3,
+        content: '계속해서 개발을 배우고 있습니다!',
+        contentType: 'TEXT',
+      },
+    ],
     nickName: '2ssac',
     profileUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
     createdAt: '2025-10-15T10:00:00Z',

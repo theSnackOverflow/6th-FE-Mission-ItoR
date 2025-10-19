@@ -14,7 +14,7 @@ const Mypage = () => {
     <>
       <Header type="main" />
       <div style={{ top: 74 }}>
-        <ProfileSection />
+        <ProfileSection showEdit={true} />
       </div>
       <main className="mt-3 -full h-full flex flex-col justify-start items-center min-w-mobile mobile:overflow-x-auto">
         <PostList posts={myposts} />
