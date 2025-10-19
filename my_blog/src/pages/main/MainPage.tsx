@@ -6,10 +6,14 @@ import Toast from '../../components/Toast';
 
 import { PostList } from './components/PostList';
 
+import { mockData } from '../../const/mockData';
+
 const MainPage = () => {
   const [showToast, setShowToast] = useState(false);
   const location = useLocation();
   const showSuccess = location.state?.showSuccess;
+
+  const [posts] = useState(mockData);
 
   useEffect(() => {
     if (showSuccess) {
@@ -35,7 +39,7 @@ const MainPage = () => {
       )}
       <Header type="main" />
       <main className="mt-16 w-full h-full flex flex-col justify-start items-center min-w-mobile mobile:overflow-x-auto">
-        <PostList />
+        <PostList posts={posts} />
       </main>
     </>
   );
