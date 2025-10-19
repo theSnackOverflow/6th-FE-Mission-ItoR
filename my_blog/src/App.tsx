@@ -22,6 +22,7 @@ import PostNew from './pages/post/PostNew';
 // import { Layout } from './components/Layout';
 
 import Mypage from './pages/mypage/Mypage';
+import ProfileEdit from './pages/mypage/ProfileEdit';
 
 function App() {
   return (
@@ -32,7 +33,9 @@ function App() {
         <Route path="/post/:postId" element={<PostDetail />} />
         <Route path="/post/new" element={<PostNew />} />
 
+        {/* 마이페이지 관련 */}
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/profile/edit" element={<ProfileEdit />} />
 
         {/* Test Pages */}
         <Route path="/test/toast" element={<TestForToast />} />
