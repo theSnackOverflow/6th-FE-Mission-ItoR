@@ -4,13 +4,13 @@ import Button from './Button/Button';
 import ProfileImage from './ProfileImage';
 
 interface profileSidebarProps {
-  isLoggined?: boolean;
+  isLoggedIn?: boolean;
   nickname?: string;
   intro?: string;
 }
 
 const ProfileSidebar = ({
-  isLoggined,
+  isLoggedIn,
   nickname,
   intro,
 }: profileSidebarProps) => {
@@ -26,11 +26,11 @@ const ProfileSidebar = ({
           <div className="px-5 py-3 flex flex-col gap-3">
             {/* 닉네임 */}
             <h1 className="text-black text-2xl font-medium">
-              {isLoggined && <p>{nickname || '%{닉네임}'}</p>}
+              {isLoggedIn && <p>{nickname || '%{닉네임}'}</p>}
             </h1>
             {/* 소개글 */}
             <p className="text-sm text-gray-20 font-light leading-[160%] whitespace-pre-line">
-              {isLoggined ? (
+              {isLoggedIn ? (
                 <p>{intro || '%{한 줄 소개}'}</p>
               ) : (
                 'You can make anything by writing'
@@ -42,7 +42,7 @@ const ProfileSidebar = ({
         <div className="h-5"></div>
 
         <div className="px-4">
-          {isLoggined ? (
+          {isLoggedIn ? (
             <div className="flex gap-2.5">
               <Button
                 text="나의 깃로그"
@@ -71,7 +71,7 @@ const ProfileSidebar = ({
         </div>
       </div>
       {/* 하단 버튼 */}
-      {isLoggined && (
+      {isLoggedIn && (
         <div className="w-full h-fit flex justify-between px-4 py-6 gap-2.5">
           <Button
             width="w-24"
