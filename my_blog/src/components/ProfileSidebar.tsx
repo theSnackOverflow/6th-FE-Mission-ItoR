@@ -17,7 +17,7 @@ const ProfileSidebar = ({
   const navigate = useNavigate();
 
   return (
-    <section className="w-60 h-[768px] flex flex-col justify-between bg-gray-96">
+    <section className="fixed w-60 h-full flex flex-col justify-between bg-gray-96">
       <div className="w-full h-fit py-6 cursor-pointer">
         <div onClick={() => navigate('/setting')}>
           <div className="px-4">
