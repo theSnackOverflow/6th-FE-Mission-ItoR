@@ -11,7 +11,13 @@ import AddFileIcon from '../assets/icons/folder_open.svg?react';
 import DropdownMenu from './DropdownMenu';
 import ProfileSidebar from './ProfileSidebar';
 
-type headerType = 'main' | 'detail' | 'write' | 'file';
+type headerType =
+  | 'main'
+  | 'detail'
+  | 'write'
+  | 'file'
+  | 'edit'
+  | 'edit-profile';
 
 interface HeaderProps {
   type?: headerType;
@@ -22,6 +28,8 @@ interface HeaderProps {
   onPost?: () => void;
   onAddImage?: () => void;
   onDeleteClick?: () => void;
+  onEdit?: () => void;
+  onCancel?: () => void;
 }
 
 const Header = ({
@@ -33,6 +41,8 @@ const Header = ({
   onAddImage,
   onPost,
   onDeleteClick,
+  onEdit,
+  onCancel,
 }: HeaderProps) => {
   const navigate = useNavigate();
 
@@ -88,11 +98,11 @@ const Header = ({
   return type !== 'file' ? (
     <div className="relative">
       <nav
-        className="fixed top-0 left-0 right-0 px-3 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px] min-w-mobile"
+        className="fixed top-0 left-0 right-0 pl-3 pr-4 py-4 bg-white opacity-90 border-b border-gray-96 backdrop-blur-[2px] min-w-mobile"
         style={{ zIndex: 40, top: offsetTop }}
       >
         <div className="relative flex justify-between items-center">
-          <div className="flex justify-center items-center ">
+          <div className="flex gap-2 justify-center items-center ">
             <MenuIcon
               className="w-10 h-10 p-2 cursor-pointer"
               onClick={(e) => {
@@ -134,12 +144,36 @@ const Header = ({
               />
             </button>
           )}
+          {type === 'edit' && (
+            <button
+              className="w-fit h-fit px-3 py-2 text-sm text-black font-normal hover:text-gray-78"
+              onClick={onEdit}
+            >
+              수정하기
+            </button>
+          )}
           {/* 드롭다운 */}
           {showDropdown && (
             <DropdownMenu
               className={'dropdown-menu top-10 right-1.5'}
               menuItems={menuItems}
             />
+          )}
+          {type === 'edit-profile' && (
+            <div className="flex gap-1 items-center text-sm font-normal">
+              <button
+                className="w-fit h-fit px-3 py-2 text-negative"
+                onClick={onCancel}
+              >
+                취소하기
+              </button>
+              <button
+                className="w-fit h-fit px-3 py-2 text-black"
+                onClick={() => {}}
+              >
+                저장하기
+              </button>
+            </div>
           )}
           {type === 'write' && (
             <div className="w-fit h-fit flex items-center">
