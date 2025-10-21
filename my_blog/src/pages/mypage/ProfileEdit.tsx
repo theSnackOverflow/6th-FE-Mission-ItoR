@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Blank from '../../components/Blank';
 import Header from '../../components/Header';
@@ -10,13 +11,14 @@ const MOCK_USER = {
   nickname: '2ssac',
   des: '안녕하세요!',
   email: '2ssac@leets.com',
-  password: '......',
+  password: '........',
   name: '김릿츠',
   birthdate: '2000-01-12',
   profileUrl: '',
 };
 
 const ProfileEdit = () => {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [profileUrl, setProfileUrl] = useState<string | undefined>(
     MOCK_USER.profileUrl,
@@ -45,7 +47,6 @@ const ProfileEdit = () => {
       setPasswordError(
         '* 영문, 숫자, 특수문자를 포함하여 8~16자로 입력해주세요',
       );
-      console.log(passwordError);
     } else {
       setPasswordError('');
     }
@@ -56,10 +57,29 @@ const ProfileEdit = () => {
 
     if (password !== value) {
       setPasswordConfirmError('* 비밀번호가 일치하지 않습니다.');
-      console.log(passwordConfirmError);
     } else {
       setPasswordConfirmError('');
     }
+  };
+
+  const handleSaveProfile = () => {
+    const isPasswordValid = PASSWORD_RULE.test(password);
+    const isPasswordMatch = password === passwordConfirm;
+
+    if (!isPasswordValid || !isPasswordMatch) {
+      return;
+    }
+
+    setIsEditing(false);
+
+    navigate('/mypage', {
+      state: {
+        toast: {
+          variant: 'success',
+          message: '저장되었습니다',
+        },
+      },
+    });
   };
 
   return (
@@ -68,6 +88,7 @@ const ProfileEdit = () => {
         type={isEditing ? 'edit-profile' : 'edit'}
         onEdit={() => setIsEditing(true)}
         onCancel={() => setIsEditing(false)}
+        onSave={handleSaveProfile}
       />
       <main style={{ top: 74 }}>
         <div className="mt-18 w-full h-fit flex flex-col justify-center items-center bg-gray-96">
