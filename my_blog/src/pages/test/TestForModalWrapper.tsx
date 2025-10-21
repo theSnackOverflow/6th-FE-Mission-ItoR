@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ModalWrapper from '../../components/ModalWrapper';
+import ModalWrapper from '../../components/Modal/ModalWrapper';
 
 const TestForModalWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);
