@@ -13,12 +13,21 @@ const MOCK_USER = {
   password: '......',
   name: '김릿츠',
   birthdate: '2000-01-12',
+  profileUrl: '',
 };
 
 const ProfileEdit = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [profileUrl, setProfileUrl] = useState<string | undefined>(
+    MOCK_USER.profileUrl,
+  );
 
   const isSocialLoggIned = false;
+
+  const handleUploadProfile = (file: File) => {
+    const url = URL.createObjectURL(file);
+    setProfileUrl(url);
+  };
 
   return (
     <>
@@ -36,7 +45,11 @@ const ProfileEdit = () => {
             </div>
             {/* 프로필 */}
             <div className="px-4 py-3">
-              <ProfileImage />
+              <ProfileImage
+                src={profileUrl}
+                isEdit={isEditing}
+                onUpload={handleUploadProfile}
+              />
             </div>
             <div className="flex flex-col gap-3">
               <Input
