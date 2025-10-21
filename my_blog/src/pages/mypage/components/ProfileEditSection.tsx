@@ -1,6 +1,6 @@
 import Blank from '../../../components/Blank';
 import ProfileImage from '../../../components/ProfileImage';
-import Input from './Input';
+import Input from '../../../components/Input/Input';
 
 // interface ProfileSectionProps {
 //   isLoggedIn?: boolean;
