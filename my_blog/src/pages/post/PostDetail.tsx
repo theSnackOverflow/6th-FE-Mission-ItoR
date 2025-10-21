@@ -40,6 +40,7 @@ const PostDetail = () => {
     const updatedPosts = posts.filter((item) => item.postId !== postId);
     setPosts(updatedPosts);
     setShowDeletePostModal(false);
+    setTimeout(() => setShowToast(false), 2500);
     navigate('/', { state: { showSuccess: true } });
   };
 
@@ -150,6 +151,8 @@ const PostDetail = () => {
           onClose={() => setShowDeletePostModal(false)}
         >
           <Modal
+            type="delete"
+            color="delete"
             title={'해당 블로그를 삭제하시겠어요?'}
             des={'삭제된 블로그는 다시 확인할 수 없어요.'}
             onDelete={handleDeletePost}
@@ -163,6 +166,8 @@ const PostDetail = () => {
           onClose={() => setShowDeleteCommentModal(false)}
         >
           <Modal
+            type="delete"
+            color="delete"
             title={'댓글을 삭제하시겠어요?'}
             onDelete={() => {
               if (targetCommentId !== null)

@@ -60,6 +60,7 @@ const ProfileSidebar = ({
                 bgColor="white"
                 fontColor="blue"
                 borderColor="blue"
+                onClick={() => navigate('/post/new')}
               />
             </div>
           ) : (
@@ -83,6 +84,7 @@ const ProfileSidebar = ({
             fontColor="gray"
             borderColor="gray"
             bgColor="white"
+            onClick={() => {}}
           />
           <Button
             width="w-24"

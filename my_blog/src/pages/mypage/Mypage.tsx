@@ -48,7 +48,7 @@ const Mypage = () => {
       <div style={{ top: 74 }}>
         <ProfileSection showEdit={true} />
       </div>
-      <main className=" mt-3 w-full h-full flex flex-col justify-start items-center min-w-mobile mobile:overflow-x-auto">
+      <main className="mt-3 w-full h-full flex flex-col justify-start items-center min-w-mobile mobile:overflow-x-auto">
         <PostList posts={myposts} />
       </main>
       {showLogoutModal && (
@@ -59,6 +59,7 @@ const Mypage = () => {
           <Modal
             title={'로그아웃을 진행할게요'}
             type="logout"
+            color="auth"
             onClose={() => setShowLogoutModal(false)}
             onLogout={() => {
               setShowLogoutModal(false);

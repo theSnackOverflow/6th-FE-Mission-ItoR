@@ -25,6 +25,9 @@ import PostNew from './pages/post/PostNew';
 import Mypage from './pages/mypage/Mypage';
 import ProfileEdit from './pages/mypage/ProfileEdit';
 
+import SignUp from './pages/auth/SignUp';
+import SignUpMain from './pages/auth/SignUpMain';
+
 function App() {
   return (
     <BrowserRouter>
@@ -37,6 +40,10 @@ function App() {
         {/* 마이페이지 관련 */}
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/profile/edit" element={<ProfileEdit />} />
+
+        {/* Auth 관련 */}
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup/main" element={<SignUpMain />} />
 
         {/* Test Pages */}
         <Route path="/test/toast" element={<TestForToast />} />

@@ -21,7 +21,7 @@ const MainPage = () => {
 
       window.history.replaceState({}, document.title);
 
-      const timer = setTimeout(() => setShowToast(false));
+      const timer = setTimeout(() => setShowToast(false), 2500);
       return () => clearTimeout(timer);
     }
   }, [location.key, showSuccess]);
