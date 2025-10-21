@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Blank from '../../components/Blank';
 import Header from '../../components/Header';
 import ProfileImage from '../../components/ProfileImage';
-import Input from '../../components/Input';
+import Input from '../../components/Input/Input';
 import SocialLoggIned from './components/SocailLoggIned';
 
 const MOCK_USER = {
