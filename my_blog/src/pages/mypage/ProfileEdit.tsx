@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Blank from '../../components/Blank';
 import Header from '../../components/Header';
 import ProfileImage from '../../components/ProfileImage';
-import Input from './components/Input';
+import Input from '../../components/Input';
 import SocialLoggIned from './components/SocailLoggIned';
 
 const MOCK_USER = {
@@ -21,6 +21,8 @@ const ProfileEdit = () => {
   const [profileUrl, setProfileUrl] = useState<string | undefined>(
     MOCK_USER.profileUrl,
   );
+
+  const [nickname, setNickname] = useState('');
 
   const isSocialLoggIned = false;
 
@@ -55,6 +57,8 @@ const ProfileEdit = () => {
               <Input
                 variant="nickname"
                 type="text"
+                value={nickname}
+                onChange={setNickname}
                 placeholder={MOCK_USER.nickname}
                 isDisabled={!isEditing}
               />
