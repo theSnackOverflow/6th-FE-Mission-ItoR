@@ -30,6 +30,7 @@ interface HeaderProps {
   onDeleteClick?: () => void;
   onEdit?: () => void;
   onCancel?: () => void;
+  onSave?: () => void;
 }
 
 const Header = ({
@@ -43,6 +44,7 @@ const Header = ({
   onDeleteClick,
   onEdit,
   onCancel,
+  onSave,
 }: HeaderProps) => {
   const navigate = useNavigate();
 
@@ -169,7 +171,7 @@ const Header = ({
               </button>
               <button
                 className="w-fit h-fit px-3 py-2 text-black"
-                onClick={() => {}}
+                onClick={onSave}
               >
                 저장하기
               </button>
