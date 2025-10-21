@@ -22,7 +22,8 @@ const ProfileEdit = () => {
     MOCK_USER.profileUrl,
   );
 
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState(MOCK_USER.nickname);
+  const [birthdate, setBirthdate] = useState(MOCK_USER.birthdate);
 
   const isSocialLoggIned = false;
 
@@ -116,6 +117,8 @@ const ProfileEdit = () => {
               variant="birthdate"
               type="text"
               label="생년월일"
+              value={birthdate}
+              onChange={setBirthdate}
               placeholder={MOCK_USER.birthdate}
               isDisabled={!isEditing}
             />
