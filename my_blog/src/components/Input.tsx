@@ -18,6 +18,7 @@ interface inputProps {
   isDisabled?: boolean;
   placeholder?: string;
   unChangeable?: boolean;
+  onChange?: (value: string) => void;
 }
 
 const Input = ({
@@ -28,6 +29,7 @@ const Input = ({
   isDisabled = false,
   placeholder,
   unChangeable = false,
+  onChange,
 }: inputProps) => {
   return variant === 'nickname' ? (
     <section className="w-full h-fit px-4 py-3 flex flex-col gap-1">
@@ -36,13 +38,24 @@ const Input = ({
         value={value}
         className="w-full h-fit px-4 py-3 border border-gray-90 rounded-sm text-black text-2xl placeholder:text-gray-56 placeholder:font-medium leading-[160%]"
         placeholder={placeholder}
+        disabled={isDisabled}
+        onChange={(e) => onChange?.(e.target.value)}
       ></input>
-      <label
-        htmlFor="nickname"
-        className="px-1.5 text-xs font-light text-gray-78 "
-      >
-        * 20글자 이내
-      </label>
+      {value && value.length > 20 ? (
+        <label
+          htmlFor="nickname"
+          className="px-1.5 text-xs font-light text-negative"
+        >
+          * 20글자 이내로 작성해주세요
+        </label>
+      ) : (
+        <label
+          htmlFor="nickname"
+          className="px-1.5 text-xs font-light text-gray-78 "
+        >
+          * 20글자 이내
+        </label>
+      )}
     </section>
   ) : (
     <section className="px-4 py-3 w-full h-fit flex flex-col gap-3">
