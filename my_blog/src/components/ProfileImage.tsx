@@ -1,52 +1,52 @@
-import G from '../assets/components/profile-image/G.png';
+import clsx from 'clsx';
 
-type ProfileImageProps = {
+type profileImageSize = 'xs' | 'sm' | 'md' | 'lg';
+
+interface ProfileImageProps {
   src?: string;
-  alt?: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  // alt?: string;
+  size?: profileImageSize;
   onClick?: () => void;
+}
+
+const sizeMap: Record<profileImageSize, string> = {
+  xs: 'w-5 h-5',
+  sm: 'w-10 h-10',
+  md: 'w-16 h-16',
+  lg: 'w-[90px] h-[90px]',
 };
 
-export default function ProfileImage({
-  src,
-  alt = 'profile image',
-  size = 'md',
-  onClick,
-}: ProfileImageProps) {
-  const sizeMap = {
-    xs: 'w-5 h-5',
-    sm: 'w-10 h-10',
-    md: 'w-16 h-16',
-    lg: 'w-[90px] h-[90px]',
-  };
+const fontSizeMap: Record<profileImageSize, string> = {
+  xs: '',
+  sm: 'text-[16px]',
+  md: 'text-[36px]',
+  lg: 'text-[50px]',
+};
 
-  const fallbackSizeMap = {
-    xs: 'hidden',
-    sm: 'w-[16px] h-[16px]',
-    md: 'w-[36px] h-[36px]',
-    lg: 'w-[50px] h-[50px]',
-  };
-
+const ProfileImage = ({ src, size = 'md', onClick }: ProfileImageProps) => {
   return (
-    <div
-      onClick={onClick}
-      className={`${sizeMap[size]} bg-black rounded-full overflow-hidden flex items-center justify-center`}
-    >
+    <div onClick={onClick}>
       {src ? (
-        <img
-          src={src}
-          onError={(e) => (e.currentTarget.src = G)}
-          alt={alt}
-          className="w-full h-full object-cover"
-        />
-      ) : size !== 'xs' ? (
-        <img
-          src={G}
-          onError={(e) => (e.currentTarget.src = G)}
-          alt={alt}
-          className={`${fallbackSizeMap[size]} object-contain`}
-        />
-      ) : null}
+        <img src={src} className={clsx('object-cover', sizeMap[size])} />
+      ) : (
+        <p
+          className={clsx(
+            'relative bg-black rounded-full text-white font-smooch font-normal',
+            sizeMap[size],
+            fontSizeMap[size],
+          )}
+        >
+          <p
+            className={clsx(
+              'absolute top-1/2 -translate-y-1/2 left-5/12 -translate-x-2/5 ',
+            )}
+          >
+            {size !== 'xs' ? 'G' : ''}
+          </p>
+        </p>
+      )}
     </div>
   );
-}
+};
+
+export default ProfileImage;

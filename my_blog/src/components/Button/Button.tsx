@@ -1,16 +1,93 @@
-type ButtonProps = {
-  color?: string;
-  text?: string;
+import PencilIcon from '@/assets/icons/create.svg?react';
+import clsx from 'clsx';
+
+type sizeVariant = 'lg' | 'md';
+type fontColorVariant = 'blue' | 'gray' | 'white';
+type bgColorVariant = 'none' | 'blue' | 'white' | 'gray' | 'black';
+type borderColorVariant = 'none' | 'blue' | 'gray';
+
+const fontSizeMap: Record<sizeVariant, string> = {
+  md: 'text-xs',
+  lg: 'text-sm',
 };
 
-export default function Button({ color = '#00A1FF', text = '' }: ButtonProps) {
-  return (
-    <>
-      <div
-        className={`w-[99px] h-[38px] border-[1px] border-[${color}] rounded-[25px] px-3 py-2 flex justify-center items-center`}
-      >
-        <p className={`text-sm font-normal text-[${color}]`}>{text}</p>
-      </div>
-    </>
-  );
+const fontColorMap: Record<fontColorVariant, string> = {
+  blue: 'text-point',
+  gray: 'text-gray-56',
+  white: 'text-white',
+};
+
+const bgColorMap: Record<bgColorVariant, string> = {
+  none: '',
+  blue: 'bg-point',
+  white: 'bg-white',
+  gray: 'bg-gray-90',
+  black: 'bg-black',
+};
+
+const borderColorMap: Record<borderColorVariant, string> = {
+  none: '',
+  blue: 'border-point border',
+  gray: 'border-gray-56 border',
+};
+
+const iconSizeMap: Record<sizeVariant, string> = {
+  md: 'w-3.5 h-3.5',
+  lg: 'w-6 h-6',
+};
+
+interface ButtonProps {
+  text?: string;
+  size?: sizeVariant;
+  fontColor?: fontColorVariant;
+  bgColor?: bgColorVariant;
+  borderColor?: borderColorVariant;
+  showIcon?: boolean;
+  isBoxed?: boolean;
+  onClick?: () => void;
+  width?: string;
 }
+
+const Button = ({
+  text = '버튼',
+  size = 'lg',
+  fontColor = 'gray',
+  bgColor = 'none',
+  borderColor = 'none',
+  showIcon = false,
+  isBoxed = false,
+  onClick,
+  width,
+}: ButtonProps) => {
+  return (
+    <button
+      onClick={onClick}
+      className={clsx(
+        'h-10 flex justify-center items-center px-1 pt-1.5 pb-1 rounded-3xl',
+        bgColorMap[bgColor],
+        borderColorMap[borderColor],
+        width || 'w-fit',
+      )}
+    >
+      <div
+        className={clsx(
+          'w-fit h-[25px] flex items-center gap-1 px-2 pt-0.5 pb-1 rounded-xs',
+          isBoxed && 'bg-gray-90',
+        )}
+      >
+        {showIcon && (
+          <PencilIcon
+            className={clsx('', iconSizeMap[size], fontColorMap[fontColor])}
+          />
+        )}
+        <p
+          className={clsx('w-fit', fontSizeMap[size], fontColorMap[fontColor])}
+        >
+          {text}
+        </p>
+      </div>
+    </button>
+  );
+};
+
+export default Button;

@@ -1,0 +1,112 @@
+@import 'tailwindcss';
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* NotoSansKR - Font Static 설정 */
+/* 이렇게 하는게 맞나요..? */
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Black.ttf');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-ExtraBold.ttf');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Bold.ttf');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-SemiBold.ttf');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Medium.ttf');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Regular.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Light.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-ExtraLight.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NotoSansKR';
+  src: url('/fonts/noto-sans-kr/NotoSansKR-Thin.ttf');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Smooch';
+  src: url('/fonts/Smooch.ttf');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@theme {
+  --font-notosans: 'NotoSansKR', sans-serif;
+  --font-roboto: 'Roboto', cursive;
+  --font-smooch: 'Smooch', cursive;
+
+  --color-positive: #15dc5e;
+  --color-negative: #ff3f3f;
+
+  /* Blue 계열 */
+  --color-point: #00a1ff;
+  --color-primary-6: #1890ff;
+
+  /* Gray 계열 */
+  --color-gray-20: #333333;
+  --color-gray-33: #555555;
+  --color-gray-56: #909090;
+  --color-gray-78: #c8c8c8;
+  --color-gray-90: #e6e6e6;
+  --color-gray-96: #f5f5f5;
+
+  /* Neutral 계열 */
+  --color-neutral-1: #ffffff;
+  --color-neutral-3: #f5f5f5;
+  --color-neutral-5: #d9d9d9;
+}
+
+html,
+body {
+  font-family: var(--font-notosans) !important;
+}
