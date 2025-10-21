@@ -1,4 +1,4 @@
-import ModalButton from './Button/ModalButton';
+import ModalButton from '../Button/ModalButton';
 
 interface ModalProps {
   type?: string;

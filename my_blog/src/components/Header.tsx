@@ -31,7 +31,7 @@ interface HeaderProps {
   onEdit?: () => void;
   onCancel?: () => void;
   onSave?: () => void;
-  onLogout: () => void;
+  onLogout?: () => void;
 }
 
 const Header = ({
