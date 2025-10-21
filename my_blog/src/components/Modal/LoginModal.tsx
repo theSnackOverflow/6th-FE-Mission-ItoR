@@ -1,14 +1,21 @@
 import { useState, type ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import LoginButton from '../Button/LoginButton';
 import LoginInput from '../Input/LoginInput';
 
 import ClearIcon from '../../assets/icons/clear.svg?react';
 
+interface loginModalProps {
+  onClose: () => void;
+}
+
 const EMAIL = '2ssac@leets.com';
 const PASSWORD = '123456@q'; //! 임시 비밀번호
 
-const LoginModal = () => {
+const LoginModal = ({ onClose }: loginModalProps) => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isErrorVisible, setIsErrorVisible] = useState(false);
@@ -34,8 +41,8 @@ const LoginModal = () => {
   };
 
   return (
-    <section className="relative max-w-[782px] min-w-[358px] h-fit py-20 flex justify-between items-center bg-gray-7 rounded-[9px] max-[600px]:flex-col">
-      <button onClick={() => {}}>
+    <section className="absolute z-50 max-w-[782px] min-w-[358px] h-fit py-20 flex justify-between items-center bg-gray-7 rounded-[9px] max-[600px]:flex-col">
+      <button onClick={onClose}>
         <ClearIcon className="absolute top-4 right-4 w-10 h-10 p-2 text-white" />
       </button>
       <div className="w-96 h-fit flex flex-col justify-center items-center">
@@ -100,7 +107,10 @@ const LoginModal = () => {
             <div className="w-[123px] -mr-4 h-0 border border-gray-20"></div>
           </div>
           <LoginButton type="KAKOLOGIN" text="카카오로 로그인" />
-          <button className="mt-1 px-2 pt-0.5 pb-1 text-xs font-normal text-gray-56">
+          <button
+            onClick={() => navigate('/signup')}
+            className="mt-1 px-2 pt-0.5 pb-1 text-xs font-normal text-gray-56"
+          >
             또는 회원가입
           </button>
         </div>

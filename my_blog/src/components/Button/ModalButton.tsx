@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-type ModalButtonVariant = 'CANCEL' | 'DELETE' | 'LOGOUT';
+export type ModalButtonVariant = 'CANCEL' | 'DELETE' | 'AUTH';
 
 interface ModalButtonProps {
   text: string;
@@ -11,7 +11,7 @@ interface ModalButtonProps {
 const typeMap: Record<ModalButtonVariant, string> = {
   CANCEL: 'text-black border border-gray-96',
   DELETE: 'text-white bg-negative',
-  LOGOUT: 'text-white bg-point font-normal',
+  AUTH: 'text-white bg-point font-normal',
 };
 
 const ModalButton = ({ text, onClick, variant }: ModalButtonProps) => {

@@ -1,22 +1,56 @@
-import ModalButton from '../Button/ModalButton';
+import ModalButton, { type ModalButtonVariant } from '../Button/ModalButton';
+
+type modalVariant = 'delete' | 'login' | 'logout' | 'signup';
+type buttonColorVariant = 'delete' | 'auth';
+
+const textMap: Record<modalVariant, string> = {
+  delete: '삭제하기',
+  login: '로그인하기',
+  logout: '로그아웃',
+  signup: '회원가입 하기',
+};
+
+const buttonColorMap: Record<buttonColorVariant, ModalButtonVariant> = {
+  delete: 'DELETE',
+  auth: 'AUTH',
+};
 
 interface ModalProps {
-  type?: string;
+  type: modalVariant;
   title: string;
+  color: buttonColorVariant;
   des?: string;
   onClose: () => void; //! 필요한가?
   onDelete?: () => void; //! 필요한가?
+  onSignUp?: () => void;
+  onLogin?: () => void;
   onLogout?: () => void;
 }
 
 const Modal = ({
   type,
   title,
+  color,
   des,
   onClose,
   onDelete,
+  onSignUp,
+  onLogin,
   onLogout,
 }: ModalProps) => {
+  const handleConfirm = () => {
+    switch (type) {
+      case 'delete':
+        return onDelete?.();
+      case 'logout':
+        return onLogout?.();
+      case 'login':
+        return onLogin?.();
+      case 'signup':
+        return onSignUp?.();
+    }
+  };
+
   return (
     <section className="absolute z-50 w-[326px] h-fit pt-6 pb-4 px-4 bg-white rounded-sm shadow-xl">
       <div className="w-full h-full flex flex-col justify-between gap-6">
@@ -38,12 +72,16 @@ const Modal = ({
         {/* buttons */}
         {/* 아직 onClick 정의 안 함 */}
         <div className="flex justify-around">
-          <ModalButton text="취소" variant="CANCEL" onClick={onClose} />
-          {type === 'logout' ? (
-            <ModalButton text="로그아웃" variant="LOGOUT" onClick={onLogout} />
+          {type === 'login' ? (
+            <ModalButton text="확인" variant="CANCEL" onClick={onClose} />
           ) : (
-            <ModalButton text="삭제하기" variant="DELETE" onClick={onDelete} />
+            <ModalButton text="취소" variant="CANCEL" onClick={onClose} />
           )}
+          <ModalButton
+            text={textMap[type]}
+            variant={buttonColorMap[color]}
+            onClick={handleConfirm}
+          />
         </div>
       </div>
     </section>
