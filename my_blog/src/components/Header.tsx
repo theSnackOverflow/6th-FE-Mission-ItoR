@@ -31,6 +31,7 @@ interface HeaderProps {
   onEdit?: () => void;
   onCancel?: () => void;
   onSave?: () => void;
+  onLogout: () => void;
 }
 
 const Header = ({
@@ -45,6 +46,7 @@ const Header = ({
   onEdit,
   onCancel,
   onSave,
+  onLogout,
 }: HeaderProps) => {
   const navigate = useNavigate();
 
@@ -198,7 +200,7 @@ const Header = ({
       </nav>
       {showSidebar && (
         <aside ref={sidebarRef} className="fixed top-0 left-0 z-50">
-          <ProfileSidebar isLoggedIn={true} />
+          <ProfileSidebar isLoggedIn={true} onLogout={onLogout} />
         </aside>
       )}
     </div>
