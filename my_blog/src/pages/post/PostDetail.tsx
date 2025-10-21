@@ -8,10 +8,10 @@ import Header from '../../components/Header';
 import Devider from '../../components/Devider';
 import CommentSection from './components/CommentSection';
 import ProfileSection from '../../components/ProfileSection';
-import ModalWrapper from '../../components/ModalWrapper';
+import ModalWrapper from '../../components/Modal/ModalWrapper';
+import Modal from '../../components/Modal/Modal';
 
 import Toast from '../../components/Toast';
-import Modal from '../../components/Modal';
 
 import { mockData } from '../../const/mockData';
 
