@@ -14,6 +14,7 @@ import {
   TestForTextField,
   TestForToast,
   TestForModalWrapper,
+  TestForLoginModal,
 } from './pages/test/index';
 
 import { MainPage } from './pages';
@@ -55,6 +56,7 @@ function App() {
           element={<TestForProfileSidebar />}
         />
         <Route path="/test/modal-wrapper" element={<TestForModalWrapper />} />
+        <Route path="/test/login-modal" element={<TestForLoginModal />} />
       </Routes>
     </BrowserRouter>
   );

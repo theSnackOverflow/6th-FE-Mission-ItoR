@@ -7,8 +7,8 @@ import ProfileSection from '../../components/ProfileSection';
 import Toast from '../../components/Toast';
 
 import { mockData } from '../../const/mockData';
-import ModalWrapper from '../../components/ModalWrapper';
-import Modal from '../../components/Modal';
+import ModalWrapper from '../../components/Modal/ModalWrapper';
+import Modal from '../../components/Modal/Modal';
 
 const Mypage = () => {
   const navigate = useNavigate();
