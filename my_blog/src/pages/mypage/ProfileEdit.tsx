@@ -33,7 +33,7 @@ const ProfileEdit = () => {
   const [passwordConfirmError, setPasswordConfirmError] = useState('');
 
   const PASSWORD_RULE = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
-  const isSocialLoggIned = false;
+  const isSocialLoggIned = true;
 
   const handleUploadProfile = (file: File) => {
     const url = URL.createObjectURL(file);

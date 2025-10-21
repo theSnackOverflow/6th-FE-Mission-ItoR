@@ -12,7 +12,7 @@ import Modal from '../../components/Modal/Modal';
 import LoginModal from '../../components/Modal/LoginModal';
 import SocialLoggIned from '../mypage/components/SocailLoggIned';
 
-const isSocialLoggIned = true; //! 테스트용
+const isSocialLoggIned = false; //! 테스트용
 
 const SignUpMain = () => {
   const navigate = useNavigate();

@@ -44,7 +44,7 @@ interface ButtonProps {
   borderColor?: borderColorVariant;
   showIcon?: boolean;
   isBoxed?: boolean;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   width?: string;
 }
 

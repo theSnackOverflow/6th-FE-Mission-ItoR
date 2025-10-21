@@ -27,7 +27,7 @@ const ProfileSection = ({
         <div className="hidden max-[500px]:block">{<Blank variant="32" />}</div>
         {/* 프로필 */}
         <div className="w-full h-fit cursor-pointer">
-          <div onClick={() => navigate('/setting')}>
+          <div onClick={() => navigate('/profile/edit')}>
             <div className="px-4 py-3">
               <ProfileImage />
             </div>

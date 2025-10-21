@@ -21,7 +21,7 @@ const ProfileSidebar = ({
   return (
     <section className="fixed w-60 h-full flex flex-col justify-between bg-gray-96 border-r border-gray-90">
       <div className="w-full h-fit py-6 cursor-pointer">
-        <div onClick={() => navigate('/setting')}>
+        <div onClick={() => navigate('/profile/edit')}>
           <div className="px-4">
             <ProfileImage />
           </div>
@@ -93,7 +93,10 @@ const ProfileSidebar = ({
             fontColor="gray"
             borderColor="gray"
             bgColor="white"
-            onClick={onLogout}
+            onClick={() => {
+              console.log('[Sidebar] Logout button clicked');
+              onLogout?.();
+            }}
           />
         </div>
       )}

@@ -26,9 +26,7 @@ const Mypage = () => {
     if (toastState) {
       setShowToast(true);
 
-      navigate('/mypage', { replace: true });
-
-      const timer = setTimeout(() => setShowToast(false));
+      const timer = setTimeout(() => setShowToast(false), 2500);
       return () => clearTimeout(timer);
     }
   }, [toastState, navigate]);
