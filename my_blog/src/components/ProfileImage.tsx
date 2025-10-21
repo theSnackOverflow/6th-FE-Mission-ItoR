@@ -1,12 +1,17 @@
 import clsx from 'clsx';
 
+import AddProfileImg from '../assets/icons/add-profile-image.svg?react';
+import { useRef } from 'react';
+
 type profileImageSize = 'xs' | 'sm' | 'md' | 'lg';
 
 interface ProfileImageProps {
   src?: string;
   // alt?: string;
   size?: profileImageSize;
+  isEdit?: boolean;
   onClick?: () => void;
+  onUpload?: (file: File) => void;
 }
 
 const sizeMap: Record<profileImageSize, string> = {
@@ -23,9 +28,27 @@ const fontSizeMap: Record<profileImageSize, string> = {
   lg: 'text-[50px]',
 };
 
-const ProfileImage = ({ src, size = 'md', onClick }: ProfileImageProps) => {
+const ProfileImage = ({
+  src,
+  size = 'md',
+  isEdit = false,
+  onClick,
+  onUpload,
+}: ProfileImageProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleClickUpload = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    onUpload?.(file);
+  };
+
   return (
-    <div onClick={onClick}>
+    <div className="relative w-fit" onClick={onClick}>
       {src ? (
         <img
           src={src}
@@ -47,6 +70,21 @@ const ProfileImage = ({ src, size = 'md', onClick }: ProfileImageProps) => {
             {size !== 'xs' ? 'G' : ''}
           </span>
         </p>
+      )}
+      {isEdit && (
+        <button
+          className="absolute bottom-0 right-0 bg-black border-2 border-white rounded-full"
+          onClick={handleClickUpload}
+        >
+          <AddProfileImg className="text-white" />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleChangeFile}
+          />
+        </button>
       )}
     </div>
   );
