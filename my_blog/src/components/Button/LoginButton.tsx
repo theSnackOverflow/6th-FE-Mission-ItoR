@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import Kakao from '../../assets/icons/kakao.svg?react';
+import KakaoIcon from '../../assets/icons/kakao.svg?react';
 
 type LoginButtonVariant = 'EMALLOGIN' | 'KAKOLOGIN';
 
@@ -17,10 +17,10 @@ const varaintMap: Record<LoginButtonVariant, string> = {
 const LoginButton = ({ type, text }: loginButtonProps) => {
   return (
     <button
-      className={clsx('w-full h-11 px-3.5 rounded-md', varaintMap[type])}
+      className={clsx('w-full h-11 my-1 px-3.5 rounded-md', varaintMap[type])}
       onClick={() => {}}
     >
-      {type === 'KAKOLOGIN' && <Kakao className="w-4" />}
+      {type === 'KAKOLOGIN' && <KakaoIcon className="w-4" />}
       {text}
     </button>
   );
