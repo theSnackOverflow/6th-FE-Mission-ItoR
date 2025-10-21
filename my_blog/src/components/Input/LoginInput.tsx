@@ -5,19 +5,22 @@ interface loginInputProps {
   type: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const LoginInput = ({
   type,
   value,
-  onChange,
   placeholder,
+  onChange,
+  onKeyDown,
 }: loginInputProps) => {
   return (
     <input
-      value={value}
       type={type}
+      value={value}
       onChange={onChange}
+      onKeyDown={onKeyDown}
       placeholder={placeholder}
       className="w-full h-12 px-4 pt-1 pb-2 text-sm font-light  bg-white border border-gray-90 rounded-sm placeholder:text-gray-78"
     />
