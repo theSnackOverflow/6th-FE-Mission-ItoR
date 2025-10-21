@@ -7,17 +7,19 @@ interface profileSidebarProps {
   isLoggedIn?: boolean;
   nickname?: string;
   intro?: string;
+  onLogout?: () => void;
 }
 
 const ProfileSidebar = ({
   isLoggedIn,
   nickname,
   intro,
+  onLogout,
 }: profileSidebarProps) => {
   const navigate = useNavigate();
 
   return (
-    <section className="fixed w-60 h-full flex flex-col justify-between bg-gray-96">
+    <section className="fixed w-60 h-full flex flex-col justify-between bg-gray-96 border-r border-gray-90">
       <div className="w-full h-fit py-6 cursor-pointer">
         <div onClick={() => navigate('/setting')}>
           <div className="px-4">
@@ -89,6 +91,7 @@ const ProfileSidebar = ({
             fontColor="gray"
             borderColor="gray"
             bgColor="white"
+            onClick={onLogout}
           />
         </div>
       )}

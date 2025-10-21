@@ -7,6 +7,8 @@ import ProfileSection from '../../components/ProfileSection';
 import Toast from '../../components/Toast';
 
 import { mockData } from '../../const/mockData';
+import ModalWrapper from '../../components/ModalWrapper';
+import Modal from '../../components/Modal';
 
 const Mypage = () => {
   const navigate = useNavigate();
@@ -17,6 +19,8 @@ const Mypage = () => {
   const location = useLocation();
   const toastState = location.state?.toast;
   const [showToast, setShowToast] = useState(false);
+
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   useEffect(() => {
     if (toastState) {
@@ -40,13 +44,29 @@ const Mypage = () => {
           />
         </div>
       )}
-      <Header type="main" />
+      <Header type="main" onLogout={() => setShowLogoutModal(true)} />
       <div style={{ top: 74 }}>
         <ProfileSection showEdit={true} />
       </div>
       <main className=" mt-3 w-full h-full flex flex-col justify-start items-center min-w-mobile mobile:overflow-x-auto">
         <PostList posts={myposts} />
       </main>
+      {showLogoutModal && (
+        <ModalWrapper
+          isOpen={showLogoutModal}
+          onClose={() => setShowLogoutModal(false)}
+        >
+          <Modal
+            title={'로그아웃을 진행할게요'}
+            type="logout"
+            onClose={() => setShowLogoutModal(false)}
+            onLogout={() => {
+              setShowLogoutModal(false);
+              navigate('/'); // ! 구체적인 동작은 API 연결 시 Hook으로 구현
+            }}
+          />
+        </ModalWrapper>
+      )}
     </>
   );
 };
