@@ -108,6 +108,7 @@ const Input = ({
           id={variant}
           type={type}
           value={value}
+          onChange={(e) => onChange?.(e.target.value)}
           className={clsx(
             'w-full h-fit px-4 py-3 border border-gray-90 rounded-sm text-sm placeholder:text-gray-78 placeholder:font-light leading-[160%]',
             unChangeable

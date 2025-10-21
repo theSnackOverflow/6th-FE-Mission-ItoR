@@ -25,11 +25,41 @@ const ProfileEdit = () => {
   const [nickname, setNickname] = useState(MOCK_USER.nickname);
   const [birthdate, setBirthdate] = useState(MOCK_USER.birthdate);
 
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordConfirmError, setPasswordConfirmError] = useState('');
+
+  const PASSWORD_RULE = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
   const isSocialLoggIned = false;
 
   const handleUploadProfile = (file: File) => {
     const url = URL.createObjectURL(file);
     setProfileUrl(url);
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+
+    if (!PASSWORD_RULE.test(value)) {
+      setPasswordError(
+        '* 영문, 숫자, 특수문자를 포함하여 8~16자로 입력해주세요',
+      );
+      console.log(passwordError);
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  const handlePasswordConfirmChange = (value: string) => {
+    setPasswordConfirm(value);
+
+    if (password !== value) {
+      setPasswordConfirmError('* 비밀번호가 일치하지 않습니다.');
+      console.log(passwordConfirmError);
+    } else {
+      setPasswordConfirmError('');
+    }
   };
 
   return (
@@ -92,16 +122,31 @@ const ProfileEdit = () => {
                   variant="password"
                   type="password"
                   label="비밀번호"
+                  value={password}
+                  onChange={handlePasswordChange}
                   placeholder={MOCK_USER.password}
                   isDisabled={!isEditing}
                 />
+                {password && passwordError && (
+                  <p className="px-5.5 -mt-2 text-xs font-light text-negative">
+                    {passwordError}
+                  </p>
+                )}
+
                 <Input
                   variant="passwordconfirm"
                   type="password"
                   label="비밀번호 확인"
+                  value={passwordConfirm}
+                  onChange={handlePasswordConfirmChange}
                   placeholder={MOCK_USER.password}
                   isDisabled={!isEditing}
                 />
+                {passwordConfirm && passwordConfirmError && (
+                  <p className="px-5.5 -mt-2 text-xs font-light text-negative">
+                    {passwordConfirmError}
+                  </p>
+                )}
               </div>
             )}
             <Input
