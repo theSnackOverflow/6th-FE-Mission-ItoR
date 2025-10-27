@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import KakaoIcon from '../../assets/icons/kakao.svg?react';
 
-type LoginButtonVariant = 'EMALLOGIN' | 'KAKOLOGIN';
+type LoginButtonVariant = 'EMAILOGIN' | 'KAKOLOGIN';
 
 interface loginButtonProps {
   type: LoginButtonVariant;
@@ -11,7 +11,7 @@ interface loginButtonProps {
 }
 
 const varaintMap: Record<LoginButtonVariant, string> = {
-  EMALLOGIN: 'text-white text-sm font-normal  bg-point',
+  EMAILOGIN: 'text-white text-sm font-normal  bg-point',
   KAKOLOGIN: 'flex justify-center items-center gap-2 text-[15px] bg-kakao-bg',
 };
 
