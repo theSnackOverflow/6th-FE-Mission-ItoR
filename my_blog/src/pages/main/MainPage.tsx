@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import Header from '../../components/Header';
-import Toast from '../../components/Toast';
+import Header from '@/components/Header';
+import Toast from '@/components/Toast';
 
 import { PostList } from './components/PostList';
 
-import { mockData } from '../../const/mockData';
+import { mockData } from '@/const/mockData';
 
 const MainPage = () => {
   const [showToast, setShowToast] = useState(false);
