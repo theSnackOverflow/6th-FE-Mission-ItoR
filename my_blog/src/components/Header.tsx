@@ -6,8 +6,8 @@ import PencleIcon from '../assets/icons/create.svg?react';
 import CommentIcon from '../assets/icons/chat.svg?react';
 import OthersIcon from '../assets/icons/more_vert.svg?react';
 import AddPhotoIcon from '../assets/icons/add_photo_alternate.svg?react';
-
 import AddFileIcon from '../assets/icons/folder_open.svg?react';
+
 import DropdownMenu from './DropdownMenu';
 import ProfileSidebar from './ProfileSidebar';
 
@@ -24,7 +24,7 @@ interface HeaderProps {
   addImg?: boolean;
   addFile?: boolean;
   children?: React.ReactNode;
-  offsetTop?: number; //? 헤더 순서 지정
+  offsetTop?: number;
   onPost?: () => void;
   onAddImage?: () => void;
   onDeleteClick?: () => void;
@@ -50,54 +50,42 @@ const Header = ({
 }: HeaderProps) => {
   const navigate = useNavigate();
 
-  const [showSidebar, setShowSidebar] = useState<boolean>(false);
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const menuItems = [
-    { text: '수정하기', className: 'text-black', onClick: () => {} },
-    {
-      text: '삭제하기',
-      className: 'text-negative',
-      onClick: onDeleteClick,
-    },
+    { text: '수정하기', className: 'text-black', onClick: onEdit },
+    { text: '삭제하기', className: 'text-negative', onClick: onDeleteClick },
   ];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      const dropdown = document.querySelector('.dropdown-menu');
-      const trigger = document.querySelector('.others-icon');
       if (
-        dropdown &&
-        !dropdown.contains(e.target as Node) &&
-        trigger &&
-        !trigger.contains(e.target as Node)
+        showDropdown &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node) &&
+        triggerRef.current &&
+        !triggerRef.current.contains(e.target as Node)
       ) {
         setShowDropdown(false);
       }
-    };
 
-    window.addEventListener('click', handleClickOutside);
-    return () => window.removeEventListener('click', handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
       if (
+        showSidebar &&
         sidebarRef.current &&
         !sidebarRef.current.contains(e.target as Node)
       ) {
         setShowSidebar(false);
       }
     };
-    if (showSidebar) {
-      window.addEventListener('click', handleClickOutside);
-    }
-    return () => {
-      window.removeEventListener('click', handleClickOutside);
-    };
-  }, [showSidebar]);
+
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, [showDropdown, showSidebar]);
 
   return type !== 'file' ? (
     <div className="relative">
@@ -106,7 +94,7 @@ const Header = ({
         style={{ zIndex: 40, top: offsetTop }}
       >
         <div className="relative flex justify-between items-center">
-          <div className="flex gap-2 justify-center items-center ">
+          <div className="flex gap-2 justify-center items-center">
             <MenuIcon
               className="w-10 h-10 p-2 cursor-pointer"
               onClick={(e) => {
@@ -115,80 +103,66 @@ const Header = ({
               }}
             />
             <button
-              className="text-xl font-smooch font-normal "
-              onClick={() => {
-                navigate('/');
-              }}
+              className="text-xl font-smooch font-normal"
+              onClick={() => navigate('/')}
             >
               GITLOG
             </button>
           </div>
+
           {type === 'main' && (
             <button
-              className="w-fit h-fit px-3 py-2 flex items-center gap-1  text-gray-56 "
-              onClick={() => {
-                navigate('/post/new');
-              }}
+              className="w-fit h-fit px-3 py-2 flex items-center gap-1 text-gray-56"
+              onClick={() => navigate('/post/new')}
             >
               <PencleIcon className="w-6 h-6" />
               <p className="text-sm font-normal">깃 로그 쓰기</p>
             </button>
           )}
+
           {type === 'detail' && (
             <button
+              ref={triggerRef}
               className="w-fit h-fit flex items-center gap-2 text-gray-20"
-              onClick={() => {}}
             >
-              <CommentIcon className="w-10 h-10 p-2" onClick={() => {}} />
+              <CommentIcon className="w-10 h-10 p-2" />
               <OthersIcon
-                className="others-icon w-10 h-10 p-2"
-                onClick={() => {
+                className="w-10 h-10 p-2"
+                onClick={(e) => {
+                  e.stopPropagation();
                   setShowDropdown((prev) => !prev);
                 }}
               />
             </button>
           )}
-          {type === 'edit' && (
-            <button
-              className="w-fit h-fit px-3 py-2 text-sm text-black font-normal hover:text-gray-78"
-              onClick={onEdit}
-            >
-              수정하기
-            </button>
-          )}
-          {/* 드롭다운 */}
+
           {showDropdown && (
-            <DropdownMenu
-              className={'dropdown-menu top-10 right-1.5'}
-              menuItems={menuItems}
-            />
+            <div ref={dropdownRef}>
+              <DropdownMenu
+                className={'dropdown-menu top-10 right-1.5'}
+                menuItems={menuItems}
+              />
+            </div>
           )}
+
           {type === 'edit-profile' && (
             <div className="flex gap-1 items-center text-sm font-normal">
-              <button
-                className="w-fit h-fit px-3 py-2 text-negative"
-                onClick={onCancel}
-              >
+              <button className="px-3 py-2 text-negative" onClick={onCancel}>
                 취소하기
               </button>
-              <button
-                className="w-fit h-fit px-3 py-2 text-black"
-                onClick={onSave}
-              >
+              <button className="px-3 py-2 text-black" onClick={onSave}>
                 저장하기
               </button>
             </div>
           )}
+
           {type === 'write' && (
             <div className="w-fit h-fit flex items-center">
-              <button
-                className="w-[76px] h-fit px-3 py-2 text-sm font-normal text-negative "
-                onClick={() => {}}
-              >
+              <button className="w-[76px] px-3 py-2 text-sm text-negative">
                 삭제하기
               </button>
               <button
-                className="w-[76px] h-fit px-3 py-2 text-sm font-normal text-black"
+                className="w-[76px] px-3 py-2 text-sm text-black"
                 onClick={onPost}
               >
                 게시하기
@@ -196,8 +170,10 @@ const Header = ({
             </div>
           )}
         </div>
+
         {children}
       </nav>
+
       {showSidebar && (
         <aside ref={sidebarRef} className="fixed top-0 left-0 z-50">
           <ProfileSidebar isLoggedIn={true} onLogout={onLogout} />
@@ -220,10 +196,7 @@ const Header = ({
           </button>
         )}
         {addFile && (
-          <button
-            className="px-2 pt-0.5 pb-1 flex justify-center items-center gap-1 text-gray-56"
-            onClick={() => {}}
-          >
+          <button className="px-2 pt-0.5 pb-1 flex items-center gap-1 text-gray-56">
             <AddFileIcon className="w-3.5 h-3.5" />
             <p className="font-normal text-xs">파일 추가하기</p>
           </button>
