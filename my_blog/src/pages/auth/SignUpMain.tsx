@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Blank from '../../components/Blank';
 import Header from '../../components/Header';
 
-import ProfileImage from '../../components/ProfileImage';
+import ProfileImage from '@/components/ProfileImage';
 import AddPhotoIcon from '../../assets/icons/add_photo_alternate.svg?react';
 import Input from '../../components/Input/Input';
 import ModalWrapper from '../../components/Modal/ModalWrapper';
@@ -251,7 +251,7 @@ const SignUpMain = () => {
               <Blank variant="32" />
               <button
                 onClick={handleSubmit}
-                className="w-ful mx-4 py-3 text-sm font-normal text-point border border-point rounded-3xl"
+                className="w-full mx-4 py-3 text-sm font-normal text-point border border-point rounded-3xl"
               >
                 회원가입 완료
               </button>

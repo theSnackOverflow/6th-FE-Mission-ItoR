@@ -8,6 +8,7 @@ type InputVariant =
   | 'password'
   | 'passwordconfirm'
   | 'birthdate';
+
 type inputType = 'text' | 'password' | 'email';
 
 interface inputProps {
