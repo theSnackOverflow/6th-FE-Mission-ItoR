@@ -95,7 +95,7 @@ const LoginModal = ({ onClose }: loginModalProps) => {
         </div>
         <div className="flex flex-col px-4">
           <LoginButton
-            type="EMALLOGIN"
+            type="EMAILOGIN"
             text="이메일로 로그인"
             onClick={handleSubmit}
           />
