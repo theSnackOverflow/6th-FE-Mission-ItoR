@@ -21,7 +21,7 @@ const ProfileSection = ({
 }: ProfileSectionProps) => {
   const navigate = useNavigate();
   return (
-    <section className="mt-10 -w-full h-fit flex justify-center bg-gray-96">
+    <section className="mt-10 w-full h-fit flex justify-center bg-gray-96">
       <section className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col">
         <div className="max-[500px]:hidden">{<Blank variant="64" />}</div>
         <div className="hidden max-[500px]:block">{<Blank variant="32" />}</div>
