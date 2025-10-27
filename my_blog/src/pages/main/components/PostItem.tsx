@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { PostWriter } from './PostWriter';
 import Text from '../../../components/Text';
 
-import defaultImage from '/src/assets/icons/2ssac.svg';
+import defaultImage from '../../../../public/2ssac.svg';
 
 interface postItemProps {
   postId: string;
