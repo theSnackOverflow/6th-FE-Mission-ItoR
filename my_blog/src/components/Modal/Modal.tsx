@@ -39,16 +39,13 @@ const Modal = ({
   onLogout,
 }: ModalProps) => {
   const handleConfirm = () => {
-    switch (type) {
-      case 'delete':
-        return onDelete?.();
-      case 'logout':
-        return onLogout?.();
-      case 'login':
-        return onLogin?.();
-      case 'signup':
-        return onSignUp?.();
-    }
+    const handlers: Record<modalVariant, (() => void) | undefined> = {
+      delete: onDelete,
+      logout: onLogout,
+      login: onLogin,
+      signup: onSignUp,
+    };
+    handlers[type]?.();
   };
 
   return (
