@@ -27,7 +27,7 @@ export default function ModalWrapper({
   return (
     <div
       className={clsx(
-        'fixed inset-0 z-40 flex justify-center items-center bg-white/10 backdrop-blur-[2px] transition-opacity',
+        'fixed inset-0 z- flex justify-center items-center bg-white/10 backdrop-blur-[2px] transition-opacity gap-2.5',
       )}
       onClick={() => {
         if (closeOnOutsideClick) onClose();
