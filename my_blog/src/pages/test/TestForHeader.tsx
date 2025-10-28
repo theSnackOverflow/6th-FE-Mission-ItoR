@@ -1,6 +1,6 @@
 import Header from '../../components/Header';
 
-const TestForTextField = () => {
+const TestForHeader = () => {
   return (
     <main className="flex flex-col items-center justify-center h-screen gap-4 bg-[#E2DCFF]">
       <div className="flex flex-col gap-10">
@@ -13,4 +13,4 @@ const TestForTextField = () => {
   );
 };
 
-export default TestForTextField;
+export { TestForHeader };

@@ -1,30 +1,54 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {
+  TestForBlank,
+  TestForButton,
+  TestForDevider,
+  TestForDropdown,
+  TestForHeader,
+  TestForMenu,
+  TestForModal,
+  TestForPagination,
+  TestForProfileImage,
+  TestForProfileSidebar,
+  TestForText,
+  TestForTextField,
+  TestForToast,
+  TestForModalWrapper,
+  TestForLoginModal,
+} from './pages/test/index';
 
-// ? test pages 라우팅
-import TestForToast from './pages/test/TestForToast';
-import TestForMenu from './pages/test/TestForMenu';
-import TestForDropdown from './pages/test/TestForDropdown';
-import TestForModal from './pages/test/TestForModal';
-import TestForText from './pages/test/TestForText';
-import TestForBlank from './pages/test/TestForBlank';
-import TestForDevider from './pages/test/TestForDevider';
-import TestForTextField from './pages/test/TestForTextField';
-import TestForProfileImage from './pages/test/TestForProfileImage';
-import TestForButton from './pages/test/TestForButton';
-import TestForPagination from './pages/test/TestForPagination';
-import TestForHeader from './pages/test/TestForHeader';
-import TestForProfileSidebar from './pages/test/TestForProfileSidebar';
+import { MainPage } from './pages';
+import PostDetail from './pages/post/PostDetail';
+import PostNew from './pages/post/PostNew';
+// import { Layout } from './components/Layout';
+
+import Mypage from './pages/mypage/Mypage';
+import ProfileEdit from './pages/mypage/ProfileEdit';
+
+import SignUp from './pages/auth/SignUp';
+import SignUpMain from './pages/auth/SignUpMain';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<div>Home</div>} />
+        {/* <Route element={<Layout />}> */}
+        <Route path="/" element={<MainPage />} />
+        <Route path="/post/:postId" element={<PostDetail />} />
+        <Route path="/post/new" element={<PostNew />} />
+
+        {/* 마이페이지 관련 */}
+        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/profile/edit" element={<ProfileEdit />} />
+
+        {/* Auth 관련 */}
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup/main" element={<SignUpMain />} />
 
         {/* Test Pages */}
         <Route path="/test/toast" element={<TestForToast />} />
         <Route path="/test/menu" element={<TestForMenu />} />
-        <Route path="/test/dropdown-menu" element={<TestForDropdown />} />
+        <Route path="/test/dropdown" element={<TestForDropdown />} />
         <Route path="/test/modal" element={<TestForModal />} />
         <Route path="/test/text" element={<TestForText />} />
         <Route path="/test/blank" element={<TestForBlank />} />
@@ -38,6 +62,8 @@ function App() {
           path="/test/profile-sidebar"
           element={<TestForProfileSidebar />}
         />
+        <Route path="/test/modal-wrapper" element={<TestForModalWrapper />} />
+        <Route path="/test/login-modal" element={<TestForLoginModal />} />
       </Routes>
     </BrowserRouter>
   );

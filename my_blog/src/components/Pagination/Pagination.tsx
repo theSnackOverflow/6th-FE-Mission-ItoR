@@ -21,7 +21,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="min-w-mobile flex items-center justify-center gap-2">
       {/* 이전 버튼 */}
       <PaginationArrow
         direction="prev"

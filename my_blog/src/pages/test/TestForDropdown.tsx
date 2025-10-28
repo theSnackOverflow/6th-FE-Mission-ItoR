@@ -8,4 +8,4 @@ const TestForDropdown = () => {
   );
 };
 
-export default TestForDropdown;
+export { TestForDropdown };

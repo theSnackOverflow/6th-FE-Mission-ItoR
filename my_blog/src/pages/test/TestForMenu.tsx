@@ -7,4 +7,4 @@ const TestForMenu = () => {
     </main>
   );
 };
-export default TestForMenu;
+export { TestForMenu };

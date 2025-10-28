@@ -16,4 +16,4 @@ const TestForPagination = () => {
   );
 };
 
-export default TestForPagination;
+export { TestForPagination };

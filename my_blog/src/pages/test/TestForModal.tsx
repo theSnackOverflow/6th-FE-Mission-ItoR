@@ -1,11 +1,15 @@
 import { useState } from 'react';
-import Modal from '../../components/Modal';
+import Modal from '../../components/Modal/Modal';
+import ModalWrapper from '../../components/Modal/ModalWrapper';
+import { useNavigate } from 'react-router-dom';
 
 const TestForModal = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
+  const handleSignUp = () => navigate('/signup');
 
   return (
     <main className="relative flex flex-col items-center justify-center h-screen gap-4 bg-[#E2DCFF]">
@@ -17,14 +21,19 @@ const TestForModal = () => {
       </button>
 
       {isOpen && (
-        <Modal
-          title={`title 1\ntitle 2`}
-          des={`des 1\ndes 2`}
-          onClose={handleClose}
-        />
+        <ModalWrapper isOpen={isOpen} onClose={handleClose}>
+          <Modal
+            type="signup"
+            color="auth"
+            title="가입되지 않은 계정이에요"
+            des="회원가입을 진행할까요?"
+            onClose={handleClose}
+            onSignUp={handleSignUp}
+          />
+        </ModalWrapper>
       )}
     </main>
   );
 };
 
-export default TestForModal;
+export { TestForModal };
