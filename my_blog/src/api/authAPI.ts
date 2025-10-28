@@ -21,6 +21,18 @@ interface SignUpResponse {
   };
 }
 
+export type LoginResponse = {
+  code: number;
+  message: string;
+  data: {
+    accessToken: string;
+    refreshToken: string;
+    nickname?: string;
+    profilePicture?: string;
+    introduction?: string;
+  };
+};
+
 export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
   try {
     const res = await axiosInstance.post('/auth/register', data);
@@ -45,6 +57,9 @@ export const signUpOAuth = async (payload: {
 };
 
 export const login = async (email: string, password: string) => {
-  const response = await axiosInstance.post('/auth/login', { email, password });
-  return response.data;
+  const res = await axiosInstance.post<LoginResponse>('/auth/login', {
+    email,
+    password,
+  });
+  return res.data.data;
 };

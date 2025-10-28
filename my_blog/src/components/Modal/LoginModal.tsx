@@ -4,6 +4,8 @@ import { useMutation } from '@tanstack/react-query';
 
 import { login } from '@/api/authAPI';
 
+import type { AxiosError } from 'axios';
+
 import LoginButton from '../Button/LoginButton';
 import LoginInput from '../Input/LoginInput';
 
@@ -12,6 +14,16 @@ import ClearIcon from '../../assets/icons/clear.svg?react';
 interface loginModalProps {
   onClose: () => void;
 }
+
+type LoginSuccessData = {
+  accessToken: string;
+  refreshToken: string;
+};
+type ApiErrorResponse = {
+  code?: number;
+  message?: string;
+  error?: string;
+};
 
 const LoginModal = ({ onClose }: loginModalProps) => {
   const navigate = useNavigate();
@@ -25,17 +37,24 @@ const LoginModal = ({ onClose }: loginModalProps) => {
 
   const isEmailValid = EMAIL_REGEX.test(email);
 
-  const loginMutation = useMutation({
-    mutationFn: ({ email, password }: { email: string; password: string }) =>
-      login(email, password),
-    onSuccess: (data) => {
-      const { accessToken, refreshToken } = data;
+  const loginMutation = useMutation<
+    LoginSuccessData,
+    AxiosError<ApiErrorResponse>,
+    { email: string; password: string }
+  >({
+    mutationFn: ({ email, password }) => login(email, password),
+    onSuccess: ({ accessToken, refreshToken }) => {
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       navigate('/');
     },
-    onError: (error: string) => {
-      setErrorMessage(error.response?.data?.message || '로그인 실패');
+    onError: (error) => {
+      const apiMessage =
+        error.response?.data?.message ??
+        error.response?.data?.error ??
+        error.message ??
+        '로그인 실패';
+      setErrorMessage(apiMessage);
       setIsErrorVisible(true);
     },
   });
@@ -116,7 +135,7 @@ const LoginModal = ({ onClose }: loginModalProps) => {
             </span>
             <div className="w-[123px] -mr-4 h-0 border border-gray-20"></div>
           </div>
-          <LoginButton type="KAKOLOGIN" text="카카오로 로그인" />
+          <LoginButton type="KAKAOLOGIN" text="카카오로 로그인" />
           <button
             onClick={() => navigate('/signup')}
             className="mt-1 px-2 pt-0.5 pb-1 text-xs font-normal text-gray-56"
