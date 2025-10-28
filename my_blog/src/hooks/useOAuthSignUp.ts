@@ -5,10 +5,10 @@ export const useOAuthSignUp = () => {
   return useMutation({
     mutationFn: signUpOAuth,
     onSuccess: (data) => {
-      console.log('OAuth 회원가입 성공:', data);
+      console.log('카카오 회원가입 성공:', data);
     },
     onError: (error) => {
-      console.error('OAuth 회원가입 실패:', error);
+      console.error('카카오 회원가입 실패:', error);
     },
   });
 };

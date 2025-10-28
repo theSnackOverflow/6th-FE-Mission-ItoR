@@ -1,55 +1,23 @@
-import { useEffect } from 'react';
-
-declare global {
-  interface Window {
-    Kakao: {
-      init: (key: string) => void;
-      isInitialized: () => boolean;
-      Auth: {
-        authorize: (options: { redirectUri: string }) => void;
-      };
-    };
-  }
-}
+const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
 
 const KakaoLogin = () => {
-  useEffect(() => {
-    try {
-      if (typeof window !== 'undefined' && window.Kakao) {
-        if (!window.Kakao.isInitialized()) {
-          window.Kakao.init(import.meta.env.VITE_KAKAO_JS_KEY);
-          console.log('Kakao SDK 초기화');
-        }
-      } else {
-        console.error('Kakao SDK not loaded. index.html 스크립트 확인 필요');
-      }
-    } catch (error) {
-      console.error('Kakao SDK 초기화 중 오류:', error);
-    }
-  }, []);
-
   const handleKakaoLogin = () => {
-    // Kakao SDK 존재 여부 확인
-    if (!window.Kakao) {
-      console.error('Kakao SDK가 로드되지 않았습니다.');
-      return;
-    }
-
     try {
-      window.Kakao.Auth.authorize({
-        redirectUri: import.meta.env.VITE_KAKAO_REDIRECT_URI,
-      });
+      const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+      window.location.href = kakaoAuthUrl;
     } catch (error) {
-      console.error(' Kakao 로그인 요청 중 오류 발생:', error);
+      console.error('카카오 로그인 리다이렉트 실패:', error);
     }
   };
 
   return (
     <button
       onClick={handleKakaoLogin}
-      className="w-full h-12 bg-kakao-bg rounded-md text-black font-semibold hover:opacity-90"
+      className="w-full h-12 bg-[#FEE500] rounded-md text-black font-semibold hover:opacity-90"
     >
-      로그인
+      카카오로 회원가입
     </button>
   );
 };
