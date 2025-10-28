@@ -1,5 +1,8 @@
 import { useState, type ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+
+import { login } from '@/api/authAPI';
 
 import LoginButton from '../Button/LoginButton';
 import LoginInput from '../Input/LoginInput';
@@ -10,28 +13,40 @@ interface loginModalProps {
   onClose: () => void;
 }
 
-const EMAIL = '2ssac@leets.com';
-const PASSWORD = '123456@q'; //! 임시 비밀번호
-
 const LoginModal = ({ onClose }: loginModalProps) => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const isEmailValid = EMAIL_REGEX.test(email);
-  const isEmailOK = isEmailValid && email === EMAIL; //! 임시 비밀번호 검증
-  const isPasswordOK = password === PASSWORD; //! 임시 비밀번호 검증
+
+  const loginMutation = useMutation({
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
+      login(email, password),
+    onSuccess: (data) => {
+      const { accessToken, refreshToken } = data;
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      navigate('/');
+    },
+    onError: (error: string) => {
+      setErrorMessage(error.response?.data?.message || '로그인 실패');
+      setIsErrorVisible(true);
+    },
+  });
 
   const handleSubmit = () => {
-    if (!isEmailOK || !isPasswordOK) {
+    if (!isEmailValid) {
       setIsErrorVisible(true);
+      setErrorMessage('*이메일 형식이 적합하지 않습니다.');
       return;
     }
-    setIsErrorVisible(false);
+    loginMutation.mutate({ email, password });
   };
 
   const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -73,9 +88,9 @@ const LoginModal = ({ onClose }: loginModalProps) => {
               *이메일 형식이 적합하지 않습니다.
             </p>
           )}
-          {isErrorVisible && isEmailValid && !isEmailOK && (
+          {isErrorVisible && isEmailValid && errorMessage && (
             <p className="px-1.5 text-xs font-light text-negative">
-              *가입되지 않은 이메일입니다.
+              {errorMessage}
             </p>
           )}
           <LoginInput
@@ -87,11 +102,6 @@ const LoginModal = ({ onClose }: loginModalProps) => {
             onKeyDown={handleEnterKey}
             placeholder="비밀번호"
           />
-          {isErrorVisible && isEmailValid && isEmailOK && !isPasswordOK && (
-            <p className="px-1.5 text-xs font-light text-negative">
-              *비밀번호가 일치하지 않습니다.
-            </p>
-          )}
         </div>
         <div className="flex flex-col px-4">
           <LoginButton

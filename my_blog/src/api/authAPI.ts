@@ -43,3 +43,8 @@ export const signUpOAuth = async (payload: {
   const response = await axiosInstance.post('/auth/register-oauth', payload);
   return response.data;
 };
+
+export const login = async (email: string, password: string) => {
+  const response = await axiosInstance.post('/auth/login', { email, password });
+  return response.data;
+};
