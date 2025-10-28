@@ -30,3 +30,16 @@ export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
     throw error;
   }
 };
+
+export const signUpOAuth = async (payload: {
+  email: string;
+  nickname: string;
+  profilePicture: string;
+  birthDate: string;
+  name: string;
+  introduction: string;
+  kakaoId: number;
+}) => {
+  const response = await axiosInstance.post('/auth/register-oauth', payload);
+  return response.data;
+};
