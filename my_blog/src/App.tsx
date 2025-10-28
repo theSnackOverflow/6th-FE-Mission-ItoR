@@ -74,7 +74,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signup/main" element={<SignUpMain />} />
         <Route path="/kakao-signup" element={<OAuthSignUp />} />
-        <Route path="/oauth/kakao/success" element={<KakaoRedirect />} />
+        <Route path="/kakao-redirect" element={<KakaoRedirect />} />
 
         {/* Test Pages */}
         <Route path="/test/toast" element={<TestForToast />} />

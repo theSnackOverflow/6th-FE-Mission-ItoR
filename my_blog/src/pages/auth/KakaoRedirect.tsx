@@ -9,7 +9,7 @@ const KakaoRedirect = () => {
     useState('카카오 로그인 중입니다...');
 
   useEffect(() => {
-    const code = new URL(window.location.href).searchParams.get('code');
+    const code = new URLSearchParams(window.location.search).get('code');
 
     if (!code) {
       const errMsg = '카카오 인가 코드가 없습니다.';
@@ -23,11 +23,16 @@ const KakaoRedirect = () => {
       .then((res) => {
         const { code: resCode, message, data } = res.data;
 
-        if (resCode === 200 && data) {
-          const backendStatusMessage =
-            data.responseMessage || '로그인 처리 완료';
-          console.log('카카오 로그인 성공:', backendStatusMessage);
+        if (
+          (data && (data.httpStatus === 200 || data.httpStatus === '200')) ||
+          resCode === 200
+        ) {
+          console.log('카카오 로그인 성공');
+          const backendStatusMessage = data?.responseMessage || '로그인 완료';
           setStatusMessage(backendStatusMessage);
+          navigate('/');
+        } else if (resCode === 401) {
+          navigate('/oauth-signup', { state: { code } });
         } else {
           const errorMsg = `로그인 실패 - 코드: ${resCode}, 메시지: ${message}`;
           console.error(errorMsg);
@@ -35,14 +40,37 @@ const KakaoRedirect = () => {
         }
       })
       .catch((err) => {
-        const errorMsg = `카카오 로그인 리다이렉트 처리 실패: ${err?.message || err}`;
+        const errorData = err.response?.data;
+        const errorMsg =
+          `카카오 로그인 리다이렉트 처리 실패: ${err.message}` +
+          (errorData ? ` | 서버 응답: ${JSON.stringify(errorData)}` : '');
         console.error(errorMsg);
         setStatusMessage(errorMsg);
       });
   }, [navigate]);
 
   return (
-    <main className="flex items-center justify-center h-screen text-gray-70">
+    <main className="flex flex-col items-center justify-center h-screen text-gray-70">
+      <svg
+        className="animate-spin h-8 w-8 mb-4 text-gray-500"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        ></circle>
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+        ></path>
+      </svg>
       <p>{statusMessage}</p>
     </main>
   );
