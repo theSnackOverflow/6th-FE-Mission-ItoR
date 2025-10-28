@@ -27,6 +27,7 @@ import ProfileEdit from './pages/mypage/ProfileEdit';
 
 import SignUp from './pages/auth/SignUp';
 import SignUpMain from './pages/auth/SignUpMain';
+import OAuthSignUp from './pages/auth/OAthSignUp';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
         {/* Auth 관련 */}
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signup/main" element={<SignUpMain />} />
+        <Route path="/kakao-signup" element={<OAuthSignUp />} />
 
         {/* Test Pages */}
         <Route path="/test/toast" element={<TestForToast />} />

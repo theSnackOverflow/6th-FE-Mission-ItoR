@@ -16,7 +16,7 @@ export default defineConfig({
       '/auth': {
         target: 'https://blog.leets.land',
         changeOrigin: true,
-        secure: false,
+        secure: true,
       },
     },
   },

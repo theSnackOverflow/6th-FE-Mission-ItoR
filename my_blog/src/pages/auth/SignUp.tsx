@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '@/api/axiosInstance';
 
 import Blank from '../../components/Blank';
 import Header from '../../components/Header';
@@ -7,6 +8,16 @@ import LoginButton from '../../components/Button/LoginButton';
 
 const SignUp = () => {
   const navigate = useNavigate();
+
+  const handleKakaoLogin = async () => {
+    try {
+      const res = await axiosInstance.get('/auth/kakao');
+      const redirectUrl = res.data;
+      window.location.href = redirectUrl;
+    } catch (error) {
+      console.error('카카오 로그인 URL 요청 실패:', error);
+    }
+  };
 
   return (
     <>
@@ -51,7 +62,11 @@ const SignUp = () => {
                   </span>
                   <div className="w-26 border border-gray-96"></div>
                 </div>
-                <LoginButton type="KAKOLOGIN" text="카카오로 회원가입" />
+                <LoginButton
+                  type="KAKOLOGIN"
+                  text="카카오로 회원가입"
+                  onClick={handleKakaoLogin}
+                />
               </div>
             </div>
           </div>
