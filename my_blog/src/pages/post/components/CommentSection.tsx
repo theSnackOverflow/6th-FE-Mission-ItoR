@@ -76,7 +76,7 @@ const CommentSection = ({
         <section className="mx-4 my-3 px-4 py-3 border border-gray-90 rounded-sm">
           {isLoggedIn && (
             <PostWriter //! mockDate -> 추후 api 연결
-              profileUrl="@/assets/2ssac.svg"
+              profileUrl="/public/2ssac.svg"
               nickName="고양이12"
               createdAt=""
               showCommentCount={false}
