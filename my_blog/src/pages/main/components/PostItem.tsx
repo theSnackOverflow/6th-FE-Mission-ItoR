@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 
 import { PostWriter } from './PostWriter';
-import Text from '../../../components/Text';
+import Text from '@/components/Text';
 
-import defaultImage from '../../../../public/2ssac.svg';
+import defaultImage from '@/assets/2ssac.svg';
 
 interface postItemProps {
   postId: string;
@@ -53,7 +53,7 @@ const PostItem = ({
       {imgSrc && (
         <div className="h-full bg-white">
           <div className="w-30 h-30 px-4 py-3">
-            <img src={imgSrc || defaultImage} className="object-fill" />
+            <img src={defaultImage || imgSrc} className="object-fill" />
           </div>
         </div>
       )}

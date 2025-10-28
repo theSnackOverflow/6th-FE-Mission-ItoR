@@ -1,16 +1,18 @@
 import { useState, useRef } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { axiosInstance } from '@/api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
-import Blank from '../../components/Blank';
-import Header from '../../components/Header';
+import Blank from '@/components/Blank';
+import Header from '@/components/Header';
 
 import ProfileImage from '@/components/ProfileImage';
-import AddPhotoIcon from '../../assets/icons/add_photo_alternate.svg?react';
-import Input from '../../components/Input/Input';
-import ModalWrapper from '../../components/Modal/ModalWrapper';
-import Modal from '../../components/Modal/Modal';
-import LoginModal from '../../components/Modal/LoginModal';
-import SocialLoggIned from '../mypage/components/SocailLoggIned';
+import AddPhotoIcon from '@/assets/icons/add_photo_alternate.svg?react';
+import Input from '@/components/Input/Input';
+import ModalWrapper from '@/components/Modal/ModalWrapper';
+import Modal from '@/components/Modal/Modal';
+import LoginModal from '@/components/Modal/LoginModal';
+import SocialLoggIned from '@/pages/mypage/components/SocailLoggIned';
 
 const isSocialLoggIned = false; //! 테스트용
 
@@ -42,6 +44,28 @@ const SignUpMain = () => {
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
+  const signUpMutation = useMutation({
+    mutationFn: async (payload: {
+      email: string;
+      password: string;
+      nickname: string;
+      name: string;
+      birthDate: string;
+      introduction: string;
+      profilePicture?: string;
+    }) => {
+      const res = await axiosInstance.post('/auth/register', payload);
+      return res.data;
+    },
+    onSuccess: () => {
+      setShowSignUpModal(true);
+    },
+    onError: (error) => {
+      console.error('회원가입 요청 실패:', error);
+      alert('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.');
+    },
+  });
+
   const handleUploadProfile = (file: File) => {
     const url = URL.createObjectURL(file);
     setProfileUrl(url);
@@ -62,7 +86,23 @@ const SignUpMain = () => {
         );
 
     if (!isAllFilled) return;
-    setShowSignUpModal(true);
+
+    const payload = {
+      email,
+      password,
+      nickname,
+      name,
+      birthDate: birthdate,
+      introduction: des,
+      profilePicture: profileUrl,
+    };
+
+    console.log('[DEBUG] origin', window.location.origin);
+    console.log('[DEBUG] axios baseURL', axiosInstance.defaults.baseURL);
+    console.log('[DEBUG] will POST to', '/auth/register');
+
+    signUpMutation.mutate(payload);
+    // setShowSignUpModal(true);
   };
 
   return (
@@ -100,7 +140,7 @@ const SignUpMain = () => {
               />
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="w-fit px-2 py-1 flex items-ceter gap-1 text-gray-56 border border-gray-90 rounded-xs"
+                className="w-fit px-2 py-1 flex items-center gap-1 text-gray-56 border border-gray-90 rounded-xs"
               >
                 <AddPhotoIcon className="w-3.5 h-3.5" />
                 <p className="font-normal text-xs">프로필 사진 추가</p>
@@ -218,7 +258,7 @@ const SignUpMain = () => {
                 )}
               <Input
                 label="닉네임"
-                variant="name"
+                variant="nickname"
                 type="text"
                 value={nickname}
                 onChange={setNickname}

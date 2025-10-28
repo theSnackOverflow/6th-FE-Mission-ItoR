@@ -11,4 +11,13 @@ export default defineConfig({
       '@icons': '/src/assets/icons',
     },
   },
+  server: {
+    proxy: {
+      '/auth': {
+        target: 'https://blog.leets.land',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });
