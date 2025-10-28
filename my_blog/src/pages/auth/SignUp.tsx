@@ -60,7 +60,7 @@ const SignUp = () => {
                   <div className="w-26 border border-gray-96"></div>
                 </div>
                 <LoginButton
-                  type="KAKOLOGIN"
+                  type="KAKAOLOGIN"
                   text="카카오로 회원가입"
                   onClick={handleKakaoSignUp}
                 />
