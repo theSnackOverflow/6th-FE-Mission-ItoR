@@ -1,7 +1,7 @@
 import axiosInstance from './axiosInstance';
 
 // 토큰 없이 게시물 조회
-export const getPostById = async (postId: number) => {
+export const getPostById = async (postId: string) => {
   const response = await axiosInstance.get('/posts', { params: { postId } });
   return response.data.data;
 };

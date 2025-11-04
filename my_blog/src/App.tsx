@@ -22,7 +22,8 @@ import {
 import { MainPage } from './pages';
 import PostDetail from './pages/post/PostDetail';
 import PostNew from './pages/post/PostNew';
-// import { Layout } from './components/Layout';
+import PostEdit from './pages/post/PostEdit';
+// import { Layout } from './components/Layout'; //! 추후 수정하겠습니다ㅠ
 
 import Mypage from './pages/mypage/Mypage';
 import ProfileEdit from './pages/mypage/ProfileEdit';
@@ -65,6 +66,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/post/:postId" element={<PostDetail />} />
         <Route path="/post/new" element={<PostNew />} />
+        <Route path="/post/edit/:postId" element={<PostEdit />} />
 
         {/* 마이페이지 관련 */}
         <Route path="/mypage" element={<Mypage />} />
