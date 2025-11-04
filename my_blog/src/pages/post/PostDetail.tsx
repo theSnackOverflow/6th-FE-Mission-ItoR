@@ -14,6 +14,7 @@ import Modal from '../../components/Modal/Modal';
 import Toast from '../../components/Toast';
 
 import { getPostById } from '@/api/postAPI';
+import type { Post, Comment } from '@/types/post';
 
 const PostDetail = () => {
   const navigate = useNavigate();
@@ -25,8 +26,8 @@ const PostDetail = () => {
     useState<boolean>(false);
   const [targetCommentId, setTargetCommentId] = useState<number | null>(null);
 
-  const [post, setPost] = useState(null);
-  const [comments, setComments] = useState([]);
+  const [post, setPost] = useState<Post | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const [showToast, setShowToast] = useState(false);
@@ -37,7 +38,7 @@ const PostDetail = () => {
   useEffect(() => {
     if (!postId) return;
     setLoading(true);
-    getPostById(postId)
+    getPostById(Number(postId))
       .then((data) => {
         setPost(data);
         setComments(data?.comments || []);
@@ -112,14 +113,14 @@ const PostDetail = () => {
                   nickName={post.nickName}
                   profileUrl={post.profileUrl}
                   createdAt={post.createdAt}
-                  commentCount={post.commentCount || 0}
+                  commentCount={comments.length || 0}
                 />
               </header>
               {/* 내용 */}
               <article className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col">
                 <Blank variant="20" />
 
-                {post.contents?.map((item: any) => {
+                {post.contents?.map((item) => {
                   if (item.contentType === 'TEXT') {
                     return (
                       <p
@@ -154,7 +155,7 @@ const PostDetail = () => {
           {post && (
             <CommentSection
               comments={comments}
-              commentCount={post.commentCount}
+              commentCount={comments.length}
               onDeleteComment={(commentId) => {
                 setTargetCommentId(commentId);
                 setShowDeleteCommentModal(true);
