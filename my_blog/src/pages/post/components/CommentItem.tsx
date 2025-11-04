@@ -1,13 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
+import { deleteComment } from '@/api/commentAPI';
 
-import Blank from '../../../components/Blank';
-import ProfileImage from '../../../components/ProfileImage';
-import useFormatCreatedAt from '../../../hooks/useFormatCreatedAt';
-import MenuIcon from '../../../assets/icons/more_vert.svg?react';
-import DropdownMenu from '../../../components/DropdownMenu';
+import Blank from '@/components/Blank';
+import ProfileImage from '@/components/ProfileImage';
+import useFormatCreatedAt from '@/hooks/useFormatCreatedAt';
+import MenuIcon from '@/assets/icons/more_vert.svg?react';
+import DropdownMenu from '@/components/DropdownMenu';
 
 export interface CommentItemProps {
-  commentId?: number;
+  commentId: number;
   content?: string;
   nickName?: string;
   profileUrl?: string;
@@ -28,9 +29,14 @@ const CommentItem = ({
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const handleDeleteComment = () => {
-    onDelete(commentId);
-    setShowDropdown(false);
+  const handleDeleteComment = async () => {
+    try {
+      await deleteComment(commentId);
+      onDelete(commentId);
+      setShowDropdown(false);
+    } catch (error) {
+      console.error('댓글 삭제 실패:', error);
+    }
   };
 
   const menuItems = [
