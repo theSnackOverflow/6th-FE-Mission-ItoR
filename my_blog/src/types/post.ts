@@ -3,9 +3,8 @@ export type ContentType = 'TEXT' | 'IMAGE';
 export interface PostContent {
   contentOrder: number;
   content: string;
-  contentType: ContentType;
+  contentType: 'TEXT' | 'IMAGE';
 }
-
 export interface Comment {
   commentId: number;
   content: string;

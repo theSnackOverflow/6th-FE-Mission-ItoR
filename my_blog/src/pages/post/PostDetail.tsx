@@ -38,7 +38,7 @@ const PostDetail = () => {
   useEffect(() => {
     if (!postId) return;
     setLoading(true);
-    getPostById(Number(postId))
+    getPostById(postId)
       .then((data) => {
         setPost(data);
         setComments(data?.comments || []);
