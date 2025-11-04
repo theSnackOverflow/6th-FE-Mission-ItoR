@@ -50,3 +50,11 @@ export const updatePost = async (
   });
   return response.data;
 };
+
+// 게시물 리스트 조회
+export const getAllPosts = async (page: number, size: number) => {
+  const response = await axiosInstance.get('/posts/all', {
+    params: { page, size },
+  });
+  return response.data.data;
+};
