@@ -6,15 +6,11 @@ import { PostList } from '../main/components/PostList';
 import ProfileSection from '../../components/ProfileSection';
 import Toast from '../../components/Toast';
 
-import { mockData } from '../../const/mockData';
 import ModalWrapper from '../../components/Modal/ModalWrapper';
 import Modal from '../../components/Modal/Modal';
 
 const Mypage = () => {
   const navigate = useNavigate();
-
-  const [posts] = useState(mockData);
-  const myposts = posts.filter((post) => post.nickName === '2ssac');
 
   const location = useLocation();
   const toastState = location.state?.toast;
@@ -47,7 +43,7 @@ const Mypage = () => {
         <ProfileSection showEdit={true} />
       </div>
       <main className="mt-3 w-full h-full flex flex-col justify-start items-center min-w-mobile mobile:overflow-x-auto">
-        <PostList posts={myposts} />
+        <PostList />
       </main>
       {showLogoutModal && (
         <ModalWrapper
@@ -61,7 +57,7 @@ const Mypage = () => {
             onClose={() => setShowLogoutModal(false)}
             onLogout={() => {
               setShowLogoutModal(false);
-              navigate('/'); // ! 구체적인 동작은 API 연결 시 Hook으로 구현
+              navigate('/');
             }}
           />
         </ModalWrapper>
