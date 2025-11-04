@@ -20,12 +20,13 @@ interface commentSectionProps {
   comments: CommentType[];
   commentCount?: number;
   onDeleteComment: (commentId: number) => void;
+  onRefreshComments?: () => void;
 }
 
 const CommentSection = ({
   comments,
-  commentCount,
   onDeleteComment,
+  onRefreshComments,
 }: commentSectionProps) => {
   const [text, setText] = useState('');
   const { postId } = useParams();
@@ -34,7 +35,7 @@ const CommentSection = ({
     setText(e.target.value);
   };
 
-  commentCount = comments.length;
+  const commentLength = comments.length;
 
   const isEmpty = text.trim().length === 0;
 
@@ -45,6 +46,7 @@ const CommentSection = ({
     try {
       await createComment(postId, text);
       setText('');
+      onRefreshComments?.();
       console.log('Comment created successfully');
     } catch (error) {
       console.error('Failed to create comment:', error);
@@ -57,7 +59,7 @@ const CommentSection = ({
         {/* 댓글 수 */}
         <section className="flex gap-2 px-4 pt-4 pb-3">
           <p className="font-medium">댓글</p>
-          <p className="font-normal text-point">{commentCount}</p>
+          <p className="font-normal text-point">{commentLength}</p>
         </section>
 
         <Blank variant="20" />
