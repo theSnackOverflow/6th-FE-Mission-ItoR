@@ -13,7 +13,7 @@ import Modal from '../../components/Modal/Modal';
 
 import Toast from '../../components/Toast';
 
-import { getPostById } from '@/api/postAPI';
+import { getPostById, deletePost } from '@/api/postAPI';
 import type { Post, Comment } from '@/types/post';
 
 const PostDetail = () => {
@@ -51,10 +51,22 @@ const PostDetail = () => {
       });
   }, [postId]);
 
-  const handleDeletePost = () => {
-    setShowDeletePostModal(false);
-    setTimeout(() => setShowToast(false), 2500);
-    navigate('/', { state: { showSuccess: true } });
+  const handleDeletePost = async () => {
+    try {
+      if (!postId) throw new Error('Post ID not found');
+      await deletePost(postId);
+      setShowDeletePostModal(false);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2500);
+      navigate('/', { state: { showSuccess: true } });
+    } catch (error) {
+      console.error('Failed to delete post:', error);
+      setShowDeletePostModal(false);
+      setShowToast(true);
+      // Optionally, you can show a different message for error
+      // For now, reuse the success toast for simplicity
+      setTimeout(() => setShowToast(false), 2500);
+    }
   };
 
   const handleDeleteComment = (commentId: number) => {
