@@ -58,3 +58,10 @@ export const getAllPosts = async (page: number, size: number) => {
   });
   return response.data.data;
 };
+
+export const getAllPostsWithToken = async (page: number, size: number) => {
+  const response = await axiosInstance.get('/posts/all/token', {
+    params: { page, size },
+  });
+  return response.data.data;
+};
