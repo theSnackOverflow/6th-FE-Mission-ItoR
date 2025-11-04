@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import Header from '../../components/Header';
+import Header from '@/components/Header';
 import { PostList } from '../main/components/PostList';
-import ProfileSection from '../../components/ProfileSection';
-import Toast from '../../components/Toast';
+import ProfileSection from '@/components/ProfileSection';
+import Toast from '@/components/Toast';
 
-import ModalWrapper from '../../components/Modal/ModalWrapper';
-import Modal from '../../components/Modal/Modal';
+import ModalWrapper from '@/components/Modal/ModalWrapper';
+import Modal from '@/components/Modal/Modal';
 
 const Mypage = () => {
   const navigate = useNavigate();
