@@ -6,6 +6,14 @@ export const getPostById = async (postId: string) => {
   return response.data.data;
 };
 
+// 토큰으로 게시물 조회
+export const getPostByToken = async (postId: string) => {
+  const response = await axiosInstance.get('/posts/token', {
+    params: { postId },
+  });
+  return response.data.data;
+};
+
 // 게시물 생성
 export const createPost = async (postData: {
   title: string;
