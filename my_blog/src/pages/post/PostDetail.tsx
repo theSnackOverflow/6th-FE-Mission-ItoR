@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Blank from '../../components/Blank';
@@ -13,7 +13,7 @@ import Modal from '../../components/Modal/Modal';
 
 import Toast from '../../components/Toast';
 
-import { mockData } from '../../const/mockData';
+import { getPostById } from '@/api/postAPI';
 
 const PostDetail = () => {
   const navigate = useNavigate();
@@ -25,20 +25,32 @@ const PostDetail = () => {
     useState<boolean>(false);
   const [targetCommentId, setTargetCommentId] = useState<number | null>(null);
 
-  const [posts, setPosts] = useState(mockData);
-
-  const post = posts.find((item) => item.postId === postId);
-
-  const [comments, setComments] = useState(post?.comments || []);
+  const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [showToast, setShowToast] = useState(false);
 
   // todo 현재 로컬 상태(useState) 관리 -> 새로고침하면 파일 변화 X
   // todo 추후 api 연동할 때, zustand로 전역 상태 관리 예정
 
+  useEffect(() => {
+    if (!postId) return;
+    setLoading(true);
+    getPostById(postId)
+      .then((data) => {
+        setPost(data);
+        setComments(data?.comments || []);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch post:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [postId]);
+
   const handleDeletePost = () => {
-    const updatedPosts = posts.filter((item) => item.postId !== postId);
-    setPosts(updatedPosts);
     setShowDeletePostModal(false);
     setTimeout(() => setShowToast(false), 2500);
     navigate('/', { state: { showSuccess: true } });
@@ -51,6 +63,14 @@ const PostDetail = () => {
     setShowToast(true);
     setTimeout(() => setShowToast(false), 2500);
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>로딩 중...</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -99,7 +119,7 @@ const PostDetail = () => {
               <article className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col">
                 <Blank variant="20" />
 
-                {post.contents?.map((item) => {
+                {post.contents?.map((item: any) => {
                   if (item.contentType === 'TEXT') {
                     return (
                       <p
