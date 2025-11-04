@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-// import { useNavigate } from 'react-router-dom'; // ! UI 우선 구현 -> API 연동 시 추후 수정
+import { useNavigate } from 'react-router-dom'; // ! UI 우선 구현 -> API 연동 (완료) -> 추후 테스트,,,ㅠㅠ
+import { createPost } from '@/api/postAPI';
 
 import Blank from '../../components/Blank';
 import Devider from '../../components/Devider';
@@ -14,7 +15,7 @@ type ContentBlock = {
 };
 
 const PostNew = () => {
-  // const navigate = useNavigate(); // ! UI 우선 구현 -> API 연동 시 추후 수정
+  const navigate = useNavigate(); // ! UI 우선 구현 -> API 연동 (완료) -> 추후 테스트,,,ㅠㅠ
 
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState<ContentBlock[]>([
@@ -45,7 +46,7 @@ const PostNew = () => {
     imageRefs.current[id] = el;
   }, []);
 
-  const handlePostClick = () => {
+  const handlePostClick = async () => {
     const hasContent = contents.some((c) => c.value.trim());
     const hasTitle = title.trim().length > 0;
 
@@ -58,12 +59,31 @@ const PostNew = () => {
       return;
     }
 
-    setToast({
-      show: true,
-      message: '저장되었습니다!',
-      variant: 'success',
-    });
-    // navigate('/'); // ! UI 우선 구현 -> API 연동 시 추후 수정
+    const payload = {
+      title,
+      contents: contents.map((c, index) => ({
+        contentOrder: index + 1,
+        content: c.value,
+        contentType: c.type,
+      })),
+    };
+
+    try {
+      await createPost(payload);
+      setToast({
+        show: true,
+        message: '저장되었습니다!',
+        variant: 'success',
+      });
+      navigate('/'); // ! UI 우선 구현 -> API 연동 (완료) -> 추후 테스트,,,ㅠㅠ
+    } catch (error) {
+      console.error(error); //! 디버그용
+      setToast({
+        show: true,
+        message: '저장에 실패했습니다.',
+        variant: 'error',
+      });
+    }
   };
 
   const handleAutoHeight = (e: React.FormEvent<HTMLTextAreaElement>) => {
