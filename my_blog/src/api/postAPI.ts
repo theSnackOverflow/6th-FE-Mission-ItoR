@@ -24,3 +24,21 @@ export const deletePost = async (postId: string) => {
   const response = await axiosInstance.delete('/posts', { params: { postId } });
   return response.data;
 };
+
+// 게시물 수정
+export const updatePost = async (
+  postId: string,
+  postData: {
+    title: string;
+    contents: {
+      contentOrder: number;
+      content: string;
+      contentType: 'TEXT' | 'IMAGE';
+    }[];
+  },
+) => {
+  const response = await axiosInstance.patch('/posts', postData, {
+    params: { postId },
+  });
+  return response.data;
+};
