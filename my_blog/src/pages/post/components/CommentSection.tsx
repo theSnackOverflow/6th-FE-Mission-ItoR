@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
-import { v4 as uuidv4 } from 'uuid';
+import { createComment } from '@/api/commentAPI';
+import { useParams } from 'react-router-dom';
 
 import Blank from '../../../components/Blank';
 import { PostWriter } from '../../main/components/PostWriter';
@@ -27,6 +28,7 @@ const CommentSection = ({
   onDeleteComment,
 }: commentSectionProps) => {
   const [text, setText] = useState('');
+  const { postId } = useParams();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -37,6 +39,17 @@ const CommentSection = ({
   const isEmpty = text.trim().length === 0;
 
   const isLoggedIn: boolean = true; //! 테스트용 선언
+
+  const handleSubmit = async () => {
+    if (isEmpty || !postId) return;
+    try {
+      await createComment(postId, text);
+      setText('');
+      console.log('Comment created successfully');
+    } catch (error) {
+      console.error('Failed to create comment:', error);
+    }
+  };
 
   return (
     <section className="w-full flex justify-center">
@@ -58,11 +71,10 @@ const CommentSection = ({
               <p>응원의 첫 번째 댓글을 달아주세요.</p>
             </div>
           ) : (
-            //! 임시
             <div className="flex flex-col gap-2.5">
               {comments.map((c) => (
                 <CommentItem
-                  key={`${c.commentId} - ${uuidv4()}`}
+                  key={c.commentId}
                   onDelete={() => onDeleteComment(c.commentId)}
                   {...c}
                 />
@@ -96,6 +108,8 @@ const CommentSection = ({
           {isLoggedIn && (
             <div className="w-full py-2 flex justify-end">
               <button
+                onClick={handleSubmit}
+                disabled={isEmpty}
                 className={clsx(
                   'w-16 h-[38px] rounded-3xl text-sm font-normal leading-[160%]',
                   isEmpty
