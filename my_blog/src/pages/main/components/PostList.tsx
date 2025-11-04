@@ -28,7 +28,9 @@ const PostList = () => {
           <PostItem
             key={post.postId}
             {...post}
-            commentCount={post.comments.length ?? 0}
+            commentCount={
+              Array.isArray(post.comments) ? post.comments.length : 0
+            }
           />
         ))}
         <Blank variant="20" />
