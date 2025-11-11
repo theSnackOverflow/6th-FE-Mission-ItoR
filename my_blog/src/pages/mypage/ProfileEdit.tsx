@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateUser, getMyInfo } from '../../api/userAPI';
+import { updateUser, getMyInfo, updateNickname } from '../../api/userAPI';
 
 import Blank from '../../components/Blank';
 import Header from '../../components/Header';
@@ -81,6 +81,8 @@ const ProfileEdit = () => {
     }
 
     try {
+      await updateNickname(nickname);
+
       await updateUser({
         nickname,
         birthDate: birthdate,
