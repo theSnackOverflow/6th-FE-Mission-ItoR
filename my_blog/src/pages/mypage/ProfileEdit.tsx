@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { getPresignedUrl } from '../../api/imageAPI';
 import { useNavigate } from 'react-router-dom';
 import {
   updateUser,
@@ -52,12 +54,19 @@ const ProfileEdit = () => {
   }, []);
 
   const handleUploadProfile = async (file: File) => {
-    const url = URL.createObjectURL(file);
-    setProfileUrl(url);
     try {
-      await updateProfilePicture(url);
+      const presignedUrl = await getPresignedUrl(file.name);
+
+      await axios.put(presignedUrl, file, {
+        headers: { 'Content-Type': file.type },
+      });
+
+      const imageUrl = presignedUrl.split('?')[0];
+
+      await updateProfilePicture(imageUrl);
+      setProfileUrl(imageUrl);
     } catch (error) {
-      console.error('프로필 이미지 업데이트 실패:', error);
+      console.error('프로필 이미지 업로드 실패:', error);
     }
   };
 
