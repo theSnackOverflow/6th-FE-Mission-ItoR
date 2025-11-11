@@ -12,3 +12,9 @@ export const updateUser = async (userData: {
   const response = await axiosPrivateInstance.patch('/users', userData);
   return response.data;
 };
+
+// 내 정보 조회
+export const getMyInfo = async () => {
+  const response = await axiosPrivateInstance.get('/users/me');
+  return response.data.data;
+};
