@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateUser, getMyInfo, updateNickname } from '../../api/userAPI';
+import {
+  updateUser,
+  getMyInfo,
+  updateNickname,
+  updatePassword,
+  updateProfilePicture,
+} from '../../api/userAPI';
 
 import Blank from '../../components/Blank';
 import Header from '../../components/Header';
@@ -45,9 +51,14 @@ const ProfileEdit = () => {
     fetchUser();
   }, []);
 
-  const handleUploadProfile = (file: File) => {
+  const handleUploadProfile = async (file: File) => {
     const url = URL.createObjectURL(file);
     setProfileUrl(url);
+    try {
+      await updateProfilePicture(url);
+    } catch (error) {
+      console.error('프로필 이미지 업데이트 실패:', error);
+    }
   };
 
   const handlePasswordChange = (value: string) => {
@@ -82,7 +93,9 @@ const ProfileEdit = () => {
 
     try {
       await updateNickname(nickname);
-
+      if (password && passwordConfirm) {
+        await updatePassword(password);
+      }
       await updateUser({
         nickname,
         birthDate: birthdate,
