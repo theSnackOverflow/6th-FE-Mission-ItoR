@@ -34,3 +34,11 @@ export const updatePassword = async (password: string) => {
   });
   return response.data;
 };
+
+// 프로필 사진 수정
+export const updateProfilePicture = async (profilePicture: string) => {
+  const response = await axiosPrivateInstance.patch('/users/picture', {
+    profilePicture,
+  });
+  return response.data;
+};
