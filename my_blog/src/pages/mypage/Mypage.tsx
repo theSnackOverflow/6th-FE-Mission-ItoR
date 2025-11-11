@@ -30,7 +30,7 @@ const Mypage = () => {
   return (
     <>
       {showToast && toastState && (
-        <div className="fixed top-20 left-1/2 w-full flex  justify-center  -translate-x-1/2 z-[9999]">
+        <div className="fixed top-20 left-1/2 w-full flex  justify-center  -translate-x-1/2 z-9999">
           <Toast
             variant={toastState.variant}
             message={toastState.message}
