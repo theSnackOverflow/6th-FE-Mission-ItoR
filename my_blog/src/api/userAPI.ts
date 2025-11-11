@@ -19,10 +19,18 @@ export const updateUser = async (userData: {
   return response.data;
 };
 
-// 닉네임 수정 (PATCH /users/nickname)
+// 닉네임 수정
 export const updateNickname = async (nickname: string) => {
   const response = await axiosPrivateInstance.patch('/users/nickname', {
     nickname,
+  });
+  return response.data;
+};
+
+// 비밀번호 수정
+export const updatePassword = async (password: string) => {
+  const response = await axiosPrivateInstance.patch('/users/password', {
+    password,
   });
   return response.data;
 };
