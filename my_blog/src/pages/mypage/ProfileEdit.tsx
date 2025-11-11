@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { updateUser, getMyInfo } from '../../api/userAPI';
 
 import Blank from '../../components/Blank';
 import Header from '../../components/Header';
@@ -7,33 +8,42 @@ import ProfileImage from '../../components/ProfileImage';
 import Input from '../../components/Input/Input';
 import SocialLoggIned from './components/SocailLoggIned';
 
-const MOCK_USER = {
-  nickname: '2ssac',
-  des: '안녕하세요!',
-  email: '2ssac@leets.com',
-  password: '........',
-  name: '김릿츠',
-  birthdate: '2000-01-12',
-  profileUrl: '',
-};
-
 const ProfileEdit = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
-  const [profileUrl, setProfileUrl] = useState<string | undefined>(
-    MOCK_USER.profileUrl,
-  );
+  const [profileUrl, setProfileUrl] = useState<string | undefined>('');
 
-  const [nickname, setNickname] = useState(MOCK_USER.nickname);
-  const [birthdate, setBirthdate] = useState(MOCK_USER.birthdate);
+  const [nickname, setNickname] = useState('');
+  const [birthdate, setBirthdate] = useState('');
 
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [passwordConfirmError, setPasswordConfirmError] = useState('');
 
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [introduction, setIntroduction] = useState('');
+
   const PASSWORD_RULE = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
   const isSocialLoggIned = true;
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await getMyInfo();
+        setNickname(user.nickname || '');
+        setBirthdate(user.birthDate || '');
+        setProfileUrl(user.profilePicture || '');
+        setEmail(user.email || '');
+        setName(user.name || '');
+        setIntroduction(user.introduction || '');
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const handleUploadProfile = (file: File) => {
     const url = URL.createObjectURL(file);
@@ -62,7 +72,7 @@ const ProfileEdit = () => {
     }
   };
 
-  const handleSaveProfile = () => {
+  const handleSaveProfile = async () => {
     const isPasswordValid = PASSWORD_RULE.test(password);
     const isPasswordMatch = password === passwordConfirm;
 
@@ -70,16 +80,27 @@ const ProfileEdit = () => {
       return;
     }
 
-    setIsEditing(false);
+    try {
+      await updateUser({
+        nickname,
+        birthDate: birthdate,
+        profilePicture: profileUrl,
+        introduction,
+      });
 
-    navigate('/mypage', {
-      state: {
-        toast: {
-          variant: 'success',
-          message: '저장되었습니다',
+      setIsEditing(false);
+      navigate('/mypage', {
+        state: {
+          toast: {
+            variant: 'success',
+            message: '프로필이 수정되었습니다!',
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      console.error(error);
+      alert('프로필 수정 중 오류가 발생했습니다.');
+    }
   };
 
   return (
@@ -111,13 +132,15 @@ const ProfileEdit = () => {
                 type="text"
                 value={nickname}
                 onChange={setNickname}
-                placeholder={MOCK_USER.nickname}
+                placeholder={nickname}
                 isDisabled={!isEditing}
               />
               <Input
                 variant="des"
                 type="text"
-                placeholder={MOCK_USER.des}
+                value={introduction}
+                onChange={setIntroduction}
+                placeholder="자기소개를 입력하세요"
                 isDisabled={!isEditing}
               />
             </div>
@@ -132,9 +155,9 @@ const ProfileEdit = () => {
               variant="email"
               type="email"
               label="이메일"
-              value="2ssac@leets.com"
+              value={email}
               isDisabled={true}
-              placeholder={MOCK_USER.password}
+              placeholder={email}
               unChangeable={true}
             />
             {!isSocialLoggIned && (
@@ -145,7 +168,7 @@ const ProfileEdit = () => {
                   label="비밀번호"
                   value={password}
                   onChange={handlePasswordChange}
-                  placeholder={MOCK_USER.password}
+                  placeholder="........"
                   isDisabled={!isEditing}
                 />
                 {password && passwordError && (
@@ -160,7 +183,7 @@ const ProfileEdit = () => {
                   label="비밀번호 확인"
                   value={passwordConfirm}
                   onChange={handlePasswordConfirmChange}
-                  placeholder={MOCK_USER.password}
+                  placeholder="........"
                   isDisabled={!isEditing}
                 />
                 {passwordConfirm && passwordConfirmError && (
@@ -174,9 +197,9 @@ const ProfileEdit = () => {
               variant="name"
               type="text"
               label="이름"
-              value="김릿츠"
+              value={name}
               isDisabled={true}
-              placeholder={MOCK_USER.name}
+              placeholder={name}
               unChangeable={true}
             />
             <Input
@@ -185,7 +208,7 @@ const ProfileEdit = () => {
               label="생년월일"
               value={birthdate}
               onChange={setBirthdate}
-              placeholder={MOCK_USER.birthdate}
+              placeholder={birthdate}
               isDisabled={!isEditing}
             />
             <Blank variant="32" />
