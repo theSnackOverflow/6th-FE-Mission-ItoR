@@ -55,6 +55,12 @@ export interface ReissueResponse {
   };
 }
 
+interface KakaoRedirectResponse {
+  code: number;
+  message: string;
+  data: string;
+}
+
 export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
   try {
     const res = await axiosInstance.post('/auth/register', data);
@@ -116,4 +122,9 @@ export const reissue = async (refreshToken: string) => {
     accessToken,
     refreshToken: newRefreshToken,
   };
+};
+
+export const getKakaoRedirectUrl = async (): Promise<string> => {
+  const res = await axiosInstance.get<KakaoRedirectResponse>('/auth/kakao');
+  return res.data.data;
 };
