@@ -61,6 +61,15 @@ interface KakaoRedirectResponse {
   data: string;
 }
 
+interface KakaoLoginCallbackResponse {
+  code: number;
+  message: string;
+  data: {
+    httpStatus: string;
+    responseMessage: string;
+  };
+}
+
 export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
   try {
     const res = await axiosInstance.post('/auth/register', data);
@@ -127,4 +136,13 @@ export const reissue = async (refreshToken: string) => {
 export const getKakaoRedirectUrl = async (): Promise<string> => {
   const res = await axiosInstance.get<KakaoRedirectResponse>('/auth/kakao');
   return res.data.data;
+};
+
+export const kakaoLoginCallback = async (
+  authCode: string,
+): Promise<KakaoLoginCallbackResponse> => {
+  const res = await axiosInstance.get<KakaoLoginCallbackResponse>(
+    `/auth/kakao/redirect?code=${authCode}`,
+  );
+  return res.data;
 };
