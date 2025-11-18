@@ -1,4 +1,13 @@
 import { axiosInstance } from '@/api/axiosInstance';
+import type {
+  KakaoLoginCallbackResponse,
+  KakaoRedirectResponse,
+  LoginResponse,
+  ReissueResponse,
+  SignUpOAuthResponse,
+  SignUpRequest,
+  SignUpResponse,
+} from '@/types/auth';
 
 export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
   try {
