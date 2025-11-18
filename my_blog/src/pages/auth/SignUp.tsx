@@ -50,7 +50,7 @@ const SignUp = () => {
                   type="EMAILOGIN"
                   text="이메일로 회원가입"
                   onClick={() => {
-                    navigate('./main');
+                    navigate('/signup/main');
                   }}
                 />
                 <div className="w-full mt-0.5 flex justify-center items-center">
