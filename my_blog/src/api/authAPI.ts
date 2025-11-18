@@ -21,6 +21,17 @@ interface SignUpResponse {
   };
 }
 
+interface SignUpOAuthResponse {
+  code: number;
+  message: string;
+  data: {
+    email: string;
+    nickname: string;
+    profilePicture: string;
+    introduction: string;
+  };
+}
+
 export interface LoginResponse {
   code: number;
   message: string;
@@ -54,7 +65,7 @@ export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
   }
 };
 
-export const signUpOAuth = async (payload: {
+interface SignUpOAuthRequest {
   email: string;
   nickname: string;
   profilePicture: string;
@@ -62,9 +73,18 @@ export const signUpOAuth = async (payload: {
   name: string;
   introduction: string;
   kakaoId: number;
-}) => {
-  const response = await axiosInstance.post('/auth/register-oauth', payload);
-  return response.data;
+}
+
+export const signUpOAuth = async (
+  payload: SignUpOAuthRequest,
+): Promise<SignUpOAuthResponse> => {
+  try {
+    const res = await axiosInstance.post('/auth/register-oauth', payload);
+    return res.data as SignUpOAuthResponse;
+  } catch (error) {
+    console.error('OAuth 회원가입 요청 실패', error);
+    throw error;
+  }
 };
 
 export const login = async (email: string, password: string) => {
