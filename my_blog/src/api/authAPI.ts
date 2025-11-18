@@ -16,8 +16,8 @@ interface SignUpResponse {
   data: {
     email: string;
     nickname: string;
-    profilePicture?: string;
-    introduction?: string;
+    profilePicture: string | null;
+    introduction: string | null;
   };
 }
 
@@ -47,7 +47,7 @@ export interface ReissueResponse {
 export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
   try {
     const res = await axiosInstance.post('/auth/register', data);
-    return res.data;
+    return res.data as SignUpResponse;
   } catch (error) {
     console.error('회원가입 요청 실패', error);
     throw error;
