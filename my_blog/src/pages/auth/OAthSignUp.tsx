@@ -1,48 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useOAuthSignUp } from '@/hooks/useOAuthSignUp';
 
 const OAuthSignUp: React.FC = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    kakaoId: '',
-    nickname: '',
-    name: '',
-    birthDate: '',
-    introduction: '',
-    profilePicture: 'https://example.com/default-profile.jpg',
-  });
-
   const navigate = useNavigate();
   const location = useLocation();
   const mutation = useOAuthSignUp();
 
-  // Extract email and kakaoId from localStorage or URL query
-  useEffect(() => {
-    let email = '';
-    let kakaoId = '';
-    // Try from localStorage
-    email = localStorage.getItem('email') || '';
-    kakaoId = localStorage.getItem('kakaoId') || '';
-    // If not in localStorage, try from query string
-    if (!email || !kakaoId) {
-      const params = new URLSearchParams(location.search);
-      if (!email) email = params.get('email') || '';
-      if (!kakaoId) kakaoId = params.get('kakaoId') || '';
-    }
-    setFormData((prev) => ({
-      ...prev,
-      email,
-      kakaoId,
-    }));
-  }, [location.search]);
+  const stateData =
+    (location.state as {
+      email?: string;
+      kakaoId?: number;
+      profilePicture?: string;
+    }) || {};
+  const [formData, setFormData] = useState({
+    email: stateData.email || '',
+    kakaoId: stateData.kakaoId ? String(stateData.kakaoId) : '',
+    nickname: '',
+    name: '',
+    birthDate: '',
+    introduction: '',
+    profilePicture:
+      stateData.profilePicture || 'https://example.com/default-profile.jpg',
+  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     let { name } = e.target;
     const { value } = e.target;
-    // For profile image field, map to profilePicture
     if (name === 'profileImageUrl') {
       name = 'profilePicture';
     }
@@ -54,13 +40,11 @@ const OAuthSignUp: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Validation for required OAuth fields
     if (!formData.email || !formData.kakaoId) {
       alert('카카오 인증 정보가 없습니다. 다시 로그인해주세요.');
       navigate('/');
       return;
     }
-    // Prepare request body for /auth/register-oauth
     const submitData = {
       ...formData,
       kakaoId: formData.kakaoId ? Number(formData.kakaoId) : 0,
