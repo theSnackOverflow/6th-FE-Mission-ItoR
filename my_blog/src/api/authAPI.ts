@@ -35,6 +35,15 @@ export interface LoginResponse {
   };
 }
 
+export interface ReissueResponse {
+  code: number;
+  message: string;
+  data: {
+    accessToken: string;
+    refreshToken: string;
+  };
+}
+
 export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
   try {
     const res = await axiosInstance.post('/auth/register', data);
