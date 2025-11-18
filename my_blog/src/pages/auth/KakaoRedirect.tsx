@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import axiosInstance from '@/api/axiosInstance';
+import { kakaoLoginCallback } from '@/api/authAPI';
 
 const KakaoRedirect = () => {
   const navigate = useNavigate();
@@ -18,25 +18,16 @@ const KakaoRedirect = () => {
       return;
     }
 
-    axiosInstance
-      .get(`/auth/kakao/redirect?code=${code}`)
+    kakaoLoginCallback(code)
       .then((res) => {
-        const { code: resCode, message, data } = res.data;
+        const { code: resCode, data } = res;
 
-        if (
-          (data && (data.httpStatus === 200 || data.httpStatus === '200')) ||
-          resCode === 200
-        ) {
-          console.log('카카오 로그인 성공');
+        if (resCode === 0) {
           const backendStatusMessage = data?.responseMessage || '로그인 완료';
           setStatusMessage(backendStatusMessage);
           navigate('/');
-        } else if (resCode === 401) {
-          navigate('/oauth-signup', { state: { code } });
         } else {
-          const errorMsg = `로그인 실패 - 코드: ${resCode}, 메시지: ${message}`;
-          console.error(errorMsg);
-          setStatusMessage(errorMsg);
+          navigate('/oauth-signup', { state: { code } });
         }
       })
       .catch((err) => {
