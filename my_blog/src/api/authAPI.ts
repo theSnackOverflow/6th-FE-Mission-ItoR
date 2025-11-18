@@ -21,17 +21,19 @@ interface SignUpResponse {
   };
 }
 
-export type LoginResponse = {
+export interface LoginResponse {
   code: number;
   message: string;
   data: {
     accessToken: string;
     refreshToken: string;
-    nickname?: string;
-    profilePicture?: string;
-    introduction?: string;
+    nickname: string;
+    profilePicture: string;
+    introduction: string;
+    httpStatus: string;
+    responseMessage: string;
   };
-};
+}
 
 export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
   try {
@@ -61,5 +63,15 @@ export const login = async (email: string, password: string) => {
     email,
     password,
   });
-  return res.data.data;
+
+  const { accessToken, refreshToken, nickname, profilePicture, introduction } =
+    res.data.data;
+
+  return {
+    accessToken,
+    refreshToken,
+    nickname,
+    profilePicture,
+    introduction,
+  };
 };
