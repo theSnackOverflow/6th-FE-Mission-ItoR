@@ -1,12 +1,14 @@
 import LoginButton from '@/components/Button/LoginButton';
-
-const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
-const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+import { getKakaoRedirectUrl } from '@/api/authAPI';
 
 const KakaoLogin = () => {
-  const handleKakaoLogin = () => {
-    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-    window.location.href = kakaoAuthUrl;
+  const handleKakaoLogin = async () => {
+    try {
+      const url = await getKakaoRedirectUrl();
+      window.location.href = url;
+    } catch (error) {
+      console.error('카카오 로그인 URL 요청 실패', error);
+    }
   };
 
   return (
