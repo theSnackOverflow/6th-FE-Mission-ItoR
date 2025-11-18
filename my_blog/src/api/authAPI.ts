@@ -84,3 +84,16 @@ export const login = async (email: string, password: string) => {
     introduction,
   };
 };
+
+export const reissue = async (refreshToken: string) => {
+  const res = await axiosInstance.post<ReissueResponse>('/auth/reissue', {
+    refreshToken,
+  });
+
+  const { accessToken, refreshToken: newRefreshToken } = res.data.data;
+
+  return {
+    accessToken,
+    refreshToken: newRefreshToken,
+  };
+};
