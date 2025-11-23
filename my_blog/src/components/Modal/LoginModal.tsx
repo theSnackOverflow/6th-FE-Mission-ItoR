@@ -1,11 +1,8 @@
 import { useState, type ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
 
-import { login } from '@/api/authAPI';
+import { useLoginMutation } from '@/hooks/useLoginMutation';
 import { ROUTES } from '@/const/routes';
-
-import type { AxiosError } from 'axios';
 
 import LoginButton from '../Button/LoginButton';
 import LoginInput from '../Input/LoginInput';
@@ -15,16 +12,6 @@ import ClearIcon from '../../assets/icons/clear.svg?react';
 interface LoginModalProps {
   onClose: () => void;
 }
-
-type LoginSuccessData = {
-  accessToken: string;
-  refreshToken: string;
-};
-type ApiErrorResponse = {
-  code?: number;
-  message?: string;
-  error?: string;
-};
 
 const LoginModal = ({ onClose }: LoginModalProps) => {
   const navigate = useNavigate();
@@ -38,27 +25,7 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
 
   const isEmailValid = EMAIL_REGEX.test(email);
 
-  const loginMutation = useMutation<
-    LoginSuccessData,
-    AxiosError<ApiErrorResponse>,
-    { email: string; password: string }
-  >({
-    mutationFn: ({ email, password }) => login(email, password),
-    onSuccess: ({ accessToken, refreshToken }) => {
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-      navigate(ROUTES.HOME);
-    },
-    onError: (error) => {
-      const apiMessage =
-        error.response?.data?.message ??
-        error.response?.data?.error ??
-        error.message ??
-        '로그인 실패';
-      setErrorMessage(apiMessage);
-      setIsErrorVisible(true);
-    },
-  });
+  const loginMutation = useLoginMutation();
 
   const handleSubmit = () => {
     if (!isEmailValid) {
@@ -66,7 +33,20 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
       setErrorMessage('*이메일 형식이 적합하지 않습니다.');
       return;
     }
-    loginMutation.mutate({ email, password });
+    loginMutation.mutate(
+      { email, password },
+      {
+        onError: (error) => {
+          const apiMessage =
+            error.response?.data?.message ??
+            error.response?.data?.error ??
+            error.message ??
+            '로그인 실패';
+          setErrorMessage(apiMessage);
+          setIsErrorVisible(true);
+        },
+      }
+    );
   };
 
   const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
