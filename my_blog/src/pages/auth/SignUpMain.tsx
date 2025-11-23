@@ -56,6 +56,77 @@ const SignUpMain = () => {
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
+  // Input 필드 설정
+  const inputFields = [
+    {
+      variant: 'email' as const,
+      type: 'email' as const,
+      label: '이메일',
+      placeholder: '이메일',
+      value: email,
+      onChange: setEmail,
+      error: emailError,
+    },
+    ...(!isSocialLoggIned
+      ? [
+          {
+            variant: 'password' as const,
+            type: 'password' as const,
+            label: '비밀번호',
+            placeholder: '........',
+            value: password,
+            onChange: setPassword,
+            error: passwordError,
+          },
+          {
+            variant: 'passwordconfirm' as const,
+            type: 'password' as const,
+            label: '비밀번호 확인',
+            placeholder: '........',
+            value: passwordConfirm,
+            onChange: setPasswordConfirm,
+            error: passwordConfirmError,
+          },
+        ]
+      : []),
+    {
+      variant: 'name' as const,
+      type: 'text' as const,
+      label: '이름',
+      placeholder: '이름',
+      value: name,
+      onChange: setName,
+      error: nameError,
+    },
+    {
+      variant: 'birthdate' as const,
+      type: 'text' as const,
+      label: '생년월일',
+      placeholder: 'YYYY-MM-DD',
+      value: birthdate,
+      onChange: setBirthdate,
+      error: birthdateError,
+    },
+    {
+      variant: 'nickname' as const,
+      type: 'text' as const,
+      label: '닉네임',
+      placeholder: '닉네임',
+      value: nickname,
+      onChange: setNickname,
+      error: nicknameError,
+    },
+    {
+      variant: 'des' as const,
+      type: 'text' as const,
+      label: '한 줄 소개',
+      placeholder: '한 줄 소개',
+      value: des,
+      onChange: setDes,
+      error: desError,
+    },
+  ];
+
   const signUpMutation = useMutation({
     mutationFn: async (payload: {
       email: string;
@@ -170,103 +241,23 @@ const SignUpMain = () => {
             {/* 나머지 Input */}
             <div className="w-full flex flex-col justify-center">
               {isSocialLoggIned && <SocialLoggIned />}
-              <Input
-                value={email}
-                variant="email"
-                type="email"
-                label="이메일"
-                placeholder="이메일"
-                onChange={(e) => setEmail(e)}
-              />
-              {emailError && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  {emailError}
-                </p>
-              )}
-
-              {!isSocialLoggIned && (
-                <>
+              {inputFields.map((field, index) => (
+                <div key={index}>
                   <Input
-                    variant="password"
-                    type="password"
-                    label="비밀번호"
-                    value={password}
-                    onChange={(e) => setPassword(e)}
-                    placeholder="........"
+                    variant={field.variant}
+                    type={field.type}
+                    label={field.label}
+                    placeholder={field.placeholder}
+                    value={field.value}
+                    onChange={field.onChange}
                   />
-                  {passwordError && (
+                  {field.error && (
                     <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                      {passwordError}
+                      {field.error}
                     </p>
                   )}
-
-                  <Input
-                    variant="passwordconfirm"
-                    type="password"
-                    label="비밀번호 확인"
-                    value={passwordConfirm}
-                    onChange={(e) => setPasswordConfirm(e)}
-                    placeholder="........"
-                  />
-                  {passwordConfirmError && (
-                    <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                      {passwordConfirmError}
-                    </p>
-                  )}
-                </>
-              )}
-              <Input
-                variant="name"
-                type="text"
-                label="이름"
-                value={name}
-                onChange={(e) => setName(e)}
-                placeholder="이름"
-              />
-              {nameError && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  {nameError}
-                </p>
-              )}
-              <Input
-                variant="birthdate"
-                type="text"
-                label="생년월일"
-                value={birthdate}
-                onChange={setBirthdate}
-                placeholder="YYYY-MM-DD"
-              />
-              {birthdateError && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  {birthdateError}
-                </p>
-              )}
-              <Input
-                label="닉네임"
-                variant="nickname"
-                type="text"
-                value={nickname}
-                onChange={setNickname}
-                placeholder="닉네임"
-              />
-              {nicknameError && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  {nicknameError}
-                </p>
-              )}
-              <Input
-                label="한 줄 소개"
-                variant="des"
-                type="text"
-                value={des}
-                onChange={setDes}
-                placeholder="한 줄 소개"
-              />
-              {desError && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  {desError}
-                </p>
-              )}
+                </div>
+              ))}
 
               <Blank variant="32" />
               <button
