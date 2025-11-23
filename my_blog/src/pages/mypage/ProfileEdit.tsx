@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { updateUser, updateNickname, updatePassword } from '../../api/userAPI';
 import { useProfileForm } from './hooks/useProfileForm';
 
-import Blank from '../../components/Blank';
-import Header from '../../components/Header';
+import Blank from '@/components/Blank';
+import { BaseHeader, EditProfileHeader } from '../../components/Header';
 import ProfileImageSection from './components/ProfileImageSection';
 import BasicInfoSection from './components/BasicInfoSection';
 import AccountInfoSection from './components/AccountInfoSection';
@@ -68,12 +68,21 @@ const ProfileEdit = () => {
 
   return (
     <>
-      <Header
-        type={isEditing ? 'edit-profile' : 'edit'}
-        onEdit={() => setIsEditing(true)}
-        onCancel={() => setIsEditing(false)}
-        onSave={handleSaveProfile}
-      />
+      {isEditing ? (
+        <EditProfileHeader
+          onCancel={() => setIsEditing(false)}
+          onSave={handleSaveProfile}
+        />
+      ) : (
+        <BaseHeader>
+          <button
+            className="px-3 py-2 text-sm font-normal text-black"
+            onClick={() => setIsEditing(true)}
+          >
+            편집하기
+          </button>
+        </BaseHeader>
+      )}
       <main className="top-[74px]">
         <div className="mt-18 w-full h-fit flex flex-col justify-center items-center bg-gray-96">
           <div className="w-full max-w-[688px] min-w-mobile h-full flex flex-col">
