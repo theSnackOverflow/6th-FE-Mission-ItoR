@@ -49,6 +49,19 @@ const Modal = ({
     onClose();
   };
 
+  const buttons = [
+    {
+      text: type === 'login' ? '확인' : '취소',
+      variant: 'CANCEL' as ModalButtonVariant,
+      onClick: onClose,
+    },
+    {
+      text: textMap[type],
+      variant: buttonColorMap[color],
+      onClick: handleConfirm,
+    },
+  ];
+
   return (
     <section className="absolute z-50 w-[326px] h-fit pt-6 pb-4 px-4 bg-white rounded-sm shadow-xl">
       <div className="w-full h-full flex flex-col justify-between gap-6">
@@ -68,18 +81,15 @@ const Modal = ({
         </div>
 
         {/* buttons */}
-        {/* 아직 onClick 정의 안 함 */}
         <div className="flex justify-around">
-          {type === 'login' ? (
-            <ModalButton text="확인" variant="CANCEL" onClick={onClose} />
-          ) : (
-            <ModalButton text="취소" variant="CANCEL" onClick={onClose} />
-          )}
-          <ModalButton
-            text={textMap[type]}
-            variant={buttonColorMap[color]}
-            onClick={handleConfirm}
-          />
+          {buttons.map((button, index) => (
+            <ModalButton
+              key={index}
+              text={button.text}
+              variant={button.variant}
+              onClick={button.onClick}
+            />
+          ))}
         </div>
       </div>
     </section>
