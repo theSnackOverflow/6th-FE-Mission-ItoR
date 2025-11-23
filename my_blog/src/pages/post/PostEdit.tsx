@@ -34,6 +34,7 @@ const PostEdit = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const contentsRef = useRef<ContentBlock[]>(contents);
+  const menuRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     contentsRef.current = contents;
@@ -180,8 +181,7 @@ const PostEdit = () => {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      const menuEl = document.querySelector('.menu-popup');
-      if (menuEl && !(menuEl as HTMLElement).contains(e.target as Node)) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setIsMenuOpen(false);
       }
     };
@@ -275,6 +275,7 @@ const PostEdit = () => {
 
       {isMenuOpen && menuPosition && (
         <Menu
+          ref={menuRef}
           top={menuPosition.top}
           left={menuPosition.left}
           onDelete={handleDeleteImage}
