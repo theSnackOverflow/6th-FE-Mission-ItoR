@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPostById, updatePost } from '@/api/postAPI';
+import { uploadImageToS3 } from '@/api/imageAPI';
 import { useToast } from '@/context/ToastContext';
 
 import Blank from '@/components/Blank';
@@ -116,34 +117,47 @@ const PostEdit = () => {
     fileInputRef.current?.click();
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
 
-    const newBlocks = Array.from(files).map((file) => ({
-      id: crypto.randomUUID(),
-      type: 'IMAGE' as const,
-      value: URL.createObjectURL(file),
-    }));
+    try {
+      const uploadedBlocks = await Promise.all(
+        Array.from(files).map(async (file) => {
+          const s3Url = await uploadImageToS3(file);
+          return {
+            id: crypto.randomUUID(),
+            type: 'IMAGE' as const,
+            value: s3Url,
+          };
+        }),
+      );
 
-    setContents((prev) => {
-      if (focusedIndex === null)
+      setContents((prev) => {
+        if (focusedIndex === null)
+          return [
+            ...prev,
+            ...uploadedBlocks,
+            { id: crypto.randomUUID(), type: 'TEXT', value: '' },
+          ];
+        const before = prev.slice(0, focusedIndex + 1);
+        const after = prev.slice(focusedIndex + 1);
         return [
-          ...prev,
-          ...newBlocks,
+          ...before,
+          ...uploadedBlocks,
           { id: crypto.randomUUID(), type: 'TEXT', value: '' },
+          ...after,
         ];
-      const before = prev.slice(0, focusedIndex + 1);
-      const after = prev.slice(focusedIndex + 1);
-      return [
-        ...before,
-        ...newBlocks,
-        { id: crypto.randomUUID(), type: 'TEXT', value: '' },
-        ...after,
-      ];
-    });
+      });
 
-    e.target.value = '';
+      e.target.value = '';
+    } catch (error) {
+      console.error('이미지 업로드 실패:', error);
+      showToast({
+        variant: 'error',
+        message: '이미지 업로드에 실패했습니다.',
+      });
+    }
   };
 
   const handleTextChange = (id: string, value: string) => {
