@@ -12,7 +12,7 @@ import LoginInput from '../Input/LoginInput';
 
 import ClearIcon from '../../assets/icons/clear.svg?react';
 
-interface loginModalProps {
+interface LoginModalProps {
   onClose: () => void;
 }
 
@@ -26,7 +26,7 @@ type ApiErrorResponse = {
   error?: string;
 };
 
-const LoginModal = ({ onClose }: loginModalProps) => {
+const LoginModal = ({ onClose }: LoginModalProps) => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');

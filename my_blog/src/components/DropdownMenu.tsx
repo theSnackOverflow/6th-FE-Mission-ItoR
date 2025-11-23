@@ -2,12 +2,12 @@ import PolygonSVG from '@/assets/icons/polygon_1.svg?react';
 import DropdownMenuMaterial from './DropdownMenuMaterial';
 import clsx from 'clsx';
 
-interface dropdownMenuProps {
+interface DropdownMenuProps {
   className?: string;
   menuItems: { text: string; className?: string; onClick?: () => void }[];
 }
 
-const DropdownMenu = ({ className, menuItems }: dropdownMenuProps) => {
+const DropdownMenu = ({ className, menuItems }: DropdownMenuProps) => {
   return (
     <section
       className={clsx(

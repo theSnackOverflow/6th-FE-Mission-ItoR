@@ -1,6 +1,6 @@
 import type { ChangeEvent } from 'react';
 
-interface loginInputProps {
+interface LoginInputProps {
   placeholder?: string;
   type: string;
   value: string;
@@ -14,7 +14,7 @@ const LoginInput = ({
   placeholder,
   onChange,
   onKeyDown,
-}: loginInputProps) => {
+}: LoginInputProps) => {
   return (
     <input
       type={type}

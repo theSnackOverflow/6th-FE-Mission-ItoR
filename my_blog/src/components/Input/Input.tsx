@@ -11,11 +11,11 @@ type InputVariant =
   | 'passwordconfirm'
   | 'birthdate';
 
-type inputType = 'text' | 'password' | 'email';
+type InputType = 'text' | 'password' | 'email';
 
-interface inputProps {
+interface InputProps {
   variant: InputVariant;
-  type: inputType;
+  type: InputType;
   label?: string;
   value?: string;
   isDisabled?: boolean;
@@ -33,7 +33,7 @@ const Input = ({
   placeholder,
   unChangeable = false,
   onChange,
-}: inputProps) => {
+}: InputProps) => {
   switch (variant) {
     case 'nickname':
       return (

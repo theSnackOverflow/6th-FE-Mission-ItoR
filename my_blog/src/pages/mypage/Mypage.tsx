@@ -39,7 +39,7 @@ const Mypage = () => {
         </div>
       )}
       <Header type="main" onLogout={() => setShowLogoutModal(true)} />
-      <div style={{ top: 74 }}>
+      <div className="top-[74px]">
         <ProfileSection showEdit={true} />
       </div>
       <main className="mt-3 w-full h-full flex flex-col justify-start items-center min-w-mobile mobile:overflow-x-auto">
