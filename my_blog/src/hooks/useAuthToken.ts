@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import axiosInstance from '@/api/axiosInstance';
+import { tokenStorage } from '@/utils/tokenStorage';
 
 export const useAuthToken = () => {
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
+    const token = tokenStorage.getAccessToken();
+    const refreshToken = tokenStorage.getRefreshToken();
 
     if (token) {
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -15,12 +16,12 @@ export const useAuthToken = () => {
             refreshToken,
           });
           const newToken = res.data.data.accessToken;
-          localStorage.setItem('accessToken', newToken);
+          const newRefreshToken = res.data.data.refreshToken;
+          tokenStorage.setTokens(newToken, newRefreshToken);
           axiosInstance.defaults.headers.common.Authorization = `Bearer ${newToken}`;
         } catch (err) {
           console.error('토큰 갱신 실패:', err);
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
+          tokenStorage.clearTokens();
           window.location.href = '/';
         }
       };

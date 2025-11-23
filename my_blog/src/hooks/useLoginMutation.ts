@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import type { AxiosError } from 'axios';
 import { login } from '@/api/authAPI';
+import { tokenStorage } from '@/utils/tokenStorage';
 import { ROUTES } from '@/const/routes';
 
 type LoginSuccessData = {
@@ -28,8 +29,7 @@ export const useLoginMutation = () => {
   >({
     mutationFn: ({ email, password }) => login(email, password),
     onSuccess: ({ accessToken, refreshToken }) => {
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
+      tokenStorage.setTokens(accessToken, refreshToken);
       navigate(ROUTES.HOME);
     },
     onError: (error) => {
