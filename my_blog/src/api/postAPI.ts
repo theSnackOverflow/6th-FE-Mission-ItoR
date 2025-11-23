@@ -42,7 +42,11 @@ export const updatePost = async (postId: string, postData: PostData) => {
   return response.data;
 };
 
-// 게시물 리스트 조회
+/**
+ * 게시물 리스트 조회 (Public)
+ * @param page 페이지 번호 (기본값: 1)
+ * @param size 페이지당 항목 수 (기본값: 10, 스웨거 기준)
+ */
 export const getAllPosts = async (page: number, size: number) => {
   const response = await axiosInstance.get('/posts/all', {
     params: { page, size },
@@ -50,7 +54,11 @@ export const getAllPosts = async (page: number, size: number) => {
   return extractData(response);
 };
 
-// 게시물 리스트 조회 (Private - 토큰 포함)
+/**
+ * 게시물 리스트 조회 (Private - 토큰 포함)
+ * @param page 페이지 번호 (기본값: 1)
+ * @param size 페이지당 항목 수 (기본값: 10, 스웨거 기준)
+ */
 export const getAllPostsWithToken = async (page: number, size: number) => {
   const response = await axiosPrivateInstance.get('/posts/all/token', {
     params: { page, size },
