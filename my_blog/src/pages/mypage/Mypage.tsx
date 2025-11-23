@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import Header from '@/components/Header';
+import { MainHeader } from '@/components/Header';
 import { PostList } from '../main/components/PostList';
 import ProfileSection from '@/components/ProfileSection';
 import Toast from '@/components/Toast';
@@ -38,7 +38,7 @@ const Mypage = () => {
           />
         </div>
       )}
-      <Header type="main" onLogout={() => setShowLogoutModal(true)} />
+      <MainHeader onLogout={() => setShowLogoutModal(true)} />
       <div className="top-[74px]">
         <ProfileSection showEdit={true} />
       </div>

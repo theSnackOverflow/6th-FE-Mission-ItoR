@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import Blank from '@/components/Blank';
-import Header from '@/components/Header';
+import { BaseHeader } from '@/components/Header';
 
 import LoginButton from '@/components/Button/LoginButton';
 import KakaoLogin from './KakaoLogin';
@@ -19,7 +19,7 @@ const SignUp = () => {
 
   return (
     <>
-      <Header />
+      <BaseHeader />
       <main className="mt-[70px] w-full h-screen flex flex-col">
         <section className="w-full flex flex-col items-center bg-gray-96 ">
           <div className="w-full max-w-[688px] min-w-mobile">
