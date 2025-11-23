@@ -1,15 +1,5 @@
 import axiosInstance from './axiosInstance';
-
-type PostContent = {
-  contentOrder: number;
-  content: string;
-  contentType: 'TEXT' | 'IMAGE';
-};
-
-type PostData = {
-  title: string;
-  contents: PostContent[];
-};
+import type { PostData } from '@/types/post';
 
 // 공통 응답 데이터 추출 함수
 const extractData = <T>(response: { data: { data: T } }): T => {
