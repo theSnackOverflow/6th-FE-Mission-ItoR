@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useOAuthSignUp } from '@/hooks/useOAuthSignUp';
+import { useToast } from '@/context/ToastContext';
 
 const OAuthSignUp: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const mutation = useOAuthSignUp();
+  const { showToast } = useToast();
 
   const stateData =
     (location.state as {
@@ -41,7 +43,10 @@ const OAuthSignUp: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.email || !formData.kakaoId) {
-      alert('카카오 인증 정보가 없습니다. 다시 로그인해주세요.');
+      showToast({
+        variant: 'error',
+        message: '카카오 인증 정보가 없습니다. 다시 로그인해주세요.',
+      });
       navigate('/');
       return;
     }
@@ -51,11 +56,17 @@ const OAuthSignUp: React.FC = () => {
     };
     mutation.mutate(submitData, {
       onSuccess: () => {
-        alert('회원가입 완료!');
+        showToast({
+          variant: 'success',
+          message: '회원가입 완료!',
+        });
         navigate('/');
       },
       onError: () => {
-        alert('회원가입 실패, 다시 시도해주세요.');
+        showToast({
+          variant: 'error',
+          message: '회원가입 실패, 다시 시도해주세요.',
+        });
       },
     });
   };
