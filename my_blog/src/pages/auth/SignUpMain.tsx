@@ -4,7 +4,6 @@ import { axiosInstance } from '@/api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 import Blank from '@/components/Blank';
-import Header from '@/components/Header';
 
 import ProfileImage from '@/components/ProfileImage';
 import AddPhotoIcon from '@/assets/icons/add_photo_alternate.svg?react';
@@ -13,6 +12,16 @@ import ModalWrapper from '@/components/Modal/ModalWrapper';
 import Modal from '@/components/Modal/Modal';
 import LoginModal from '@/components/Modal/LoginModal';
 import SocialLoggIned from '@/pages/mypage/components/SocailLoggIned';
+import {
+  validateEmail,
+  validatePassword,
+  validatePasswordConfirm,
+  validateName,
+  validateBirthdate,
+  validateNickname,
+  validateIntroduction,
+} from '@/utils/validation';
+import { ROUTES } from '@/const/routes';
 
 const isSocialLoggIned = false; //! 테스트용
 
@@ -29,17 +38,20 @@ const SignUpMain = () => {
   const [nickname, setNickname] = useState('');
   const [des, setDes] = useState('');
 
-  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const PASSWORD_RULE = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
-  const BIRTHDATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const birth = new Date(birthdate);
-  birth.setHours(0, 0, 0, 0);
-  const isBirthValid =
-    BIRTHDATE_REGEX.test(birthdate) && !isNaN(birth.getTime()) && birth < today;
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // 유효성 검사 에러
+  const emailError = isSubmitted ? validateEmail(email) : null;
+  const passwordError =
+    isSubmitted && !isSocialLoggIned ? validatePassword(password) : null;
+  const passwordConfirmError =
+    isSubmitted && !isSocialLoggIned
+      ? validatePasswordConfirm(password, passwordConfirm)
+      : null;
+  const nameError = isSubmitted ? validateName(name) : null;
+  const birthdateError = isSubmitted ? validateBirthdate(birthdate) : null;
+  const nicknameError = isSubmitted ? validateNickname(nickname) : null;
+  const desError = isSubmitted ? validateIntroduction(des) : null;
 
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -87,6 +99,17 @@ const SignUpMain = () => {
 
     if (!isAllFilled) return;
 
+    // 유효성 검사
+    const hasErrors =
+      emailError ||
+      nameError ||
+      birthdateError ||
+      nicknameError ||
+      desError ||
+      (!isSocialLoggIned && (passwordError || passwordConfirmError));
+
+    if (hasErrors) return;
+
     const payload = {
       email,
       password,
@@ -102,12 +125,10 @@ const SignUpMain = () => {
     console.log('[DEBUG] will POST to', '/auth/register');
 
     signUpMutation.mutate(payload);
-    // setShowSignUpModal(true);
   };
 
   return (
     <>
-      <Header />
       <main className="relative mt-[70px] w-full h-screen flex flex-col">
         <section className="w-full flex flex-col items-center bg-gray-96 ">
           <Blank variant="32" />
@@ -157,14 +178,9 @@ const SignUpMain = () => {
                 placeholder="이메일"
                 onChange={(e) => setEmail(e)}
               />
-              {isSubmitted && email.length === 0 && (
+              {emailError && (
                 <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *반드시 입력해야 하는 필수 사항입니다.
-                </p>
-              )}
-              {isSubmitted && email.length > 0 && !EMAIL_REGEX.test(email) && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *이메일 형식이 적합하지 않습니다.
+                  {emailError}
                 </p>
               )}
 
@@ -178,18 +194,11 @@ const SignUpMain = () => {
                     onChange={(e) => setPassword(e)}
                     placeholder="........"
                   />
-                  {isSubmitted && password.length === 0 && (
+                  {passwordError && (
                     <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                      *반드시 입력해야 하는 필수 사항입니다.
+                      {passwordError}
                     </p>
                   )}
-                  {isSubmitted &&
-                    password.length > 0 &&
-                    !PASSWORD_RULE.test(password) && (
-                      <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                        * 영문, 숫자, 특수문자를 포함하여 8~16자로 입력해주세요
-                      </p>
-                    )}
 
                   <Input
                     variant="passwordconfirm"
@@ -199,18 +208,11 @@ const SignUpMain = () => {
                     onChange={(e) => setPasswordConfirm(e)}
                     placeholder="........"
                   />
-                  {isSubmitted && passwordConfirm.length === 0 && (
+                  {passwordConfirmError && (
                     <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                      *반드시 입력해야 하는 필수 사항입니다.
+                      {passwordConfirmError}
                     </p>
                   )}
-                  {isSubmitted &&
-                    passwordConfirm.length > 0 &&
-                    !(passwordConfirm === password) && (
-                      <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                        *비밀번호가 일치하지 않습니다
-                      </p>
-                    )}
                 </>
               )}
               <Input
@@ -221,9 +223,9 @@ const SignUpMain = () => {
                 onChange={(e) => setName(e)}
                 placeholder="이름"
               />
-              {isSubmitted && name.length === 0 && (
+              {nameError && (
                 <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *반드시 입력해야 하는 필수 사항입니다.
+                  {nameError}
                 </p>
               )}
               <Input
@@ -234,28 +236,11 @@ const SignUpMain = () => {
                 onChange={setBirthdate}
                 placeholder="YYYY-MM-DD"
               />
-              {isSubmitted && birthdate.length === 0 && (
+              {birthdateError && (
                 <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *반드시 입력해야 하는 필수 사항입니다.
+                  {birthdateError}
                 </p>
               )}
-
-              {isSubmitted &&
-                birthdate.length > 0 &&
-                !BIRTHDATE_REGEX.test(birthdate) && (
-                  <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                    *YYYY-MM-DD 형식으로 입력해주세요.
-                  </p>
-                )}
-
-              {isSubmitted &&
-                birthdate.length > 0 &&
-                BIRTHDATE_REGEX.test(birthdate) &&
-                !isBirthValid && (
-                  <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                    *생일은 오늘 또는 미래 날짜일 수 없습니다.
-                  </p>
-                )}
               <Input
                 label="닉네임"
                 variant="nickname"
@@ -264,14 +249,9 @@ const SignUpMain = () => {
                 onChange={setNickname}
                 placeholder="닉네임"
               />
-              {isSubmitted && nickname.length === 0 && (
+              {nicknameError && (
                 <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *반드시 입력해야 하는 필수 사항입니다.
-                </p>
-              )}
-              {isSubmitted && nickname.length > 0 && nickname.length > 20 && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *닉네임은 최대 20글자입니다.
+                  {nicknameError}
                 </p>
               )}
               <Input
@@ -282,9 +262,9 @@ const SignUpMain = () => {
                 onChange={setDes}
                 placeholder="한 줄 소개"
               />
-              {isSubmitted && des.length > 0 && des.length > 30 && (
+              {desError && (
                 <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *한 줄 소개는 최대 30글자입니다.
+                  {desError}
                 </p>
               )}
 
@@ -301,12 +281,15 @@ const SignUpMain = () => {
         </section>
       </main>
       {showSignUpModal && (
-        <ModalWrapper isOpen={showSignUpModal} onClose={() => navigate('/')}>
+        <ModalWrapper
+          isOpen={showSignUpModal}
+          onClose={() => navigate(ROUTES.HOME)}
+        >
           <Modal
             type="login"
             color="auth"
             title="회원가입이 완료되었습니다!"
-            onClose={() => navigate('/')}
+            onClose={() => navigate(ROUTES.HOME)}
             onLogin={() => {
               setShowSignUpModal(false);
               setShowLoginModal(true);
