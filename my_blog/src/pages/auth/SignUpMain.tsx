@@ -271,7 +271,7 @@ const SignUpMain = () => {
               <Blank variant="32" />
               <button
                 onClick={handleSubmit}
-                className="w-full mx-4 py-3 text-sm font-normal text-point border border-point rounded-3xl"
+                className="mx-4 py-3 text-sm font-normal text-point border border-point rounded-3xl"
               >
                 회원가입 완료
               </button>
