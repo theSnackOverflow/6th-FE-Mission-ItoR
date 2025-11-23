@@ -1,5 +1,6 @@
-import type { AxiosRequestHeaders } from 'axios';
+import type { InternalAxiosRequestConfig } from 'axios';
 import axios from 'axios';
+import { tokenStorage } from '@/utils/tokenStorage';
 
 const baseConfig = {
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -12,22 +13,20 @@ export default axiosInstance;
 
 export const axiosPrivateInstance = axios.create(baseConfig);
 
-axiosPrivateInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('accessToken');
+axiosPrivateInstance.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    const token = tokenStorage.getAccessToken();
 
-  if (!config.headers) {
-    config.headers = {} as AxiosRequestHeaders; //! 타입 캐스팅 이렇게 해도 되나?
-  }
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
+    return config;
+  },
+);
 
 const reissueTokens = async () => {
-  const refreshToken = localStorage.getItem('refreshToken');
+  const refreshToken = tokenStorage.getRefreshToken();
 
   if (!refreshToken) throw new Error('No refresh token found');
 
@@ -38,8 +37,7 @@ const reissueTokens = async () => {
   const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
     response.data.data;
 
-  localStorage.setItem('accessToken', newAccessToken);
-  localStorage.setItem('refreshToken', newRefreshToken);
+  tokenStorage.setTokens(newAccessToken, newRefreshToken);
 
   return newAccessToken;
 };
@@ -59,12 +57,13 @@ axiosPrivateInstance.interceptors.response.use(
       try {
         const newAccessToken = await reissueTokens();
 
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        if (originalRequest.headers) {
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        }
         return axiosPrivateInstance(originalRequest);
       } catch (reissueError) {
         console.error('Token reissue failed → Logging out');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        tokenStorage.clearTokens();
         return Promise.reject(reissueError);
       }
     }
