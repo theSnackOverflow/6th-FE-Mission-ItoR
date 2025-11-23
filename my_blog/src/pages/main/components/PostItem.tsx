@@ -50,13 +50,11 @@ const PostItem = ({
         />
       </div>
       {/* image */}
-      {imgSrc && (
-        <div className="h-full bg-white">
-          <div className="w-30 h-30 px-4 py-3">
-            <img src={defaultImage || imgSrc} className="object-fill" />
-          </div>
+      <div className="h-full bg-white">
+        <div className="w-30 h-30 px-4 py-3">
+          <img src={imgSrc || defaultImage} className="object-fill" />
         </div>
-      )}
+      </div>
     </article>
   );
 };
