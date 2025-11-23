@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import Header from '@/components/Header';
 import Toast from '@/components/Toast';
 
 import { PostList } from './components/PostList';
@@ -33,7 +32,7 @@ const MainPage = () => {
           />
         </div>
       )}
-      <Header type="main" />
+
       <main className="mt-16 w-full h-full flex flex-col justify-start items-center min-w-mobile mobile:overflow-x-auto">
         <PostList />
       </main>
