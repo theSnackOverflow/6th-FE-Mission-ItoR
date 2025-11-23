@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import axiosInstance from './api/axiosInstance';
+import { ToastProvider } from './context/ToastContext';
 import {
   TestForBlank,
   TestForButton,
@@ -59,44 +60,46 @@ function App() {
     }
   }, []);
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* <Route element={<Layout />}> */}
-        <Route path="/" element={<MainPage />} />
-        <Route path="/post/:postId" element={<PostDetail />} />
-        <Route path="/post/new" element={<PostNew />} />
+    <ToastProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* <Route element={<Layout />}> */}
+          <Route path="/" element={<MainPage />} />
+          <Route path="/post/:postId" element={<PostDetail />} />
+          <Route path="/post/new" element={<PostNew />} />
 
-        {/* 마이페이지 관련 */}
-        <Route path="/mypage" element={<Mypage />} />
-        <Route path="/profile/edit" element={<ProfileEdit />} />
+          {/* 마이페이지 관련 */}
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/profile/edit" element={<ProfileEdit />} />
 
-        {/* Auth 관련 */}
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signup/main" element={<SignUpMain />} />
-        <Route path="/kakao-signup" element={<OAuthSignUp />} />
-        <Route path="/kakao-redirect" element={<KakaoRedirect />} />
+          {/* Auth 관련 */}
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signup/main" element={<SignUpMain />} />
+          <Route path="/kakao-signup" element={<OAuthSignUp />} />
+          <Route path="/kakao-redirect" element={<KakaoRedirect />} />
 
-        {/* Test Pages */}
-        <Route path="/test/toast" element={<TestForToast />} />
-        <Route path="/test/menu" element={<TestForMenu />} />
-        <Route path="/test/dropdown" element={<TestForDropdown />} />
-        <Route path="/test/modal" element={<TestForModal />} />
-        <Route path="/test/text" element={<TestForText />} />
-        <Route path="/test/blank" element={<TestForBlank />} />
-        <Route path="/test/devider" element={<TestForDevider />} />
-        <Route path="/test/text-field" element={<TestForTextField />} />
-        <Route path="/test/profile-image" element={<TestForProfileImage />} />
-        <Route path="/test/button" element={<TestForButton />} />
-        <Route path="/test/pagination" element={<TestForPagination />} />
-        <Route path="/test/header" element={<TestForHeader />} />
-        <Route
-          path="/test/profile-sidebar"
-          element={<TestForProfileSidebar />}
-        />
-        <Route path="/test/modal-wrapper" element={<TestForModalWrapper />} />
-        <Route path="/test/login-modal" element={<TestForLoginModal />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Test Pages */}
+          <Route path="/test/toast" element={<TestForToast />} />
+          <Route path="/test/menu" element={<TestForMenu />} />
+          <Route path="/test/dropdown" element={<TestForDropdown />} />
+          <Route path="/test/modal" element={<TestForModal />} />
+          <Route path="/test/text" element={<TestForText />} />
+          <Route path="/test/blank" element={<TestForBlank />} />
+          <Route path="/test/devider" element={<TestForDevider />} />
+          <Route path="/test/text-field" element={<TestForTextField />} />
+          <Route path="/test/profile-image" element={<TestForProfileImage />} />
+          <Route path="/test/button" element={<TestForButton />} />
+          <Route path="/test/pagination" element={<TestForPagination />} />
+          <Route path="/test/header" element={<TestForHeader />} />
+          <Route
+            path="/test/profile-sidebar"
+            element={<TestForProfileSidebar />}
+          />
+          <Route path="/test/modal-wrapper" element={<TestForModalWrapper />} />
+          <Route path="/test/login-modal" element={<TestForLoginModal />} />
+        </Routes>
+      </BrowserRouter>
+    </ToastProvider>
   );
 }
 
