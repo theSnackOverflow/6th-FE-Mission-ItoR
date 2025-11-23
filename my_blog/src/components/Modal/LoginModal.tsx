@@ -128,12 +128,12 @@ const LoginModal = ({ onClose }: loginModalProps) => {
             text="이메일로 로그인"
             onClick={handleSubmit}
           />
-          <div className="w-full  flex justify-center items-center">
-            <div className="w-[123px] -ml-4 border border-gray-20"></div>
+          <div className="w-full flex justify-center items-center">
+            <div className="w-[123px] border border-gray-20 -ml-4"></div>
             <span className="px-2 pt-0.5 pb-1 text-xs text-gray-56 font-normal">
               SNS
             </span>
-            <div className="w-[123px] -mr-4 h-0 border border-gray-20"></div>
+            <div className="w-[123px] border border-gray-20 -mr-4"></div>
           </div>
           <LoginButton type="KAKAOLOGIN" text="카카오로 로그인" />
           <button
