@@ -13,12 +13,5 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    proxy: {
-      '/auth': {
-        target: 'https://blog.leets.land',
-        changeOrigin: true,
-        secure: true,
-      },
-    },
   },
 });
