@@ -1,5 +1,5 @@
 import axiosInstance, { axiosPrivateInstance } from './axiosInstance';
-import type { PostData } from '@/types/post';
+import type { Post, PostData } from '@/types/post';
 
 // 공통 응답 데이터 추출 함수
 const extractData = <T>(response: { data: { data: T } }): T => {
@@ -7,17 +7,17 @@ const extractData = <T>(response: { data: { data: T } }): T => {
 };
 
 // 토큰 없이 게시물 조회
-export const getPostById = async (postId: string) => {
+export const getPostById = async (postId: string): Promise<Post> => {
   const response = await axiosInstance.get('/posts', { params: { postId } });
-  return extractData(response);
+  return extractData<Post>(response);
 };
 
 // 토큰으로 게시물 조회 (Private - 인증 필요)
-export const getPostByToken = async (postId: string) => {
+export const getPostByToken = async (postId: string): Promise<Post> => {
   const response = await axiosPrivateInstance.get('/posts/token', {
     params: { postId },
   });
-  return extractData(response);
+  return extractData<Post>(response);
 };
 
 // 게시물 생성 (Private - 인증 필요)
