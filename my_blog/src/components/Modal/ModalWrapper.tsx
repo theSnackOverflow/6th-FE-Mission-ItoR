@@ -22,6 +22,16 @@ export default function ModalWrapper({
     return () => document.removeEventListener('keydown', handleEsc);
   }, [onClose]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
