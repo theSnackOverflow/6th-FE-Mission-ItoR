@@ -9,6 +9,10 @@ import {
   updatePassword,
   updateProfilePicture,
 } from '../../api/userAPI';
+import {
+  validatePassword,
+  validatePasswordConfirm,
+} from '../../utils/validation';
 
 import Blank from '../../components/Blank';
 import Header from '../../components/Header';
@@ -33,7 +37,6 @@ const ProfileEdit = () => {
   const [name, setName] = useState('');
   const [introduction, setIntroduction] = useState('');
 
-  const PASSWORD_RULE = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
   const isSocialLoggIned = true;
 
   useEffect(() => {
@@ -72,31 +75,21 @@ const ProfileEdit = () => {
 
   const handlePasswordChange = (value: string) => {
     setPassword(value);
-
-    if (!PASSWORD_RULE.test(value)) {
-      setPasswordError(
-        '* 영문, 숫자, 특수문자를 포함하여 8~16자로 입력해주세요',
-      );
-    } else {
-      setPasswordError('');
-    }
+    const error = validatePassword(value);
+    setPasswordError(error || '');
   };
 
   const handlePasswordConfirmChange = (value: string) => {
     setPasswordConfirm(value);
-
-    if (password !== value) {
-      setPasswordConfirmError('* 비밀번호가 일치하지 않습니다.');
-    } else {
-      setPasswordConfirmError('');
-    }
+    const error = validatePasswordConfirm(password, value);
+    setPasswordConfirmError(error || '');
   };
 
   const handleSaveProfile = async () => {
-    const isPasswordValid = PASSWORD_RULE.test(password);
-    const isPasswordMatch = password === passwordConfirm;
+    const passwordError = validatePassword(password);
+    const passwordConfirmError = validatePasswordConfirm(password, passwordConfirm);
 
-    if (!isPasswordValid || !isPasswordMatch) {
+    if (passwordError || passwordConfirmError) {
       return;
     }
 
