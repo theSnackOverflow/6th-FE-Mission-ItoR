@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import MenuIcon from '../../assets/icons/reorder.svg?react';
 import ProfileSidebar from '../ProfileSidebar';
+import { ROUTES } from '@/const/routes';
 
 interface BaseHeaderProps {
   children?: React.ReactNode;
@@ -47,7 +48,7 @@ const BaseHeader = ({ children, offsetTop = 0, onLogout }: BaseHeaderProps) => {
             />
             <button
               className="text-xl font-smooch font-normal"
-              onClick={() => navigate('/')}
+              onClick={() => navigate(ROUTES.HOME)}
             >
               GITLOG
             </button>

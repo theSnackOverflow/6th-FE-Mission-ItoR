@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 
 import { login } from '@/api/authAPI';
+import { ROUTES } from '@/const/routes';
 
 import type { AxiosError } from 'axios';
 
@@ -46,7 +47,7 @@ const LoginModal = ({ onClose }: loginModalProps) => {
     onSuccess: ({ accessToken, refreshToken }) => {
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
-      navigate('/');
+      navigate(ROUTES.HOME);
     },
     onError: (error) => {
       const apiMessage =
@@ -137,7 +138,7 @@ const LoginModal = ({ onClose }: loginModalProps) => {
           </div>
           <LoginButton type="KAKAOLOGIN" text="카카오로 로그인" />
           <button
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate(ROUTES.AUTH.SIGNUP)}
             className="mt-1 px-2 pt-0.5 pb-1 text-xs font-normal text-gray-56"
           >
             또는 회원가입
