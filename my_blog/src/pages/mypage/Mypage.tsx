@@ -25,7 +25,7 @@ const Mypage = () => {
       const timer = setTimeout(() => setShowToast(false), 2500);
       return () => clearTimeout(timer);
     }
-  }, [toastState, navigate]);
+  }, [toastState]);
 
   return (
     <>
