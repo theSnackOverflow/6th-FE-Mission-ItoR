@@ -1,32 +1,31 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { getPostById } from '@/api/postAPI';
 import type { Post, Comment } from '@/types/post';
 
 export const usePostData = () => {
   const { postId } = useParams();
-  const [post, setPost] = useState<Post | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
 
+  const {
+    data: post,
+    isLoading: loading,
+  } = useQuery<Post>({
+    queryKey: ['post', postId],
+    queryFn: () => getPostById(postId!),
+    enabled: !!postId,
+  });
+
+  // post 데이터가 변경될 때 comments 상태 동기화
   useEffect(() => {
-    if (!postId) return;
-    setLoading(true);
-    getPostById(postId)
-      .then((data) => {
-        setPost(data);
-        setComments(data?.comments || []);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch post:', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [postId]);
+    if (post?.comments) {
+      setComments(post.comments);
+    }
+  }, [post]);
 
   return {
-    post,
+    post: post || null,
     comments,
     loading,
     setComments,
