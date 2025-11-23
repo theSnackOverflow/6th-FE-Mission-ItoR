@@ -5,6 +5,12 @@ export interface PostContent {
   content: string;
   contentType: 'TEXT' | 'IMAGE';
 }
+
+export interface PostData {
+  title: string;
+  contents: PostContent[];
+}
+
 export interface Comment {
   commentId: number;
   content: string;
