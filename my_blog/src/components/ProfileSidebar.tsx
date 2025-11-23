@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from './Button/Button';
 import ProfileImage from './ProfileImage';
 
-interface profileSidebarProps {
+interface ProfileSidebarProps {
   isLoggedIn?: boolean;
   nickname?: string;
   intro?: string;
@@ -15,7 +15,7 @@ const ProfileSidebar = ({
   nickname,
   intro,
   onLogout,
-}: profileSidebarProps) => {
+}: ProfileSidebarProps) => {
   const navigate = useNavigate();
 
   return (

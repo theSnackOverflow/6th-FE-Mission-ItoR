@@ -5,7 +5,7 @@ import Text from '@/components/Text';
 
 import defaultImage from '@/assets/2ssac.svg';
 
-interface postItemProps {
+interface PostItemProps {
   postId: string;
   title: string;
   nickName: string;
@@ -23,7 +23,7 @@ const PostItem = ({
   createdAt,
   commentCount,
   imgSrc,
-}: postItemProps) => {
+}: PostItemProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
