@@ -1,7 +1,7 @@
 import ProfileImage from '../../../components/ProfileImage';
 import useFormatCreatedAt from '../../../hooks/useFormatCreatedAt';
 
-type postWriterProps = {
+type PostWriterProps = {
   profileUrl?: string;
   nickName: string;
   createdAt: string;
@@ -17,7 +17,7 @@ const PostWriter = ({
   commentCount,
   showCreatedAt = true,
   showCommentCount = true,
-}: postWriterProps) => {
+}: PostWriterProps) => {
   const formattedCreatedAt = useFormatCreatedAt(createdAt);
 
   return (
