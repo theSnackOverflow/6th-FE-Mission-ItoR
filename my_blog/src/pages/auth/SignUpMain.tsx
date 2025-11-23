@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { axiosInstance } from '@/api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
+import { useRegisterMutation } from '@/hooks/useRegisterMutation';
 
 import Blank from '@/components/Blank';
 
@@ -127,27 +126,7 @@ const SignUpMain = () => {
     },
   ];
 
-  const signUpMutation = useMutation({
-    mutationFn: async (payload: {
-      email: string;
-      password: string;
-      nickname: string;
-      name: string;
-      birthDate: string;
-      introduction: string;
-      profilePicture?: string;
-    }) => {
-      const res = await axiosInstance.post('/auth/register', payload);
-      return res.data;
-    },
-    onSuccess: () => {
-      setShowSignUpModal(true);
-    },
-    onError: (error) => {
-      console.error('회원가입 요청 실패:', error);
-      alert('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.');
-    },
-  });
+  const signUpMutation = useRegisterMutation();
 
   const handleUploadProfile = (file: File) => {
     const url = URL.createObjectURL(file);
@@ -191,11 +170,14 @@ const SignUpMain = () => {
       profilePicture: profileUrl,
     };
 
-    console.log('[DEBUG] origin', window.location.origin);
-    console.log('[DEBUG] axios baseURL', axiosInstance.defaults.baseURL);
-    console.log('[DEBUG] will POST to', '/auth/register');
-
-    signUpMutation.mutate(payload);
+    signUpMutation.mutate(payload, {
+      onSuccess: () => {
+        setShowSignUpModal(true);
+      },
+      onError: () => {
+        alert('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.');
+      },
+    });
   };
 
   return (
