@@ -47,7 +47,7 @@ const SignUp = () => {
             <div className="w-[390px] flex-1 px-4 pt-8">
               <div className="flex flex-col px-4">
                 <LoginButton
-                  type="EMAILOGIN"
+                  type="EMAILLOGIN"
                   text="이메일로 회원가입"
                   onClick={() => {
                     navigate('/signup/main');

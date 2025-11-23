@@ -7,7 +7,7 @@ import { ROUTES } from '@/const/routes';
 import LoginButton from '../Button/LoginButton';
 import LoginInput from '../Input/LoginInput';
 
-import ClearIcon from '../../assets/icons/clear.svg?react';
+import ClearIcon from '@/assets/icons/clear.svg?react';
 
 interface LoginModalProps {
   onClose: () => void;
@@ -45,7 +45,7 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
           setErrorMessage(apiMessage);
           setIsErrorVisible(true);
         },
-      }
+      },
     );
   };
 
@@ -105,7 +105,7 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
         </div>
         <div className="flex flex-col px-4">
           <LoginButton
-            type="EMAILOGIN"
+            type="EMAILLOGIN"
             text="이메일로 로그인"
             onClick={handleSubmit}
           />
