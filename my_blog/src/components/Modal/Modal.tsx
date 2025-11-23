@@ -20,8 +20,8 @@ interface ModalProps {
   title: string;
   color: buttonColorVariant;
   des?: string;
-  onClose: () => void; //! 필요한가?
-  onDelete?: () => void; //! 필요한가?
+  onClose: () => void;
+  onDelete?: () => void;
   onSignUp?: () => void;
   onLogin?: () => void;
   onLogout?: () => void;
@@ -46,6 +46,7 @@ const Modal = ({
       signup: onSignUp,
     };
     handlers[type]?.();
+    onClose();
   };
 
   return (
