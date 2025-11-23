@@ -5,7 +5,7 @@ import { useToast } from '@/context/ToastContext';
 
 import Blank from '@/components/Blank';
 import Devider from '@/components/Devider';
-import Header from '@/components/Header';
+import { WriteHeader, FileHeader } from '@/components/Header';
 import Menu from '@/components/Menu';
 
 import type { PostContent } from '@/types/post';
@@ -33,6 +33,11 @@ const PostEdit = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const contentsRef = useRef<ContentBlock[]>(contents);
+
+  useEffect(() => {
+    contentsRef.current = contents;
+  }, [contents]);
 
   const setImageRef = useCallback((id: string, el: HTMLDivElement | null) => {
     imageRefs.current[id] = el;
@@ -186,17 +191,18 @@ const PostEdit = () => {
 
   useEffect(() => {
     return () => {
-      contents.forEach((block) => {
-        if (block.type === 'IMAGE') URL.revokeObjectURL(block.value);
+      contentsRef.current.forEach((block) => {
+        if (block.type === 'IMAGE' && block.value.startsWith('blob:')) {
+          URL.revokeObjectURL(block.value);
+        }
       });
     };
-  }, [contents]);
+  }, []);
 
   return (
     <>
-      <Header type="write" onPost={handleUpdateClick} offsetTop={0} />
-      <Header
-        type="file"
+      <WriteHeader onPost={handleUpdateClick} offsetTop={0} />
+      <FileHeader
         addImg={true}
         onAddImage={handleAddImageClick}
         offsetTop={73}
@@ -209,7 +215,7 @@ const PostEdit = () => {
           onChange={handleImageChange}
           className="hidden"
         />
-      </Header>
+      </FileHeader>
 
       <main className="mt-32 w-full flex flex-col items-center relative">
         {/* 제목 */}
