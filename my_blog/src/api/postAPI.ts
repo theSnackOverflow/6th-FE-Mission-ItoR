@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstance';
+import axiosInstance, { axiosPrivateInstance } from './axiosInstance';
 import type { PostData } from '@/types/post';
 
 // 공통 응답 데이터 추출 함수
@@ -12,29 +12,31 @@ export const getPostById = async (postId: string) => {
   return extractData(response);
 };
 
-// 토큰으로 게시물 조회
+// 토큰으로 게시물 조회 (Private - 인증 필요)
 export const getPostByToken = async (postId: string) => {
-  const response = await axiosInstance.get('/posts/token', {
+  const response = await axiosPrivateInstance.get('/posts/token', {
     params: { postId },
   });
   return extractData(response);
 };
 
-// 게시물 생성
+// 게시물 생성 (Private - 인증 필요)
 export const createPost = async (postData: PostData) => {
-  const response = await axiosInstance.post('/posts', postData);
+  const response = await axiosPrivateInstance.post('/posts', postData);
   return response.data;
 };
 
-// 게시물 삭제
+// 게시물 삭제 (Private - 인증 필요)
 export const deletePost = async (postId: string) => {
-  const response = await axiosInstance.delete('/posts', { params: { postId } });
+  const response = await axiosPrivateInstance.delete('/posts', {
+    params: { postId },
+  });
   return response.data;
 };
 
-// 게시물 수정
+// 게시물 수정 (Private - 인증 필요)
 export const updatePost = async (postId: string, postData: PostData) => {
-  const response = await axiosInstance.patch('/posts', postData, {
+  const response = await axiosPrivateInstance.patch('/posts', postData, {
     params: { postId },
   });
   return response.data;
@@ -48,8 +50,9 @@ export const getAllPosts = async (page: number, size: number) => {
   return extractData(response);
 };
 
+// 게시물 리스트 조회 (Private - 토큰 포함)
 export const getAllPostsWithToken = async (page: number, size: number) => {
-  const response = await axiosInstance.get('/posts/all/token', {
+  const response = await axiosPrivateInstance.get('/posts/all/token', {
     params: { page, size },
   });
   return extractData(response);
