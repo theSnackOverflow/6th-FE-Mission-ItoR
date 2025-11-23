@@ -37,7 +37,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
     <ToastContext.Provider value={{ showToast }}>
       {children}
       {toast && (
-        <div className="fixed top-20 left-1/2 w-full flex justify-center -translate-x-1/2 z-[9999]">
+        <div className="fixed top-20 left-1/2 w-full flex justify-center -translate-x-1/2 z-[60]">
           <Toast
             variant={toast.variant || 'success'}
             message={toast.message}
