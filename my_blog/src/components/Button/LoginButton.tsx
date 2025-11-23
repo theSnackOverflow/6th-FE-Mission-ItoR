@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import KakaoIcon from '../../assets/icons/kakao.svg?react';
+import KakaoIcon from '@/assets/icons/kakao.svg?react';
 
 type LoginButtonVariant = 'EMAILOGIN' | 'KAKAOLOGIN';
 
