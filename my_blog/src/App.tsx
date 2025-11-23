@@ -29,7 +29,7 @@ import ProfileEdit from './pages/mypage/ProfileEdit';
 
 import SignUp from './pages/auth/SignUp';
 import SignUpMain from './pages/auth/SignUpMain';
-import OAuthSignUp from './pages/auth/OAthSignUp';
+import OAuthSignUp from './pages/auth/OuAthSignUp';
 import KakaoRedirect from './pages/auth/KakaoRedirect';
 
 function App() {
