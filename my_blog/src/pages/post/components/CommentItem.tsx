@@ -30,6 +30,7 @@ const CommentItem = ({
   const [editContent, setEditContent] = useState<string>(content || '');
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const formattedDate = useFormatCreatedAt(createdAt);
 
   const handleDeleteComment = async () => {
     try {
@@ -98,7 +99,7 @@ const CommentItem = ({
           <div className="flex flex-col ">
             <p className="text-sm font-normal text-gray-20">{nickName}</p>
             <p className="text-xs font-light text-gray-56">
-              {useFormatCreatedAt(createdAt)}
+              {formattedDate}
             </p>
           </div>
         </div>
