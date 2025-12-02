@@ -7,7 +7,7 @@ import {
   type ReactNode,
 } from 'react';
 import axiosInstance from '@/api/axiosInstance';
-import { getMyInfo } from '@/api/userAPI';
+import { getMyInfo, type MyInfoDTO } from '@/api/userAPI';
 import { tokenStorage } from '@/utils/tokenStorage';
 import { useAuthToken } from '@/hooks/useAuthToken';
 
@@ -45,14 +45,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsAuthenticated(true);
       // fetch current user info to populate sidebar/profile
       getMyInfo()
-        .then((data) => {
+        .then((data: MyInfoDTO) => {
           const isSocial = Boolean(
-            // common possibilities the backend might return
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (data as any).kakaoId ||
-              (data as any).oauthProvider ||
-              (data as any).provider ||
-              (data as any).socialType,
+            data.kakaoId ||
+              data.oauthProvider ||
+              data.provider ||
+              data.socialType,
           );
           setUser({
             nickName: data.nickname,
@@ -62,10 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             name: data.name,
             isSocialLogin: isSocial,
             // backend may use different field names for id
-            memberId:
-              (data as any).memberId ??
-              (data as any).id ??
-              (data as any).userId,
+            memberId: data.memberId ?? data.id ?? data.userId,
           });
         })
         .catch((err) => {
@@ -95,13 +90,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const token = tokenStorage.getAccessToken();
       if (!token) return;
       getMyInfo()
-        .then((data) => {
+        .then((data: MyInfoDTO) => {
           const isSocial = Boolean(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (data as any).kakaoId ||
-              (data as any).oauthProvider ||
-              (data as any).provider ||
-              (data as any).socialType,
+            data.kakaoId ||
+              data.oauthProvider ||
+              data.provider ||
+              data.socialType,
           );
           setUser({
             nickName: data.nickname,
@@ -110,10 +104,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             email: data.email,
             name: data.name,
             isSocialLogin: isSocial,
-            memberId:
-              (data as any).memberId ??
-              (data as any).id ??
-              (data as any).userId,
+            memberId: data.memberId ?? data.id ?? data.userId,
           });
         })
         .catch((err) => console.error('refresh-user 처리 실패', err));
