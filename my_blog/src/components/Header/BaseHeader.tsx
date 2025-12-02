@@ -36,6 +36,30 @@ const BaseHeader = ({ children, offsetTop = 0, onLogout }: BaseHeaderProps) => {
     return () => window.removeEventListener('click', handleClickOutside);
   }, [showSidebar]);
 
+  // listen for global requests to open the login modal
+  useEffect(() => {
+    const openHandler = () => {
+      if (!isAuthenticated) setShowLoginModal(true);
+    };
+    window.addEventListener('open-login-modal', openHandler as EventListener);
+    return () =>
+      window.removeEventListener(
+        'open-login-modal',
+        openHandler as EventListener,
+      );
+  }, [isAuthenticated]);
+
+  // listen for global requests to close the login modal
+  useEffect(() => {
+    const closeHandler = () => setShowLoginModal(false);
+    window.addEventListener('close-login-modal', closeHandler as EventListener);
+    return () =>
+      window.removeEventListener(
+        'close-login-modal',
+        closeHandler as EventListener,
+      );
+  }, []);
+
   return (
     <div className="relative">
       <nav

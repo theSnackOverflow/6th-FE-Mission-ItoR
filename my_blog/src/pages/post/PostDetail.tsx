@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
 import { usePostDetail } from './hooks/usePostDetail';
+import { useAuth } from '@/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/const/routes';
 import { DetailHeader } from '@/components/Header';
 import Devider from '@/components/Devider';
 import CommentSection from './components/CommentSection';
@@ -22,6 +26,22 @@ const PostDetail = () => {
     openDeleteCommentModal,
     closeDeleteCommentModal,
   } = usePostDetail();
+
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      // Request login modal and remember redirect target
+      try {
+        const redirectTo = window.location.pathname + window.location.search;
+        sessionStorage.setItem('auth_redirect', redirectTo);
+      } catch (e) {
+        /* ignore */
+      }
+      window.dispatchEvent(new Event('open-login-modal'));
+    }
+  }, [isAuthenticated, navigate]);
 
   if (loading) {
     return (

@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 
 import { PostWriter } from './PostWriter';
 import Text from '@/components/Text';
@@ -25,9 +26,21 @@ const PostItem = ({
   imgSrc,
 }: PostItemProps) => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   const handleClick = () => {
-    navigate(`/post/${postId}`);
+    if (isAuthenticated) {
+      navigate(`/post/${postId}`);
+      return;
+    }
+
+    // not authenticated: request login modal and remember redirect
+    try {
+      sessionStorage.setItem('auth_redirect', `/post/${postId}`);
+    } catch (e) {
+      /* ignore */
+    }
+    window.dispatchEvent(new Event('open-login-modal'));
   };
   return (
     <article
