@@ -93,6 +93,7 @@ const BaseHeader = ({ children, offsetTop = 0, onLogout }: BaseHeaderProps) => {
             isLoggedIn={isAuthenticated}
             nickname={user?.nickName}
             intro={(user as { introduction?: string })?.introduction}
+            profileUrl={(user as { profileUrl?: string })?.profileUrl}
             onLogout={onLogout ?? logout}
             onLogin={() => setShowLoginModal(true)}
           />

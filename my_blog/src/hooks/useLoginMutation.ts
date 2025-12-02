@@ -29,11 +29,18 @@ export const useLoginMutation = () => {
     { email: string; password: string }
   >({
     mutationFn: ({ email, password }) => login(email, password),
-    onSuccess: ({ accessToken, refreshToken, nickname, profilePicture }) => {
+    onSuccess: ({
+      accessToken,
+      refreshToken,
+      nickname,
+      profilePicture,
+      introduction,
+    }) => {
       // update global auth state (stores tokens and sets axios header)
       auth.login(accessToken, refreshToken, {
         nickName: nickname,
         profileUrl: profilePicture,
+        introduction,
       });
       navigate(ROUTES.HOME);
     },
