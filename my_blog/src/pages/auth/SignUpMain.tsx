@@ -1,16 +1,27 @@
 import { useState, useRef } from 'react';
+import type { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useRegisterMutation } from '@/hooks/useRegisterMutation';
 
-import Blank from '../../components/Blank';
-import Header from '../../components/Header';
+import Blank from '@/components/Blank';
 
 import ProfileImage from '@/components/ProfileImage';
-import AddPhotoIcon from '../../assets/icons/add_photo_alternate.svg?react';
-import Input from '../../components/Input/Input';
-import ModalWrapper from '../../components/Modal/ModalWrapper';
-import Modal from '../../components/Modal/Modal';
-import LoginModal from '../../components/Modal/LoginModal';
-import SocialLoggIned from '../mypage/components/SocailLoggIned';
+import AddPhotoIcon from '@/assets/icons/add_photo_alternate.svg?react';
+import Input from '@/components/Input/Input';
+import ModalWrapper from '@/components/Modal/ModalWrapper';
+import Modal from '@/components/Modal/Modal';
+import LoginModal from '@/components/Modal/LoginModal';
+import SocialLoggIned from '@/pages/mypage/components/SocailLoggIned';
+import {
+  validateEmail,
+  validatePassword,
+  validatePasswordConfirm,
+  validateName,
+  validateBirthdate,
+  validateNickname,
+  validateIntroduction,
+} from '@/utils/validation';
+import { ROUTES } from '@/const/routes';
 
 const isSocialLoggIned = false; //! 테스트용
 
@@ -27,20 +38,96 @@ const SignUpMain = () => {
   const [nickname, setNickname] = useState('');
   const [des, setDes] = useState('');
 
-  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const PASSWORD_RULE = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
-  const BIRTHDATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const birth = new Date(birthdate);
-  birth.setHours(0, 0, 0, 0);
-  const isBirthValid =
-    BIRTHDATE_REGEX.test(birthdate) && !isNaN(birth.getTime()) && birth < today;
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // 유효성 검사 에러
+  const emailError = isSubmitted ? validateEmail(email) : null;
+  const passwordError =
+    isSubmitted && !isSocialLoggIned ? validatePassword(password) : null;
+  const passwordConfirmError =
+    isSubmitted && !isSocialLoggIned
+      ? validatePasswordConfirm(password, passwordConfirm)
+      : null;
+  const nameError = isSubmitted ? validateName(name) : null;
+  const birthdateError = isSubmitted ? validateBirthdate(birthdate) : null;
+  const nicknameError = isSubmitted ? validateNickname(nickname) : null;
+  const desError = isSubmitted ? validateIntroduction(des) : null;
 
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+  // Input 필드 설정
+  const inputFields = [
+    {
+      variant: 'email' as const,
+      type: 'email' as const,
+      label: '이메일',
+      placeholder: '이메일',
+      value: email,
+      onChange: setEmail,
+      error: emailError,
+    },
+    ...(!isSocialLoggIned
+      ? [
+          {
+            variant: 'password' as const,
+            type: 'password' as const,
+            label: '비밀번호',
+            placeholder: '........',
+            value: password,
+            onChange: setPassword,
+            error: passwordError,
+          },
+          {
+            variant: 'passwordconfirm' as const,
+            type: 'password' as const,
+            label: '비밀번호 확인',
+            placeholder: '........',
+            value: passwordConfirm,
+            onChange: setPasswordConfirm,
+            error: passwordConfirmError,
+          },
+        ]
+      : []),
+    {
+      variant: 'name' as const,
+      type: 'text' as const,
+      label: '이름',
+      placeholder: '이름',
+      value: name,
+      onChange: setName,
+      error: nameError,
+    },
+    {
+      variant: 'birthdate' as const,
+      type: 'text' as const,
+      label: '생년월일',
+      placeholder: 'YYYY-MM-DD',
+      value: birthdate,
+      onChange: setBirthdate,
+      error: birthdateError,
+    },
+    {
+      variant: 'nickname' as const,
+      type: 'text' as const,
+      label: '닉네임',
+      placeholder: '닉네임',
+      value: nickname,
+      onChange: setNickname,
+      error: nicknameError,
+    },
+    {
+      variant: 'des' as const,
+      type: 'text' as const,
+      label: '한 줄 소개',
+      placeholder: '한 줄 소개',
+      value: des,
+      onChange: setDes,
+      error: desError,
+    },
+  ];
+
+  const signUpMutation = useRegisterMutation();
 
   const handleUploadProfile = (file: File) => {
     const url = URL.createObjectURL(file);
@@ -62,12 +149,46 @@ const SignUpMain = () => {
         );
 
     if (!isAllFilled) return;
-    setShowSignUpModal(true);
+
+    // 유효성 검사
+    const hasErrors =
+      emailError ||
+      nameError ||
+      birthdateError ||
+      nicknameError ||
+      desError ||
+      (!isSocialLoggIned && (passwordError || passwordConfirmError));
+
+    if (hasErrors) return;
+
+    const payload = {
+      email,
+      password,
+      nickname,
+      name,
+      birthDate: birthdate,
+      introduction: des,
+      // If profileUrl is a local blob (object URL), backend cannot access it — omit it.
+      profilePicture:
+        profileUrl && !profileUrl.startsWith('blob:') ? profileUrl : undefined,
+    };
+
+    signUpMutation.mutate(payload, {
+      onSuccess: () => {
+        setShowSignUpModal(true);
+      },
+      onError: (error: AxiosError<{ message?: string }>) => {
+        const apiMessage =
+          error?.response?.data?.message ||
+          error?.message ||
+          '회원가입 중 오류가 발생했습니다.';
+        alert(apiMessage);
+      },
+    });
   };
 
   return (
     <>
-      <Header />
       <main className="relative mt-[70px] w-full h-screen flex flex-col">
         <section className="w-full flex flex-col items-center bg-gray-96 ">
           <Blank variant="32" />
@@ -100,7 +221,7 @@ const SignUpMain = () => {
               />
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="w-fit px-2 py-1 flex items-ceter gap-1 text-gray-56 border border-gray-90 rounded-xs"
+                className="w-fit px-2 py-1 flex items-center gap-1 text-gray-56 border border-gray-90 rounded-xs"
               >
                 <AddPhotoIcon className="w-3.5 h-3.5" />
                 <p className="font-normal text-xs">프로필 사진 추가</p>
@@ -109,149 +230,28 @@ const SignUpMain = () => {
             {/* 나머지 Input */}
             <div className="w-full flex flex-col justify-center">
               {isSocialLoggIned && <SocialLoggIned />}
-              <Input
-                value={email}
-                variant="email"
-                type="email"
-                label="이메일"
-                placeholder="이메일"
-                onChange={(e) => setEmail(e)}
-              />
-              {isSubmitted && email.length === 0 && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *반드시 입력해야 하는 필수 사항입니다.
-                </p>
-              )}
-              {isSubmitted && email.length > 0 && !EMAIL_REGEX.test(email) && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *이메일 형식이 적합하지 않습니다.
-                </p>
-              )}
-
-              {!isSocialLoggIned && (
-                <>
+              {inputFields.map((field, index) => (
+                <div key={index}>
                   <Input
-                    variant="password"
-                    type="password"
-                    label="비밀번호"
-                    value={password}
-                    onChange={(e) => setPassword(e)}
-                    placeholder="........"
+                    variant={field.variant}
+                    type={field.type}
+                    label={field.label}
+                    placeholder={field.placeholder}
+                    value={field.value}
+                    onChange={field.onChange}
                   />
-                  {isSubmitted && password.length === 0 && (
+                  {field.error && (
                     <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                      *반드시 입력해야 하는 필수 사항입니다.
+                      {field.error}
                     </p>
                   )}
-                  {isSubmitted &&
-                    password.length > 0 &&
-                    !PASSWORD_RULE.test(password) && (
-                      <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                        * 영문, 숫자, 특수문자를 포함하여 8~16자로 입력해주세요
-                      </p>
-                    )}
-
-                  <Input
-                    variant="passwordconfirm"
-                    type="password"
-                    label="비밀번호 확인"
-                    value={passwordConfirm}
-                    onChange={(e) => setPasswordConfirm(e)}
-                    placeholder="........"
-                  />
-                  {isSubmitted && passwordConfirm.length === 0 && (
-                    <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                      *반드시 입력해야 하는 필수 사항입니다.
-                    </p>
-                  )}
-                  {isSubmitted &&
-                    passwordConfirm.length > 0 &&
-                    !(passwordConfirm === password) && (
-                      <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                        *비밀번호가 일치하지 않습니다
-                      </p>
-                    )}
-                </>
-              )}
-              <Input
-                variant="name"
-                type="text"
-                label="이름"
-                value={name}
-                onChange={(e) => setName(e)}
-                placeholder="이름"
-              />
-              {isSubmitted && name.length === 0 && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *반드시 입력해야 하는 필수 사항입니다.
-                </p>
-              )}
-              <Input
-                variant="birthdate"
-                type="text"
-                label="생년월일"
-                value={birthdate}
-                onChange={setBirthdate}
-                placeholder="YYYY-MM-DD"
-              />
-              {isSubmitted && birthdate.length === 0 && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *반드시 입력해야 하는 필수 사항입니다.
-                </p>
-              )}
-
-              {isSubmitted &&
-                birthdate.length > 0 &&
-                !BIRTHDATE_REGEX.test(birthdate) && (
-                  <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                    *YYYY-MM-DD 형식으로 입력해주세요.
-                  </p>
-                )}
-
-              {isSubmitted &&
-                birthdate.length > 0 &&
-                BIRTHDATE_REGEX.test(birthdate) &&
-                !isBirthValid && (
-                  <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                    *생일은 오늘 또는 미래 날짜일 수 없습니다.
-                  </p>
-                )}
-              <Input
-                label="닉네임"
-                variant="name"
-                type="text"
-                value={nickname}
-                onChange={setNickname}
-                placeholder="닉네임"
-              />
-              {isSubmitted && nickname.length === 0 && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *반드시 입력해야 하는 필수 사항입니다.
-                </p>
-              )}
-              {isSubmitted && nickname.length > 0 && nickname.length > 20 && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *닉네임은 최대 20글자입니다.
-                </p>
-              )}
-              <Input
-                label="한 줄 소개"
-                variant="des"
-                type="text"
-                value={des}
-                onChange={setDes}
-                placeholder="한 줄 소개"
-              />
-              {isSubmitted && des.length > 0 && des.length > 30 && (
-                <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                  *한 줄 소개는 최대 30글자입니다.
-                </p>
-              )}
+                </div>
+              ))}
 
               <Blank variant="32" />
               <button
                 onClick={handleSubmit}
-                className="w-full mx-4 py-3 text-sm font-normal text-point border border-point rounded-3xl"
+                className="mx-4 py-3 text-sm font-normal text-point border border-point rounded-3xl"
               >
                 회원가입 완료
               </button>
@@ -261,12 +261,15 @@ const SignUpMain = () => {
         </section>
       </main>
       {showSignUpModal && (
-        <ModalWrapper isOpen={showSignUpModal} onClose={() => navigate('/')}>
+        <ModalWrapper
+          isOpen={showSignUpModal}
+          onClose={() => navigate(ROUTES.HOME)}
+        >
           <Modal
             type="login"
             color="auth"
             title="회원가입이 완료되었습니다!"
-            onClose={() => navigate('/')}
+            onClose={() => navigate(ROUTES.HOME)}
             onLogin={() => {
               setShowSignUpModal(false);
               setShowLoginModal(true);

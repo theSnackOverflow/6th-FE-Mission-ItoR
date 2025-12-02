@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-// import { useNavigate } from 'react-router-dom'; // ! UI 우선 구현 -> API 연동 시 추후 수정
+import { useNavigate } from 'react-router-dom';
+import { createPost } from '@/api/postAPI';
+import { uploadImageToS3 } from '@/api/imageAPI';
 
 import Blank from '../../components/Blank';
 import Devider from '../../components/Devider';
-import Header from '../../components/Header';
+import { WriteHeader, FileHeader } from '../../components/Header';
 import Menu from '../../components/Menu';
 import Toast from '../../components/Toast';
 
@@ -14,7 +16,7 @@ type ContentBlock = {
 };
 
 const PostNew = () => {
-  // const navigate = useNavigate(); // ! UI 우선 구현 -> API 연동 시 추후 수정
+  const navigate = useNavigate(); // ! UI 우선 구현 -> API 연동 (완료) -> 추후 테스트,,,ㅠㅠ
 
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState<ContentBlock[]>([
@@ -45,7 +47,7 @@ const PostNew = () => {
     imageRefs.current[id] = el;
   }, []);
 
-  const handlePostClick = () => {
+  const handlePostClick = async () => {
     const hasContent = contents.some((c) => c.value.trim());
     const hasTitle = title.trim().length > 0;
 
@@ -58,12 +60,31 @@ const PostNew = () => {
       return;
     }
 
-    setToast({
-      show: true,
-      message: '저장되었습니다!',
-      variant: 'success',
-    });
-    // navigate('/'); // ! UI 우선 구현 -> API 연동 시 추후 수정
+    const payload = {
+      title,
+      contents: contents.map((c, index) => ({
+        contentOrder: index + 1,
+        content: c.value,
+        contentType: c.type,
+      })),
+    };
+
+    try {
+      await createPost(payload);
+      setToast({
+        show: true,
+        message: '저장되었습니다!',
+        variant: 'success',
+      });
+      navigate('/'); // ! UI 우선 구현 -> API 연동 (완료) -> 추후 테스트,,,ㅠㅠ
+    } catch (error) {
+      console.error(error); //! 디버그용
+      setToast({
+        show: true,
+        message: '저장에 실패했습니다.',
+        variant: 'error',
+      });
+    }
   };
 
   const handleAutoHeight = (e: React.FormEvent<HTMLTextAreaElement>) => {
@@ -73,37 +94,56 @@ const PostNew = () => {
   };
 
   const handleAddImageClick = () => {
+    console.log(
+      '[PostNew] add image clicked, fileInputRef:',
+      fileInputRef.current,
+    );
     fileInputRef.current?.click();
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
+    console.log('[PostNew] files selected:', files);
 
-    const newBlocks = Array.from(files).map((file) => ({
-      id: crypto.randomUUID(),
-      type: 'IMAGE' as const,
-      value: URL.createObjectURL(file),
-    }));
+    try {
+      const uploadedBlocks = await Promise.all(
+        Array.from(files).map(async (file) => {
+          const s3Url = await uploadImageToS3(file);
+          return {
+            id: crypto.randomUUID(),
+            type: 'IMAGE' as const,
+            value: s3Url,
+          };
+        }),
+      );
 
-    setContents((prev) => {
-      if (focusedIndex === null)
+      setContents((prev) => {
+        if (focusedIndex === null)
+          return [
+            ...prev,
+            ...uploadedBlocks,
+            { id: crypto.randomUUID(), type: 'TEXT', value: '' },
+          ];
+        const before = prev.slice(0, focusedIndex + 1);
+        const after = prev.slice(focusedIndex + 1);
         return [
-          ...prev,
-          ...newBlocks,
+          ...before,
+          ...uploadedBlocks,
           { id: crypto.randomUUID(), type: 'TEXT', value: '' },
+          ...after,
         ];
-      const before = prev.slice(0, focusedIndex + 1);
-      const after = prev.slice(focusedIndex + 1);
-      return [
-        ...before,
-        ...newBlocks,
-        { id: crypto.randomUUID(), type: 'TEXT', value: '' },
-        ...after,
-      ];
-    });
+      });
 
-    e.target.value = '';
+      e.target.value = '';
+    } catch (error) {
+      console.error('이미지 업로드 실패:', error);
+      setToast({
+        show: true,
+        message: '이미지 업로드에 실패했습니다.',
+        variant: 'error',
+      });
+    }
   };
 
   const handleTextChange = (id: string, value: string) => {
@@ -160,13 +200,8 @@ const PostNew = () => {
 
   return (
     <>
-      <Header type="write" onPost={handlePostClick} offsetTop={0} />
-      <Header
-        type="file"
-        addImg={true}
-        onAddImage={handleAddImageClick}
-        offsetTop={73}
-      >
+      <WriteHeader onPost={handlePostClick} offsetTop={0} />
+      <FileHeader addImg={true} onAddImage={handleAddImageClick} offsetTop={73}>
         <input
           type="file"
           accept="image/*"
@@ -175,7 +210,7 @@ const PostNew = () => {
           onChange={handleImageChange}
           className="hidden"
         />
-      </Header>
+      </FileHeader>
 
       <main className="mt-32  w-full flex flex-col items-center relative">
         {/* 제목 */}

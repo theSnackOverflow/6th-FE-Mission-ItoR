@@ -2,15 +2,6 @@ import Blank from '../../../components/Blank';
 import ProfileImage from '../../../components/ProfileImage';
 import Input from '../../../components/Input/Input';
 
-// interface ProfileSectionProps {
-//   isLoggedIn?: boolean;
-//   nickname?: string;
-//   intro?: string;
-//   showEdit?: boolean;
-// }
-
-// ! 프로필 부분 PropfileSidebar 컴포넌트와 중복 코드 -> 추후 별도의 컴포넌트로 분리 예정
-
 const ProfileEditSection = () => {
   return (
     <section className="mt-18 w-full h-fit flex justify-center bg-gray-96">

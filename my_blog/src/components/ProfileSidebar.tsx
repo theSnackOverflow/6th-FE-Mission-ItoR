@@ -1,39 +1,45 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 
 import Button from './Button/Button';
 import ProfileImage from './ProfileImage';
 
-interface profileSidebarProps {
+interface ProfileSidebarProps {
   isLoggedIn?: boolean;
   nickname?: string;
   intro?: string;
+  profileUrl?: string;
   onLogout?: () => void;
+  onLogin?: () => void;
 }
 
 const ProfileSidebar = ({
-  isLoggedIn,
+  isLoggedIn = false,
   nickname,
   intro,
+  profileUrl,
   onLogout,
-}: profileSidebarProps) => {
+  onLogin,
+}: ProfileSidebarProps) => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   return (
     <section className="fixed w-60 h-full flex flex-col justify-between bg-gray-96 border-r border-gray-90">
       <div className="w-full h-fit py-6 cursor-pointer">
         <div onClick={() => navigate('/profile/edit')}>
           <div className="px-4">
-            <ProfileImage />
+            <ProfileImage src={profileUrl} />
           </div>
           <div className="px-5 py-3 flex flex-col gap-3">
             {/* 닉네임 */}
             <h1 className="text-black text-2xl font-medium">
-              {isLoggedIn && <p>{nickname || '%{닉네임}'}</p>}
+              {isLoggedIn ? <p>{nickname}</p> : null}
             </h1>
             {/* 소개글 */}
             <p className="text-sm text-gray-20 font-light leading-[160%] whitespace-pre-line">
               {isLoggedIn ? (
-                <span>{intro || '%{한 줄 소개}'}</span>
+                <span>{intro}</span>
               ) : (
                 'You can make anything by writing'
               )}
@@ -60,7 +66,18 @@ const ProfileSidebar = ({
                 bgColor="white"
                 fontColor="blue"
                 borderColor="blue"
-                onClick={() => navigate('/post/new')}
+                onClick={() => {
+                  if (isAuthenticated) {
+                    navigate('/post/new');
+                    return;
+                  }
+                  try {
+                    sessionStorage.setItem('auth_redirect', '/post/new');
+                  } catch {
+                    /* ignore */
+                  }
+                  window.dispatchEvent(new Event('open-login-modal'));
+                }}
               />
             </div>
           ) : (
@@ -70,6 +87,7 @@ const ProfileSidebar = ({
               bgColor="white"
               fontColor="blue"
               borderColor="blue"
+              onClick={() => onLogin?.()}
             />
           )}
         </div>
@@ -84,7 +102,7 @@ const ProfileSidebar = ({
             fontColor="gray"
             borderColor="gray"
             bgColor="white"
-            onClick={() => {}}
+            onClick={() => navigate('/profile/edit')}
           />
           <Button
             width="w-24"

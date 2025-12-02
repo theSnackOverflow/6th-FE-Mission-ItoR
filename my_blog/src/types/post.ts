@@ -1,0 +1,35 @@
+export type ContentType = 'TEXT' | 'IMAGE';
+
+export interface PostContent {
+  contentOrder: number;
+  content: string;
+  contentType: 'TEXT' | 'IMAGE';
+}
+
+export interface PostData {
+  title: string;
+  contents: PostContent[];
+}
+
+export interface Comment {
+  commentId: number;
+  content: string;
+  nickName: string;
+  profileUrl: string;
+  createdAt: string;
+  isOwner: boolean;
+  authorId?: number | string;
+}
+
+export interface Post {
+  postId: string;
+  title: string;
+  contents: PostContent[];
+  isOwner: boolean;
+  comments: Comment[];
+  commentCount?: number;
+  nickName: string;
+  profileUrl: string;
+  introduction: string;
+  createdAt: string;
+}

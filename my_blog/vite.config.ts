@@ -11,4 +11,7 @@ export default defineConfig({
       '@icons': '/src/assets/icons',
     },
   },
+  server: {
+    port: 3000,
+  },
 });

@@ -1,198 +1,266 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { updateUser, updateNickname, updatePassword } from '../../api/userAPI';
+import { useProfileForm } from './hooks/useProfileForm';
+import { useAuth } from '@/context/AuthContext';
 
-import Blank from '../../components/Blank';
-import Header from '../../components/Header';
-import ProfileImage from '../../components/ProfileImage';
-import Input from '../../components/Input/Input';
-import SocialLoggIned from './components/SocailLoggIned';
-
-const MOCK_USER = {
-  nickname: '2ssac',
-  des: '안녕하세요!',
-  email: '2ssac@leets.com',
-  password: '........',
-  name: '김릿츠',
-  birthdate: '2000-01-12',
-  profileUrl: '',
-};
+import Blank from '@/components/Blank';
+import { BaseHeader, EditProfileHeader } from '../../components/Header';
+import ProfileImageSection from './components/ProfileImageSection';
+import BasicInfoSection from './components/BasicInfoSection';
+import AccountInfoSection from './components/AccountInfoSection';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false);
-  const [profileUrl, setProfileUrl] = useState<string | undefined>(
-    MOCK_USER.profileUrl,
-  );
+  const { user } = useAuth();
+  const isSocialLoggIned = user?.isSocialLogin ?? false;
 
-  const [nickname, setNickname] = useState(MOCK_USER.nickname);
-  const [birthdate, setBirthdate] = useState(MOCK_USER.birthdate);
+  const {
+    isEditing,
+    setIsEditing,
+    profileUrl,
+    setProfileUrl,
+    nickname,
+    setNickname,
+    birthdate,
+    setBirthdate,
+    email,
+    name,
+    introduction,
+    setIntroduction,
+    password,
+    passwordConfirm,
+    passwordError,
+    passwordConfirmError,
+    handlePasswordChange,
+    handlePasswordConfirmChange,
+    validateForm,
+  } = useProfileForm();
+  const [isUploading, setIsUploading] = useState(false);
 
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [passwordConfirmError, setPasswordConfirmError] = useState('');
+  // listen to upload lifecycle events to update UI (disable save while uploading)
+  useEffect(() => {
+    const onStart = () => {
+      setIsUploading(true);
+    };
+    const onUploaded = (e: Event) => {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const detail: any = (e as CustomEvent).detail;
+        if (detail?.imageUrl) {
+          setProfileUrl(detail.imageUrl);
+        }
+      } catch {
+        /* ignore */
+      }
+      setIsUploading(false);
+    };
+    const onFailed = () => {
+      setIsUploading(false);
+    };
 
-  const PASSWORD_RULE = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
-  const isSocialLoggIned = true;
+    window.addEventListener('profile-upload-start', onStart as EventListener);
+    window.addEventListener('profile-uploaded', onUploaded as EventListener);
+    window.addEventListener('profile-upload-failed', onFailed as EventListener);
 
-  const handleUploadProfile = (file: File) => {
-    const url = URL.createObjectURL(file);
-    setProfileUrl(url);
-  };
-
-  const handlePasswordChange = (value: string) => {
-    setPassword(value);
-
-    if (!PASSWORD_RULE.test(value)) {
-      setPasswordError(
-        '* 영문, 숫자, 특수문자를 포함하여 8~16자로 입력해주세요',
+    return () => {
+      window.removeEventListener(
+        'profile-upload-start',
+        onStart as EventListener,
       );
-    } else {
-      setPasswordError('');
-    }
-  };
+      window.removeEventListener(
+        'profile-uploaded',
+        onUploaded as EventListener,
+      );
+      window.removeEventListener(
+        'profile-upload-failed',
+        onFailed as EventListener,
+      );
+    };
+  }, [setProfileUrl]);
 
-  const handlePasswordConfirmChange = (value: string) => {
-    setPasswordConfirm(value);
-
-    if (password !== value) {
-      setPasswordConfirmError('* 비밀번호가 일치하지 않습니다.');
-    } else {
-      setPasswordConfirmError('');
-    }
-  };
-
-  const handleSaveProfile = () => {
-    const isPasswordValid = PASSWORD_RULE.test(password);
-    const isPasswordMatch = password === passwordConfirm;
-
-    if (!isPasswordValid || !isPasswordMatch) {
+  const handleSaveProfile = async () => {
+    if (!validateForm()) {
       return;
     }
 
-    setIsEditing(false);
+    try {
+      // If the current profileUrl is a blob preview, wait for the upload to finish
+      // so the server has the final URL before we send updateUser.
+      if (
+        profileUrl &&
+        typeof profileUrl === 'string' &&
+        profileUrl.startsWith('blob:')
+      ) {
+        console.log(
+          '[ProfileEdit] profileUrl is a blob URL, waiting for upload to complete...',
+        );
+        await new Promise<void>((resolve, reject) => {
+          let settled = false;
+          const onUploaded = (e: Event) => {
+            try {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const detail: any = (e as CustomEvent).detail;
+              if (detail?.imageUrl) {
+                setProfileUrl(detail.imageUrl);
+              }
+            } catch {
+              /* ignore */
+            }
+            if (!settled) {
+              settled = true;
+              window.removeEventListener(
+                'profile-uploaded',
+                onUploaded as EventListener,
+              );
+              clearTimeout(timer);
+              resolve();
+            }
+          };
 
-    navigate('/mypage', {
-      state: {
-        toast: {
-          variant: 'success',
-          message: '저장되었습니다',
+          window.addEventListener(
+            'profile-uploaded',
+            onUploaded as EventListener,
+          );
+
+          // timeout in case upload doesn't finish
+          const timer: ReturnType<typeof setTimeout> = setTimeout(() => {
+            if (!settled) {
+              settled = true;
+              window.removeEventListener(
+                'profile-uploaded',
+                onUploaded as EventListener,
+              );
+              reject(new Error('profile upload timeout'));
+            }
+          }, 15000);
+        }).catch((err) => {
+          console.error(
+            '[ProfileEdit] waiting for profile upload failed:',
+            err,
+          );
+          alert(
+            '이미지 업로드가 완료되지 않았습니다. 잠시 후 다시 시도해주세요.',
+          );
+          throw err;
+        });
+      }
+
+      console.log('[ProfileEdit] handleSaveProfile 호출');
+      await updateNickname(nickname);
+      if (password && passwordConfirm) {
+        await updatePassword(password);
+      }
+
+      const payload: Record<string, unknown> = {};
+      if (nickname) payload.nickname = nickname;
+      if (birthdate) payload.birthDate = birthdate;
+      // don't send blob: URLs or empty strings for profilePicture
+      if (
+        profileUrl &&
+        typeof profileUrl === 'string' &&
+        !profileUrl.startsWith('blob:')
+      ) {
+        payload.profilePicture = profileUrl;
+      }
+      if (introduction) payload.introduction = introduction;
+
+      // ensure email and name are present (server requires them even if not changing)
+      if (!payload.email && user?.email) {
+        payload.email = user.email;
+      }
+      if (!payload.name && user?.name) {
+        payload.name = user.name;
+      }
+
+      console.log('[ProfileEdit] updateUser payload:', payload);
+      await updateUser(payload);
+
+      setIsEditing(false);
+      navigate('/mypage', {
+        state: {
+          toast: {
+            variant: 'success',
+            message: '프로필이 수정되었습니다!',
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      console.error('[ProfileEdit] 프로필 수정 중 오류:', error);
+      // show server error details if available
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const err: any = error;
+      const serverMsg = err?.response?.data || err?.message;
+      console.error('[ProfileEdit] 서버 응답:', serverMsg);
+      alert(
+        `프로필 수정 중 오류가 발생했습니다.\n${JSON.stringify(serverMsg)}`,
+      );
+    }
   };
 
   return (
     <>
-      <Header
-        type={isEditing ? 'edit-profile' : 'edit'}
-        onEdit={() => setIsEditing(true)}
-        onCancel={() => setIsEditing(false)}
-        onSave={handleSaveProfile}
-      />
-      <main style={{ top: 74 }}>
+      {isEditing ? (
+        <EditProfileHeader
+          onCancel={() => setIsEditing(false)}
+          onSave={handleSaveProfile}
+          isUploading={isUploading}
+        />
+      ) : (
+        <BaseHeader>
+          <button
+            className="px-3 py-2 text-sm font-normal text-black"
+            onClick={() => setIsEditing(true)}
+          >
+            편집하기
+          </button>
+        </BaseHeader>
+      )}
+      <main className="top-[74px]">
         <div className="mt-18 w-full h-fit flex flex-col justify-center items-center bg-gray-96">
           <div className="w-full max-w-[688px] min-w-mobile h-full flex flex-col">
-            <div className="max-[500px]:hidden">{<Blank variant="64" />}</div>
+            <div className="max-[500px]:hidden">
+              <Blank variant="64" />
+            </div>
             <div className="hidden max-[500px]:block">
-              {<Blank variant="32" />}
+              <Blank variant="32" />
             </div>
-            {/* 프로필 */}
-            <div className="px-4 py-3">
-              <ProfileImage
-                src={profileUrl}
-                isEdit={isEditing}
-                onUpload={handleUploadProfile}
-              />
-            </div>
-            <div className="flex flex-col gap-3">
-              <Input
-                variant="nickname"
-                type="text"
-                value={nickname}
-                onChange={setNickname}
-                placeholder={MOCK_USER.nickname}
-                isDisabled={!isEditing}
-              />
-              <Input
-                variant="des"
-                type="text"
-                placeholder={MOCK_USER.des}
-                isDisabled={!isEditing}
-              />
-            </div>
+
+            <ProfileImageSection
+              profileUrl={profileUrl}
+              isEditing={isEditing}
+              onProfileUrlChange={setProfileUrl}
+            />
+
+            <BasicInfoSection
+              nickname={nickname}
+              introduction={introduction}
+              isEditing={isEditing}
+              onNicknameChange={setNickname}
+              onIntroductionChange={setIntroduction}
+            />
+
             <Blank variant="20" />
           </div>
         </div>
-        <section className="mb-12 flex justify-center">
-          <section className="w-full max-w-[688px] min-w-mobile h-full flex flex-col">
-            <Blank variant="20" />
-            {isSocialLoggIned && <SocialLoggIned />}
-            <Input
-              variant="email"
-              type="email"
-              label="이메일"
-              value="2ssac@leets.com"
-              isDisabled={true}
-              placeholder={MOCK_USER.password}
-              unChangeable={true}
-            />
-            {!isSocialLoggIned && (
-              <div>
-                <Input
-                  variant="password"
-                  type="password"
-                  label="비밀번호"
-                  value={password}
-                  onChange={handlePasswordChange}
-                  placeholder={MOCK_USER.password}
-                  isDisabled={!isEditing}
-                />
-                {password && passwordError && (
-                  <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                    {passwordError}
-                  </p>
-                )}
 
-                <Input
-                  variant="passwordconfirm"
-                  type="password"
-                  label="비밀번호 확인"
-                  value={passwordConfirm}
-                  onChange={handlePasswordConfirmChange}
-                  placeholder={MOCK_USER.password}
-                  isDisabled={!isEditing}
-                />
-                {passwordConfirm && passwordConfirmError && (
-                  <p className="px-5.5 -mt-2 text-xs font-light text-negative">
-                    {passwordConfirmError}
-                  </p>
-                )}
-              </div>
-            )}
-            <Input
-              variant="name"
-              type="text"
-              label="이름"
-              value="김릿츠"
-              isDisabled={true}
-              placeholder={MOCK_USER.name}
-              unChangeable={true}
-            />
-            <Input
-              variant="birthdate"
-              type="text"
-              label="생년월일"
-              value={birthdate}
-              onChange={setBirthdate}
-              placeholder={MOCK_USER.birthdate}
-              isDisabled={!isEditing}
-            />
-            <Blank variant="32" />
-          </section>
-        </section>
+        <AccountInfoSection
+          email={email}
+          password={password}
+          passwordConfirm={passwordConfirm}
+          passwordError={passwordError}
+          passwordConfirmError={passwordConfirmError}
+          name={name}
+          birthdate={birthdate}
+          isEditing={isEditing}
+          isSocialLogin={isSocialLoggIned}
+          onPasswordChange={handlePasswordChange}
+          onPasswordConfirmChange={handlePasswordConfirmChange}
+          onBirthdateChange={setBirthdate}
+        />
       </main>
     </>
   );
 };
+
 export default ProfileEdit;

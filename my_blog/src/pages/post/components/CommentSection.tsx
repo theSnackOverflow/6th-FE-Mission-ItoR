@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import clsx from 'clsx';
-import { v4 as uuidv4 } from 'uuid';
+import { createComment } from '@/api/commentAPI';
+import { useParams } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 
 import Blank from '../../../components/Blank';
 import { PostWriter } from '../../main/components/PostWriter';
@@ -13,44 +15,69 @@ interface CommentType {
   profileUrl: string;
   createdAt: string;
   isOwner?: boolean;
+  isTemp?: boolean;
 }
 
 interface commentSectionProps {
   comments: CommentType[];
   commentCount?: number;
   onDeleteComment: (commentId: number) => void;
+  onRefreshComments?: () => void;
 }
 
 const CommentSection = ({
   comments,
-  commentCount,
   onDeleteComment,
+  onRefreshComments,
 }: commentSectionProps) => {
   const [text, setText] = useState('');
+  const { postId } = useParams();
+  const { isAuthenticated, user } = useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
 
-  commentCount = comments.length;
+  const commentLength = comments.length;
 
   const isEmpty = text.trim().length === 0;
 
-  const isLoggedIn: boolean = true; //! 테스트용 선언
+  const isLoggedIn = isAuthenticated;
+
+  console.debug(
+    '[CommentSection] comments',
+    comments.map((c) => ({
+      commentId: c.commentId,
+      isOwner: c.isOwner,
+      nickName: c.nickName,
+    })),
+  );
+
+  const handleSubmit = async () => {
+    if (isEmpty || !postId) return;
+    try {
+      await createComment(postId, text);
+      setText('');
+      onRefreshComments?.();
+      console.log('Comment created successfully');
+    } catch (error) {
+      console.error('Failed to create comment:', error);
+      onRefreshComments?.();
+    }
+  };
 
   return (
-    <section className="w-full flex justify-center">
+    <section id="comments" className="w-full flex justify-center">
       <section className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col">
         {/* 댓글 수 */}
         <section className="flex gap-2 px-4 pt-4 pb-3">
           <p className="font-medium">댓글</p>
-          <p className="font-normal text-point">{commentCount}</p>
+          <p className="font-normal text-point">{commentLength}</p>
         </section>
 
         <Blank variant="20" />
 
         {/* 댓글 목록 */}
-        {/* CommentList.tsx 분리 예정 */}
         <section>
           {comments.length === 0 ? (
             <div className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col justify-center items-center px-4 py-3 text-sm font-light text-gray-78 leading-[160%]">
@@ -58,12 +85,12 @@ const CommentSection = ({
               <p>응원의 첫 번째 댓글을 달아주세요.</p>
             </div>
           ) : (
-            //! 임시
             <div className="flex flex-col gap-2.5">
               {comments.map((c) => (
                 <CommentItem
-                  key={`${c.commentId} - ${uuidv4()}`}
+                  key={c.commentId}
                   onDelete={() => onDeleteComment(c.commentId)}
+                  onRefresh={onRefreshComments}
                   {...c}
                 />
               ))}
@@ -75,10 +102,10 @@ const CommentSection = ({
         {/* 댓글 입력 창 */}
         <section className="mx-4 my-3 px-4 py-3 border border-gray-90 rounded-sm">
           {isLoggedIn && (
-            <PostWriter //! mockDate -> 추후 api 연결
-              profileUrl="/public/2ssac.svg"
-              nickName="고양이12"
-              createdAt=""
+            <PostWriter
+              profileUrl={user?.profileUrl}
+              nickName={user?.nickName || ''}
+              createdAt={''}
               showCommentCount={false}
               showCreatedAt={false}
             />
@@ -96,6 +123,8 @@ const CommentSection = ({
           {isLoggedIn && (
             <div className="w-full py-2 flex justify-end">
               <button
+                onClick={handleSubmit}
+                disabled={isEmpty}
                 className={clsx(
                   'w-16 h-[38px] rounded-3xl text-sm font-normal leading-[160%]',
                   isEmpty

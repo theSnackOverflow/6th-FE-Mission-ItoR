@@ -22,12 +22,22 @@ export default function ModalWrapper({
     return () => document.removeEventListener('keydown', handleEsc);
   }, [onClose]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
     <div
       className={clsx(
-        'fixed inset-0 z- flex justify-center items-center bg-white/10 backdrop-blur-[2px] transition-opacity gap-2.5',
+        'fixed inset-0 z-999 flex justify-center items-center bg-white/10 backdrop-blur-[2px] transition-opacity gap-2.5',
       )}
       onClick={() => {
         if (closeOnOutsideClick) onClose();

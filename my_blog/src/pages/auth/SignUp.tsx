@@ -1,16 +1,25 @@
 import { useNavigate } from 'react-router-dom';
 
-import Blank from '../../components/Blank';
-import Header from '../../components/Header';
+import Blank from '@/components/Blank';
+import { BaseHeader } from '@/components/Header';
 
-import LoginButton from '../../components/Button/LoginButton';
+import LoginButton from '@/components/Button/LoginButton';
+import KakaoLogin from './KakaoLogin';
 
 const SignUp = () => {
   const navigate = useNavigate();
 
+  // const handleKakaoSignUp = async () => {
+  //   try {
+  //     window.location.href = 'https://blog.leets.land/auth/kakao';
+  //   } catch (error) {
+  //     console.error('카카오 로그인 리디렉션 실패:', error);
+  //   }
+  // };
+
   return (
     <>
-      <Header />
+      <BaseHeader />
       <main className="mt-[70px] w-full h-screen flex flex-col">
         <section className="w-full flex flex-col items-center bg-gray-96 ">
           <div className="w-full max-w-[688px] min-w-mobile">
@@ -38,10 +47,10 @@ const SignUp = () => {
             <div className="w-[390px] flex-1 px-4 pt-8">
               <div className="flex flex-col px-4">
                 <LoginButton
-                  type="EMAILOGIN"
+                  type="EMAILLOGIN"
                   text="이메일로 회원가입"
                   onClick={() => {
-                    navigate('./main');
+                    navigate('/signup/main');
                   }}
                 />
                 <div className="w-full mt-0.5 flex justify-center items-center">
@@ -51,7 +60,12 @@ const SignUp = () => {
                   </span>
                   <div className="w-26 border border-gray-96"></div>
                 </div>
-                <LoginButton type="KAKOLOGIN" text="카카오로 회원가입" />
+                {/* <LoginButton
+                  type="KAKAOLOGIN"
+                  text="카카오로 회원가입"
+                  onClick={handleKakaoSignUp}
+                /> */}
+                <KakaoLogin />
               </div>
             </div>
           </div>

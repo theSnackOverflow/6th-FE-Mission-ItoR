@@ -1,20 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import Header from '../../components/Header';
+import { MainHeader } from '@/components/Header';
 import { PostList } from '../main/components/PostList';
-import ProfileSection from '../../components/ProfileSection';
-import Toast from '../../components/Toast';
+import { useAuth } from '@/context/AuthContext';
+import ProfileSection from '@/components/ProfileSection';
+import Toast from '@/components/Toast';
 
-import { mockData } from '../../const/mockData';
-import ModalWrapper from '../../components/Modal/ModalWrapper';
-import Modal from '../../components/Modal/Modal';
+import ModalWrapper from '@/components/Modal/ModalWrapper';
+import Modal from '@/components/Modal/Modal';
 
 const Mypage = () => {
   const navigate = useNavigate();
-
-  const [posts] = useState(mockData);
-  const myposts = posts.filter((post) => post.nickName === '2ssac');
 
   const location = useLocation();
   const toastState = location.state?.toast;
@@ -29,12 +26,12 @@ const Mypage = () => {
       const timer = setTimeout(() => setShowToast(false), 2500);
       return () => clearTimeout(timer);
     }
-  }, [toastState, navigate]);
+  }, [toastState]);
 
   return (
     <>
       {showToast && toastState && (
-        <div className="fixed top-20 left-1/2 w-full flex  justify-center  -translate-x-1/2 z-[9999]">
+        <div className="fixed top-20 left-1/2 w-full flex justify-center -translate-x-1/2 z-60">
           <Toast
             variant={toastState.variant}
             message={toastState.message}
@@ -42,12 +39,12 @@ const Mypage = () => {
           />
         </div>
       )}
-      <Header type="main" onLogout={() => setShowLogoutModal(true)} />
-      <div style={{ top: 74 }}>
+      <MainHeader onLogout={() => setShowLogoutModal(true)} />
+      <div className="top-[74px]">
         <ProfileSection showEdit={true} />
       </div>
       <main className="mt-3 w-full h-full flex flex-col justify-start items-center min-w-mobile mobile:overflow-x-auto">
-        <PostList posts={myposts} />
+        <PostList authorNickname={useAuth().user?.nickName} />
       </main>
       {showLogoutModal && (
         <ModalWrapper
@@ -61,7 +58,7 @@ const Mypage = () => {
             onClose={() => setShowLogoutModal(false)}
             onLogout={() => {
               setShowLogoutModal(false);
-              navigate('/'); // ! 구체적인 동작은 API 연결 시 Hook으로 구현
+              navigate('/');
             }}
           />
         </ModalWrapper>
