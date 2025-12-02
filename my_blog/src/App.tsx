@@ -22,7 +22,7 @@ import {
 import { MainPage } from './pages';
 import PostDetail from './pages/post/PostDetail';
 import PostNew from './pages/post/PostNew';
-// import { Layout } from './components/Layout'; //! 추후 수정하겠습니다ㅠ
+import { Layout } from './components/Layout';
 
 import Mypage from './pages/mypage/Mypage';
 import ProfileEdit from './pages/mypage/ProfileEdit';
@@ -39,14 +39,14 @@ function App() {
     <ToastProvider>
       <BrowserRouter>
         <Routes>
-          {/* <Route element={<Layout />}> */}
-          <Route path="/" element={<MainPage />} />
-          <Route path="/post/:postId" element={<PostDetail />} />
-          <Route path="/post/new" element={<PostNew />} />
+          <Route element={<Layout />}>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/post/:postId" element={<PostDetail />} />
+            <Route path="/post/new" element={<PostNew />} />
 
-          {/* 마이페이지 관련 */}
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path="/profile/edit" element={<ProfileEdit />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/profile/edit" element={<ProfileEdit />} />
+          </Route>
 
           {/* Auth 관련 */}
           <Route path="/signup" element={<SignUp />} />
