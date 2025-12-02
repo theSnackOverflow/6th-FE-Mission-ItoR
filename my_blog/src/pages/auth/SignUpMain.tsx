@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import type { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useRegisterMutation } from '@/hooks/useRegisterMutation';
 
@@ -167,15 +168,21 @@ const SignUpMain = () => {
       name,
       birthDate: birthdate,
       introduction: des,
-      profilePicture: profileUrl,
+      // If profileUrl is a local blob (object URL), backend cannot access it — omit it.
+      profilePicture:
+        profileUrl && !profileUrl.startsWith('blob:') ? profileUrl : undefined,
     };
 
     signUpMutation.mutate(payload, {
       onSuccess: () => {
         setShowSignUpModal(true);
       },
-      onError: () => {
-        alert('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.');
+      onError: (error: AxiosError<{ message?: string }>) => {
+        const apiMessage =
+          error?.response?.data?.message ||
+          error?.message ||
+          '회원가입 중 오류가 발생했습니다.';
+        alert(apiMessage);
       },
     });
   };

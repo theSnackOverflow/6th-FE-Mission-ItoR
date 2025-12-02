@@ -45,6 +45,11 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
           setErrorMessage(apiMessage);
           setIsErrorVisible(true);
         },
+        onSuccess: () => {
+          // close modal and navigate to home after successful login
+          onClose();
+          navigate(ROUTES.HOME);
+        },
       },
     );
   };
