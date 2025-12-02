@@ -2,8 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import type { AxiosError } from 'axios';
 import { login } from '@/api/authAPI';
-import { tokenStorage } from '@/utils/tokenStorage';
 import { ROUTES } from '@/const/routes';
+import { useAuth } from '@/context/AuthContext';
 
 type LoginSuccessData = {
   accessToken: string;
@@ -21,6 +21,7 @@ type ApiErrorResponse = {
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
 
   return useMutation<
     LoginSuccessData,
@@ -28,8 +29,12 @@ export const useLoginMutation = () => {
     { email: string; password: string }
   >({
     mutationFn: ({ email, password }) => login(email, password),
-    onSuccess: ({ accessToken, refreshToken }) => {
-      tokenStorage.setTokens(accessToken, refreshToken);
+    onSuccess: ({ accessToken, refreshToken, nickname, profilePicture }) => {
+      // update global auth state (stores tokens and sets axios header)
+      auth.login(accessToken, refreshToken, {
+        nickName: nickname,
+        profileUrl: profilePicture,
+      });
       navigate(ROUTES.HOME);
     },
     onError: (error) => {

@@ -13,7 +13,7 @@ import { useAuthToken } from '@/hooks/useAuthToken';
 type User = {
   nickName?: string;
   profileUrl?: string;
-  intro?: string;
+  introduction?: string;
 } | null;
 
 type AuthContextValue = {
