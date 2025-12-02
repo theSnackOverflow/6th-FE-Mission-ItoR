@@ -46,28 +46,40 @@ const DetailHeader = ({
 
   return (
     <BaseHeader offsetTop={offsetTop} onLogout={onLogout}>
-      <button
-        ref={triggerRef}
-        className="w-fit h-fit flex items-center gap-2 text-gray-20"
-      >
-        <CommentIcon className="w-10 h-10 p-2" />
-        <OthersIcon
-          className="w-10 h-10 p-2"
+      <div className="relative flex items-center gap-2">
+        <button
+          aria-label="댓글로 이동"
+          className="w-fit h-fit"
           onClick={(e) => {
             e.stopPropagation();
-            setShowDropdown((prev) => !prev);
+            const el = document.getElementById('comments');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }}
-        />
-      </button>
+        >
+          <CommentIcon className="w-10 h-10 p-2" />
+        </button>
 
-      {showDropdown && (
-        <div ref={dropdownRef}>
-          <DropdownMenu
-            className={'dropdown-menu top-10 right-1.5'}
-            menuItems={menuItems}
-          />
+        <div className="relative">
+          <button
+            ref={triggerRef}
+            aria-haspopup="menu"
+            aria-expanded={showDropdown}
+            className="w-fit h-fit"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowDropdown((prev) => !prev);
+            }}
+          >
+            <OthersIcon className="w-10 h-10 p-2" />
+          </button>
+
+          {showDropdown && (
+            <div ref={dropdownRef} className="absolute top-full right-40 z-50">
+              <DropdownMenu className={'dropdown-menu'} menuItems={menuItems} />
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </BaseHeader>
   );
 };

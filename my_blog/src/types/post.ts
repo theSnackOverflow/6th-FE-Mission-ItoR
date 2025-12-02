@@ -18,6 +18,7 @@ export interface Comment {
   profileUrl: string;
   createdAt: string;
   isOwner: boolean;
+  authorId?: number | string;
 }
 
 export interface Post {
@@ -26,6 +27,7 @@ export interface Post {
   contents: PostContent[];
   isOwner: boolean;
   comments: Comment[];
+  commentCount?: number;
   nickName: string;
   profileUrl: string;
   introduction: string;

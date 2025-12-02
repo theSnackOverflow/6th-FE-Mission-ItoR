@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { MainHeader } from '@/components/Header';
 import { PostList } from '../main/components/PostList';
+import { useAuth } from '@/context/AuthContext';
 import ProfileSection from '@/components/ProfileSection';
 import Toast from '@/components/Toast';
 
@@ -30,7 +31,7 @@ const Mypage = () => {
   return (
     <>
       {showToast && toastState && (
-        <div className="fixed top-20 left-1/2 w-full flex justify-center -translate-x-1/2 z-[60]">
+        <div className="fixed top-20 left-1/2 w-full flex justify-center -translate-x-1/2 z-60">
           <Toast
             variant={toastState.variant}
             message={toastState.message}
@@ -43,7 +44,7 @@ const Mypage = () => {
         <ProfileSection showEdit={true} />
       </div>
       <main className="mt-3 w-full h-full flex flex-col justify-start items-center min-w-mobile mobile:overflow-x-auto">
-        <PostList />
+        <PostList authorNickname={useAuth().user?.nickName} />
       </main>
       {showLogoutModal && (
         <ModalWrapper

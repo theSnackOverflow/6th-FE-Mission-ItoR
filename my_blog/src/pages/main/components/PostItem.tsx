@@ -5,6 +5,7 @@ import { PostWriter } from './PostWriter';
 import Text from '@/components/Text';
 
 import defaultImage from '@/assets/2ssac.svg';
+import type { PostContent } from '@/types/post';
 
 interface PostItemProps {
   postId: string;
@@ -12,8 +13,10 @@ interface PostItemProps {
   nickName: string;
   profileUrl: string;
   createdAt: string;
-  commentCount: number;
+  commentCount?: number;
   imgSrc?: string;
+  contents?: PostContent[];
+  introduction?: string;
 }
 
 const PostItem = ({
@@ -22,8 +25,10 @@ const PostItem = ({
   nickName,
   profileUrl,
   createdAt,
-  commentCount,
+  commentCount = 0,
   imgSrc,
+  contents,
+  introduction,
 }: PostItemProps) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
@@ -34,10 +39,9 @@ const PostItem = ({
       return;
     }
 
-    // not authenticated: request login modal and remember redirect
     try {
       sessionStorage.setItem('auth_redirect', `/post/${postId}`);
-    } catch (e) {
+    } catch {
       /* ignore */
     }
     window.dispatchEvent(new Event('open-login-modal'));
@@ -53,7 +57,12 @@ const PostItem = ({
         <Text
           title={title}
           titleVariant="16"
-          mainText="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt hic et, veniam reprehenderit magnam voluptatum omnis placeat. Praesentium, necessitatibus, voluptatum cupiditate nobis magnam iste, nihil tenetur quos reiciendis perferendis molestiae!"
+          mainText={
+            introduction ||
+            (Array.isArray(contents)
+              ? (contents.find((c) => c.contentType === 'TEXT')?.content ?? '')
+              : '')
+          }
         />
         <PostWriter
           nickName={nickName}
@@ -65,7 +74,16 @@ const PostItem = ({
       {/* image */}
       <div className="h-full bg-white">
         <div className="w-30 h-30 px-4 py-3">
-          <img src={imgSrc || defaultImage} className="object-fill" />
+          <img
+            src={
+              imgSrc ||
+              (Array.isArray(contents)
+                ? contents.find((c) => c.contentType === 'IMAGE')?.content
+                : undefined) ||
+              defaultImage
+            }
+            className="object-fill"
+          />
         </div>
       </div>
     </article>

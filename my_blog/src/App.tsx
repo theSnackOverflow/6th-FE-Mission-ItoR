@@ -21,6 +21,7 @@ import {
 import { MainPage } from './pages';
 import PostDetail from './pages/post/PostDetail';
 import PostNew from './pages/post/PostNew';
+import PostEdit from './pages/post/PostEdit';
 import { Layout } from './components/Layout';
 
 import Mypage from './pages/mypage/Mypage';
@@ -39,6 +40,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<MainPage />} />
             <Route path="/post/:postId" element={<PostDetail />} />
+            <Route path="/post/:postId/edit" element={<PostEdit />} />
             <Route path="/post/new" element={<PostNew />} />
 
             <Route path="/mypage" element={<Mypage />} />

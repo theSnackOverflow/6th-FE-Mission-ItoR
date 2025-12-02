@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
-import { deleteComment, updateComment } from '@/api/commentAPI';
+import { useAuth } from '@/context/AuthContext';
+import { updateComment } from '@/api/commentAPI';
 
 import Blank from '@/components/Blank';
 import ProfileImage from '@/components/ProfileImage';
@@ -14,7 +15,9 @@ export interface CommentItemProps {
   profileUrl?: string;
   createdAt: string;
   isOwner?: boolean;
+  authorId?: number | string;
   onDelete: (commentId?: number) => void;
+  onRefresh?: () => void;
 }
 
 const CommentItem = ({
@@ -23,7 +26,10 @@ const CommentItem = ({
   nickName,
   profileUrl,
   createdAt,
+  isOwner,
+  authorId,
   onDelete,
+  onRefresh,
 }: CommentItemProps) => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -31,15 +37,34 @@ const CommentItem = ({
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const formattedDate = useFormatCreatedAt(createdAt);
+  const { user } = useAuth();
 
-  const handleDeleteComment = async () => {
-    try {
-      await deleteComment(commentId);
-      onDelete(commentId);
-      setShowDropdown(false);
-    } catch (error) {
-      console.error('댓글 삭제 실패:', error);
-    }
+  // Normalize server-provided isOwner and provide a client-side fallback
+  const ownerFromServer =
+    isOwner === true || String(isOwner) === 'true' || Number(isOwner) === 1;
+  // If backend provides authorId/memberId for comment, prefer that for ownership check
+  const ownerFromAuthorId =
+    authorId != null &&
+    user?.memberId != null &&
+    String(authorId) === String(user.memberId);
+
+  const owner =
+    ownerFromServer ||
+    ownerFromAuthorId ||
+    (user?.nickName && nickName ? user.nickName === nickName : false);
+
+  console.debug('[CommentItem] ownership', {
+    commentId,
+    isOwner,
+    ownerFromServer,
+    owner,
+    userNick: user?.nickName,
+    commentNick: nickName,
+  });
+
+  const handleDeleteComment = () => {
+    onDelete(commentId);
+    setShowDropdown(false);
   };
 
   const handleEditClick = () => {
@@ -48,12 +73,16 @@ const CommentItem = ({
   };
 
   const handleUpdateComment = async () => {
+    console.debug('[CommentItem] update start', { commentId, editContent });
     try {
-      await updateComment(commentId, editContent);
+      const res = await updateComment(commentId, editContent);
+
+      console.debug('[CommentItem] update success', res);
       setIsEditing(false);
-      onDelete(commentId);
+      onRefresh?.();
     } catch (error) {
-      console.error('댓글 수정 실패:', error);
+      console.error('[CommentItem] 댓글 수정 실패:', error);
+      onRefresh?.();
     }
   };
 
@@ -94,13 +123,10 @@ const CommentItem = ({
         <div className="flex gap-2.5 flex-1">
           <div>
             <ProfileImage src={profileUrl} size="xs" />
-            {/* 닉네임 */}
           </div>
           <div className="flex flex-col ">
             <p className="text-sm font-normal text-gray-20">{nickName}</p>
-            <p className="text-xs font-light text-gray-56">
-              {formattedDate}
-            </p>
+            <p className="text-xs font-light text-gray-56">{formattedDate}</p>
           </div>
         </div>
         <button
@@ -109,6 +135,8 @@ const CommentItem = ({
             e.stopPropagation();
             setShowDropdown((prev) => !prev);
           }}
+          aria-haspopup="menu"
+          aria-expanded={showDropdown}
           className="w-10 h-10 p-2"
         >
           <MenuIcon className="others-icon text-gray-20" />

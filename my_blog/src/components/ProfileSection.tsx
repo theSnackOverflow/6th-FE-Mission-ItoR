@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Blank from './Blank';
 import ProfileImage from './ProfileImage';
+import { useAuth } from '@/context/AuthContext';
 
 import SettingIcon from '../assets/icons/settings.svg?react';
 
@@ -14,12 +15,19 @@ interface ProfileSectionProps {
 // ! 프로필 부분 PropfileSidebar 컴포넌트와 중복 코드 -> 추후 별도의 컴포넌트로 분리 예정
 
 const ProfileSection = ({
-  isLoggedIn = false,
-  nickname,
-  intro,
+  isLoggedIn: propLoggedIn,
+  nickname: propNickname,
+  intro: propIntro,
   showEdit = false,
 }: ProfileSectionProps) => {
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth();
+
+  const isLoggedIn = propLoggedIn ?? isAuthenticated;
+  const nickname = propNickname ?? user?.nickName;
+  const intro = propIntro ?? user?.introduction;
+  const profileUrl = user?.profileUrl;
+
   return (
     <section className="mt-10 w-full h-fit flex justify-center bg-gray-96">
       <section className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col">
@@ -27,9 +35,9 @@ const ProfileSection = ({
         <div className="hidden max-[500px]:block">{<Blank variant="32" />}</div>
         {/* 프로필 */}
         <div className="w-full h-fit cursor-pointer">
-          <div onClick={() => navigate('/profile/edit')}>
+          <div onClick={() => navigate('/mypage')}>
             <div className="px-4 py-3">
-              <ProfileImage />
+              <ProfileImage src={profileUrl} />
             </div>
             <div className="px-4 py-3 flex flex-col gap-3">
               {/* 닉네임 */}

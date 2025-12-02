@@ -68,6 +68,33 @@ axiosPrivateInstance.interceptors.response.use(
       }
     }
 
+    // Some backends may return 500 with a 'JWT expired' message instead of 401.
+    // Detect that case and attempt token reissue similarly to the 401 flow.
+    const respData = error.response?.data;
+    const isJwtExpiredMessage =
+      respData &&
+      typeof respData.message === 'string' &&
+      respData.message.includes('JWT expired');
+
+    if (
+      error.response.status === 500 &&
+      isJwtExpiredMessage &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+      try {
+        const newAccessToken = await reissueTokens();
+        if (originalRequest.headers) {
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        }
+        return axiosPrivateInstance(originalRequest);
+      } catch (reissueError) {
+        console.error('Token reissue failed (from 500) → Logging out');
+        tokenStorage.clearTokens();
+        return Promise.reject(reissueError);
+      }
+    }
+
     return Promise.reject(error);
   },
 );

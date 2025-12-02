@@ -5,6 +5,7 @@ interface EditProfileHeaderProps {
   onLogout?: () => void;
   onCancel?: () => void;
   onSave?: () => void;
+  isUploading?: boolean;
 }
 
 const EditProfileHeader = ({
@@ -12,6 +13,7 @@ const EditProfileHeader = ({
   onLogout,
   onCancel,
   onSave,
+  isUploading,
 }: EditProfileHeaderProps) => {
   return (
     <BaseHeader offsetTop={offsetTop} onLogout={onLogout}>
@@ -28,13 +30,17 @@ const EditProfileHeader = ({
         </button>
         <button
           type="button"
-          className="px-3 py-2 text-black"
+          className={
+            isUploading ? 'px-3 py-2 text-gray-40' : 'px-3 py-2 text-black'
+          }
           onClick={() => {
+            if (isUploading) return;
             console.log('[EditProfileHeader] 저장 클릭');
             onSave?.();
           }}
+          disabled={isUploading}
         >
-          저장하기
+          {isUploading ? '업로드 중...' : '저장하기'}
         </button>
       </div>
     </BaseHeader>
