@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from 'react';
 import axiosInstance from '@/api/axiosInstance';
+import { getMyInfo } from '@/api/userAPI';
 import { tokenStorage } from '@/utils/tokenStorage';
 import { useAuthToken } from '@/hooks/useAuthToken';
 
@@ -14,6 +15,9 @@ type User = {
   nickName?: string;
   profileUrl?: string;
   introduction?: string;
+  email?: string;
+  name?: string;
+  isSocialLogin?: boolean;
 } | null;
 
 type AuthContextValue = {
@@ -38,6 +42,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (token) {
       axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
       setIsAuthenticated(true);
+      // fetch current user info to populate sidebar/profile
+      getMyInfo()
+        .then((data) => {
+          const isSocial = Boolean(
+            // common possibilities the backend might return
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (data as any).kakaoId ||
+              (data as any).oauthProvider ||
+              (data as any).provider ||
+              (data as any).socialType,
+          );
+          setUser({
+            nickName: data.nickname,
+            profileUrl: data.profilePicture,
+            introduction: data.introduction,
+            email: data.email,
+            name: data.name,
+            isSocialLogin: isSocial,
+          });
+        })
+        .catch((err) => {
+          console.error('현재 사용자 정보 조회 실패', err);
+          // token이 유효하지 않다면 로그아웃 처리
+          // (선택적) 여기서는 토큰 무효화 시 자동 로그아웃을 수행하지 않습니다.
+        });
     } else {
       setIsAuthenticated(false);
     }

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { updateUser, updateNickname, updatePassword } from '../../api/userAPI';
 import { useProfileForm } from './hooks/useProfileForm';
+import { useAuth } from '@/context/AuthContext';
 
 import Blank from '@/components/Blank';
 import { BaseHeader, EditProfileHeader } from '../../components/Header';
@@ -10,7 +11,8 @@ import AccountInfoSection from './components/AccountInfoSection';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
-  const isSocialLoggIned = true;
+  const { user } = useAuth();
+  const isSocialLoggIned = user?.isSocialLogin ?? false;
 
   const {
     isEditing,
@@ -40,16 +42,35 @@ const ProfileEdit = () => {
     }
 
     try {
+      console.log('[ProfileEdit] handleSaveProfile 호출');
       await updateNickname(nickname);
       if (password && passwordConfirm) {
         await updatePassword(password);
       }
-      await updateUser({
-        nickname,
-        birthDate: birthdate,
-        profilePicture: profileUrl,
-        introduction,
-      });
+
+      const payload: Record<string, unknown> = {};
+      if (nickname) payload.nickname = nickname;
+      if (birthdate) payload.birthDate = birthdate;
+      // don't send blob: URLs or empty strings for profilePicture
+      if (
+        profileUrl &&
+        typeof profileUrl === 'string' &&
+        !profileUrl.startsWith('blob:')
+      ) {
+        payload.profilePicture = profileUrl;
+      }
+      if (introduction) payload.introduction = introduction;
+
+      // ensure email and name are present (server requires them even if not changing)
+      if (!payload.email && user?.email) {
+        payload.email = user.email;
+      }
+      if (!payload.name && user?.name) {
+        payload.name = user.name;
+      }
+
+      console.log('[ProfileEdit] updateUser payload:', payload);
+      await updateUser(payload);
 
       setIsEditing(false);
       navigate('/mypage', {
@@ -61,8 +82,15 @@ const ProfileEdit = () => {
         },
       });
     } catch (error) {
-      console.error(error);
-      alert('프로필 수정 중 오류가 발생했습니다.');
+      console.error('[ProfileEdit] 프로필 수정 중 오류:', error);
+      // show server error details if available
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const err: any = error;
+      const serverMsg = err?.response?.data || err?.message;
+      console.error('[ProfileEdit] 서버 응답:', serverMsg);
+      alert(
+        `프로필 수정 중 오류가 발생했습니다.\n${JSON.stringify(serverMsg)}`,
+      );
     }
   };
 

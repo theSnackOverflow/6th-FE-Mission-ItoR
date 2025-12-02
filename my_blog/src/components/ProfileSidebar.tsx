@@ -7,6 +7,7 @@ interface ProfileSidebarProps {
   isLoggedIn?: boolean;
   nickname?: string;
   intro?: string;
+  profileUrl?: string;
   onLogout?: () => void;
   onLogin?: () => void;
 }
@@ -15,6 +16,7 @@ const ProfileSidebar = ({
   isLoggedIn = false,
   nickname,
   intro,
+  profileUrl,
   onLogout,
   onLogin,
 }: ProfileSidebarProps) => {
@@ -25,7 +27,7 @@ const ProfileSidebar = ({
       <div className="w-full h-fit py-6 cursor-pointer">
         <div onClick={() => navigate('/profile/edit')}>
           <div className="px-4">
-            <ProfileImage />
+            <ProfileImage src={profileUrl} />
           </div>
           <div className="px-5 py-3 flex flex-col gap-3">
             {/* 닉네임 */}
