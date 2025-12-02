@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastProvider } from './context/ToastContext';
-import { useAuthToken } from './hooks/useAuthToken';
 import {
   TestForBlank,
   TestForButton,
@@ -33,8 +32,6 @@ import OAuthSignUp from './pages/auth/OuAthSignUp';
 import KakaoRedirect from './pages/auth/KakaoRedirect';
 
 function App() {
-  useAuthToken();
-
   return (
     <ToastProvider>
       <BrowserRouter>

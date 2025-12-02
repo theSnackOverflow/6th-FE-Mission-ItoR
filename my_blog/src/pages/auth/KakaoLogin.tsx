@@ -1,14 +1,11 @@
 import LoginButton from '@/components/Button/LoginButton';
-import { getKakaoRedirectUrl } from '@/api/authAPI';
 
 const KakaoLogin = () => {
-  const handleKakaoLogin = async () => {
-    try {
-      const url = await getKakaoRedirectUrl();
-      window.location.href = url;
-    } catch (error) {
-      console.error('카카오 로그인 URL 요청 실패', error);
-    }
+  const handleKakaoLogin = () => {
+    const backendBase = (import.meta as any).env?.VITE_API_BASE_URL || '';
+    const target = backendBase ? `${backendBase}/auth/kakao` : '/auth/kakao';
+    // Use top-level navigation to allow server redirect to Kakao (avoid CORS)
+    window.location.href = target;
   };
 
   return (

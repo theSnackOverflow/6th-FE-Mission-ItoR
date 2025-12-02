@@ -14,7 +14,7 @@ interface ProfileSectionProps {
 // ! 프로필 부분 PropfileSidebar 컴포넌트와 중복 코드 -> 추후 별도의 컴포넌트로 분리 예정
 
 const ProfileSection = ({
-  isLoggedIn = true,
+  isLoggedIn = false,
   nickname,
   intro,
   showEdit = false,

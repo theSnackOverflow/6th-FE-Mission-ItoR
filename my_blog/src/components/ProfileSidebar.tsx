@@ -8,13 +8,15 @@ interface ProfileSidebarProps {
   nickname?: string;
   intro?: string;
   onLogout?: () => void;
+  onLogin?: () => void;
 }
 
 const ProfileSidebar = ({
-  isLoggedIn,
+  isLoggedIn = false,
   nickname,
   intro,
   onLogout,
+  onLogin,
 }: ProfileSidebarProps) => {
   const navigate = useNavigate();
 
@@ -28,12 +30,12 @@ const ProfileSidebar = ({
           <div className="px-5 py-3 flex flex-col gap-3">
             {/* 닉네임 */}
             <h1 className="text-black text-2xl font-medium">
-              {isLoggedIn && <p>{nickname || '%{닉네임}'}</p>}
+              {isLoggedIn ? <p>{nickname}</p> : null}
             </h1>
             {/* 소개글 */}
             <p className="text-sm text-gray-20 font-light leading-[160%] whitespace-pre-line">
               {isLoggedIn ? (
-                <span>{intro || '%{한 줄 소개}'}</span>
+                <span>{intro}</span>
               ) : (
                 'You can make anything by writing'
               )}
@@ -70,6 +72,7 @@ const ProfileSidebar = ({
               bgColor="white"
               fontColor="blue"
               borderColor="blue"
+              onClick={() => onLogin?.()}
             />
           )}
         </div>
