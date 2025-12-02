@@ -1,9 +1,28 @@
 import { axiosPrivateInstance } from './axiosInstance';
 
+// 서버에서 반환하는 사용자 정보 DTO
+export type MyInfoDTO = {
+  nickname?: string;
+  profilePicture?: string;
+  introduction?: string;
+  email?: string;
+  name?: string;
+  birthDate?: string;
+  // various possible social id / provider fields the backend might return
+  kakaoId?: number | string;
+  oauthProvider?: string;
+  provider?: string;
+  socialType?: string;
+  // possible id fields
+  memberId?: number | string;
+  id?: number | string;
+  userId?: number | string;
+};
+
 // 내 정보 조회
-export const getMyInfo = async () => {
+export const getMyInfo = async (): Promise<MyInfoDTO> => {
   const response = await axiosPrivateInstance.get('/users/me');
-  return response.data.data;
+  return response.data.data as MyInfoDTO;
 };
 
 // 유저 정보 수정

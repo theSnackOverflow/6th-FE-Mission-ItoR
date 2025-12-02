@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { usePostDetail } from './hooks/usePostDetail';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/const/routes';
+
 import { DetailHeader } from '@/components/Header';
 import Devider from '@/components/Devider';
 import CommentSection from './components/CommentSection';
@@ -17,7 +17,6 @@ const PostDetail = () => {
     comments,
     loading,
     refresh,
-    setComments,
     showDeletePostModal,
     showDeleteCommentModal,
     targetCommentId,
@@ -38,6 +37,7 @@ const PostDetail = () => {
       try {
         const redirectTo = window.location.pathname + window.location.search;
         sessionStorage.setItem('auth_redirect', redirectTo);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         /* ignore */
       }

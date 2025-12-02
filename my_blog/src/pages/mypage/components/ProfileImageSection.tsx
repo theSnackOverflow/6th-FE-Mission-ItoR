@@ -59,7 +59,9 @@ const ProfileImageSection = ({
           window.dispatchEvent(
             new CustomEvent('profile-uploaded', { detail: { imageUrl } }),
           );
-        } catch {}
+        } catch {
+          // ignore
+        }
       } catch (updateErr) {
         console.error('[ProfileImage] updateProfilePicture failed:', updateErr);
         try {
@@ -68,7 +70,9 @@ const ProfileImageSection = ({
               detail: { error: updateErr },
             }),
           );
-        } catch {}
+        } catch {
+          // ignore
+        }
         throw updateErr;
       }
 

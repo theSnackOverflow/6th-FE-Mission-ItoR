@@ -40,7 +40,7 @@ const PostList = ({ authorNickname }: PostListProps) => {
           setPosts(data.posts);
           setPageMax(data.pageMax);
         }
-      } catch (err) {
+      } catch {
         showToast?.({
           variant: 'error',
           message: '게시물을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',

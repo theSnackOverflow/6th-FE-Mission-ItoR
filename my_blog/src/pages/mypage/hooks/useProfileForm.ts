@@ -7,7 +7,7 @@ import {
 
 export const useProfileForm = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [profileUrl, setProfileUrl] = useState<string | undefined>('');
+  const [profileUrl, setProfileUrl] = useState<string>('');
 
   const [nickname, setNickname] = useState('');
   const [birthdate, setBirthdate] = useState('');

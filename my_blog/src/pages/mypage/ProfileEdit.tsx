@@ -124,7 +124,7 @@ const ProfileEdit = () => {
           );
 
           // timeout in case upload doesn't finish
-          let timer: ReturnType<typeof setTimeout> = setTimeout(() => {
+          const timer: ReturnType<typeof setTimeout> = setTimeout(() => {
             if (!settled) {
               settled = true;
               window.removeEventListener(
