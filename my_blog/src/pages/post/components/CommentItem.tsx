@@ -39,10 +39,8 @@ const CommentItem = ({
   const formattedDate = useFormatCreatedAt(createdAt);
   const { user } = useAuth();
 
-  // Normalize server-provided isOwner and provide a client-side fallback
   const ownerFromServer =
     isOwner === true || String(isOwner) === 'true' || Number(isOwner) === 1;
-  // If backend provides authorId/memberId for comment, prefer that for ownership check
   const ownerFromAuthorId =
     authorId != null &&
     user?.memberId != null &&

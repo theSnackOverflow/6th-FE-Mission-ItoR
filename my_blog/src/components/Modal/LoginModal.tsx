@@ -5,6 +5,7 @@ import { useLoginMutation } from '@/hooks/useLoginMutation';
 import { ROUTES } from '@/const/routes';
 
 import LoginButton from '../Button/LoginButton';
+// Note: we inline the Kakao redirect logic below instead of rendering the component
 import LoginInput from '../Input/LoginInput';
 
 import ClearIcon from '@/assets/icons/clear.svg?react';
@@ -143,7 +144,32 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
               </span>
               <div className="w-[123px] border border-gray-20 -mr-4"></div>
             </div>
-            <LoginButton type="KAKAOLOGIN" text="카카오로 로그인" />
+            {/* Use KakaoLogin handler so clicking redirects to backend Kakao auth */}
+            <LoginButton
+              type="KAKAOLOGIN"
+              text="카카오로 로그인"
+              onClick={() => {
+                // Close the modal (notify global listeners and call onClose)
+                try {
+                  window.dispatchEvent(new Event('close-login-modal'));
+                } catch (e) {
+                  /* ignore */
+                }
+                try {
+                  onClose();
+                } catch (e) {
+                  /* ignore */
+                }
+
+                // Then redirect to backend Kakao auth
+                const backendBase =
+                  (import.meta as any).env?.VITE_API_BASE_URL || '';
+                const target = backendBase
+                  ? `${backendBase}/auth/kakao`
+                  : '/auth/kakao';
+                window.location.href = target;
+              }}
+            />
             <button
               onClick={() => navigate(ROUTES.AUTH.SIGNUP)}
               className="mt-1 px-2 pt-0.5 pb-1 text-xs font-normal text-gray-56"

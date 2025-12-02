@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 
 import Button from './Button/Button';
 import ProfileImage from './ProfileImage';
@@ -21,6 +22,7 @@ const ProfileSidebar = ({
   onLogin,
 }: ProfileSidebarProps) => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   return (
     <section className="fixed w-60 h-full flex flex-col justify-between bg-gray-96 border-r border-gray-90">
@@ -64,7 +66,18 @@ const ProfileSidebar = ({
                 bgColor="white"
                 fontColor="blue"
                 borderColor="blue"
-                onClick={() => navigate('/post/new')}
+                onClick={() => {
+                  if (isAuthenticated) {
+                    navigate('/post/new');
+                    return;
+                  }
+                  try {
+                    sessionStorage.setItem('auth_redirect', '/post/new');
+                  } catch {
+                    /* ignore */
+                  }
+                  window.dispatchEvent(new Event('open-login-modal'));
+                }}
               />
             </div>
           ) : (
