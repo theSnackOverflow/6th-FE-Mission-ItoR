@@ -2,6 +2,7 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import { createComment } from '@/api/commentAPI';
 import { useParams } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 
 import Blank from '../../../components/Blank';
 import { PostWriter } from '../../main/components/PostWriter';
@@ -30,6 +31,7 @@ const CommentSection = ({
 }: commentSectionProps) => {
   const [text, setText] = useState('');
   const { postId } = useParams();
+  const { isAuthenticated } = useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -39,7 +41,7 @@ const CommentSection = ({
 
   const isEmpty = text.trim().length === 0;
 
-  const isLoggedIn: boolean = true; //! 테스트용 선언
+  const isLoggedIn = isAuthenticated;
 
   const handleSubmit = async () => {
     if (isEmpty || !postId) return;

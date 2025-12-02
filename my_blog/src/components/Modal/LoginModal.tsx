@@ -56,9 +56,14 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
   };
 
   return (
-    <section className="absolute z-50 max-w-[782px] min-w-[358px] h-fit py-20 flex justify-between items-center bg-gray-7 rounded-[9px] max-[600px]:flex-col">
-      <button onClick={onClose}>
-        <ClearIcon className="absolute top-4 right-4 w-10 h-10 p-2 text-white" />
+    <section className="relative z-[9999] max-w-[782px] min-w-[358px] h-fit py-20 flex justify-between items-center bg-gray-7 rounded-[9px] max-[600px]:flex-col">
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="닫기"
+        className="absolute top-4 right-4"
+      >
+        <ClearIcon className="w-10 h-10 p-2 text-white" />
       </button>
       <div className="w-96 h-fit flex flex-col justify-center items-center">
         <div className="h-40 px-4.5 flex items-center">

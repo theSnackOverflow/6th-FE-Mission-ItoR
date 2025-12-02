@@ -1,4 +1,5 @@
-import React, {
+/* eslint-disable react-refresh/only-export-components */
+import {
   createContext,
   useContext,
   useEffect,
@@ -12,6 +13,7 @@ import { useAuthToken } from '@/hooks/useAuthToken';
 type User = {
   nickName?: string;
   profileUrl?: string;
+  intro?: string;
 } | null;
 
 type AuthContextValue = {
@@ -29,7 +31,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
   const [user, setUser] = useState<User>(null);
 
-  // reuse existing token refresh logic (sets axios header / redirects on failure)
   useAuthToken();
 
   useEffect(() => {
