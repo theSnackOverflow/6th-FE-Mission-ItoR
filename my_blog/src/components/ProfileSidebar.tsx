@@ -89,7 +89,7 @@ const ProfileSidebar = ({
             fontColor="gray"
             borderColor="gray"
             bgColor="white"
-            onClick={() => {}}
+            onClick={() => navigate('/profile/edit')}
           />
           <Button
             width="w-24"

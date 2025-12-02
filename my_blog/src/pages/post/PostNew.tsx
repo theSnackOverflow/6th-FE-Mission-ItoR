@@ -94,12 +94,17 @@ const PostNew = () => {
   };
 
   const handleAddImageClick = () => {
+    console.log(
+      '[PostNew] add image clicked, fileInputRef:',
+      fileInputRef.current,
+    );
     fileInputRef.current?.click();
   };
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
+    console.log('[PostNew] files selected:', files);
 
     try {
       const uploadedBlocks = await Promise.all(
@@ -196,11 +201,7 @@ const PostNew = () => {
   return (
     <>
       <WriteHeader onPost={handlePostClick} offsetTop={0} />
-      <FileHeader
-        addImg={true}
-        onAddImage={handleAddImageClick}
-        offsetTop={73}
-      >
+      <FileHeader addImg={true} onAddImage={handleAddImageClick} offsetTop={73}>
         <input
           type="file"
           accept="image/*"

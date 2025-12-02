@@ -18,6 +18,7 @@ type User = {
   email?: string;
   name?: string;
   isSocialLogin?: boolean;
+  memberId?: number | string;
 } | null;
 
 type AuthContextValue = {
@@ -60,6 +61,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             email: data.email,
             name: data.name,
             isSocialLogin: isSocial,
+            // backend may use different field names for id
+            memberId:
+              (data as any).memberId ??
+              (data as any).id ??
+              (data as any).userId,
           });
         })
         .catch((err) => {
@@ -82,6 +88,41 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsAuthenticated(true);
     if (userInfo) setUser(userInfo);
   };
+
+  // listen for requests to refresh current user info (e.g., after profile picture upload)
+  useEffect(() => {
+    const handler = () => {
+      const token = tokenStorage.getAccessToken();
+      if (!token) return;
+      getMyInfo()
+        .then((data) => {
+          const isSocial = Boolean(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (data as any).kakaoId ||
+              (data as any).oauthProvider ||
+              (data as any).provider ||
+              (data as any).socialType,
+          );
+          setUser({
+            nickName: data.nickname,
+            profileUrl: data.profilePicture,
+            introduction: data.introduction,
+            email: data.email,
+            name: data.name,
+            isSocialLogin: isSocial,
+            memberId:
+              (data as any).memberId ??
+              (data as any).id ??
+              (data as any).userId,
+          });
+        })
+        .catch((err) => console.error('refresh-user 처리 실패', err));
+    };
+
+    window.addEventListener('refresh-user', handler as EventListener);
+    return () =>
+      window.removeEventListener('refresh-user', handler as EventListener);
+  }, []);
 
   const logout = () => {
     tokenStorage.clearTokens();

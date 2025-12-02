@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, type QueryObserverResult } from '@tanstack/react-query';
 import { getPostById } from '@/api/postAPI';
 import type { Post, Comment } from '@/types/post';
 
@@ -11,6 +11,7 @@ export const usePostData = () => {
   const {
     data: post,
     isLoading: loading,
+    refetch,
   } = useQuery<Post>({
     queryKey: ['post', postId],
     queryFn: () => getPostById(postId!),
@@ -29,5 +30,7 @@ export const usePostData = () => {
     comments,
     loading,
     setComments,
+    // expose refetch so consumers can trigger a refresh after mutations
+    refresh: () => refetch() as Promise<QueryObserverResult<Post | undefined>>,
   };
 };

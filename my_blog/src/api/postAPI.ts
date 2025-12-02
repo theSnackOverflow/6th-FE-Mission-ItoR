@@ -51,7 +51,7 @@ export const getAllPosts = async (page: number, size: number) => {
   const response = await axiosInstance.get('/posts/all', {
     params: { page, size },
   });
-  return extractData(response);
+  return extractData<{ posts: Post[]; pageMax: number }>(response);
 };
 
 /**

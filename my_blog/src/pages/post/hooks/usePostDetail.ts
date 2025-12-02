@@ -3,7 +3,7 @@ import { useDeleteModals } from './useDeleteModals';
 import { usePostActions } from './usePostActions';
 
 export const usePostDetail = () => {
-  const { post, comments, loading, setComments } = usePostData();
+  const { post, comments, loading, setComments, refresh } = usePostData();
 
   const {
     showDeletePostModal,
@@ -25,6 +25,8 @@ export const usePostDetail = () => {
     post,
     comments,
     loading,
+    refresh,
+    setComments,
     showDeletePostModal,
     showDeleteCommentModal,
     targetCommentId,

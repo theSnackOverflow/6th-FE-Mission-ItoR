@@ -16,6 +16,8 @@ const PostDetail = () => {
     post,
     comments,
     loading,
+    refresh,
+    setComments,
     showDeletePostModal,
     showDeleteCommentModal,
     targetCommentId,
@@ -51,9 +53,14 @@ const PostDetail = () => {
     );
   }
 
+  const handleEdit = () => {
+    if (!post) return;
+    navigate(`/post/${post.postId}/edit`);
+  };
+
   return (
     <>
-      <DetailHeader onDeleteClick={openDeletePostModal} />
+      <DetailHeader onDeleteClick={openDeletePostModal} onEdit={handleEdit} />
       <div className="mt-16 h-fit flex flex-col justify-center">
         <main className="w-full h-full flex justify-center">
           {!post ? (
@@ -70,6 +77,7 @@ const PostDetail = () => {
               comments={comments}
               commentCount={comments.length}
               onDeleteComment={openDeleteCommentModal}
+              onRefreshComments={refresh}
             />
           )}
           <ProfileSection />

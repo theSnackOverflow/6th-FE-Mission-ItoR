@@ -15,6 +15,7 @@ interface CommentType {
   profileUrl: string;
   createdAt: string;
   isOwner?: boolean;
+  isTemp?: boolean;
 }
 
 interface commentSectionProps {
@@ -31,7 +32,7 @@ const CommentSection = ({
 }: commentSectionProps) => {
   const [text, setText] = useState('');
   const { postId } = useParams();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -43,6 +44,15 @@ const CommentSection = ({
 
   const isLoggedIn = isAuthenticated;
 
+  console.debug(
+    '[CommentSection] comments',
+    comments.map((c) => ({
+      commentId: c.commentId,
+      isOwner: c.isOwner,
+      nickName: c.nickName,
+    })),
+  );
+
   const handleSubmit = async () => {
     if (isEmpty || !postId) return;
     try {
@@ -52,11 +62,12 @@ const CommentSection = ({
       console.log('Comment created successfully');
     } catch (error) {
       console.error('Failed to create comment:', error);
+      onRefreshComments?.();
     }
   };
 
   return (
-    <section className="w-full flex justify-center">
+    <section id="comments" className="w-full flex justify-center">
       <section className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col">
         {/* 댓글 수 */}
         <section className="flex gap-2 px-4 pt-4 pb-3">
@@ -67,7 +78,6 @@ const CommentSection = ({
         <Blank variant="20" />
 
         {/* 댓글 목록 */}
-        {/* CommentList.tsx 분리 예정 */}
         <section>
           {comments.length === 0 ? (
             <div className="w-full max-w-[688px] min-w-mobile h-fit flex flex-col justify-center items-center px-4 py-3 text-sm font-light text-gray-78 leading-[160%]">
@@ -80,6 +90,7 @@ const CommentSection = ({
                 <CommentItem
                   key={c.commentId}
                   onDelete={() => onDeleteComment(c.commentId)}
+                  onRefresh={onRefreshComments}
                   {...c}
                 />
               ))}
@@ -91,10 +102,10 @@ const CommentSection = ({
         {/* 댓글 입력 창 */}
         <section className="mx-4 my-3 px-4 py-3 border border-gray-90 rounded-sm">
           {isLoggedIn && (
-            <PostWriter //! mockDate -> 추후 api 연결
-              profileUrl="/public/2ssac.svg"
-              nickName="고양이12"
-              createdAt=""
+            <PostWriter
+              profileUrl={user?.profileUrl}
+              nickName={user?.nickName || ''}
+              createdAt={''}
               showCommentCount={false}
               showCreatedAt={false}
             />
